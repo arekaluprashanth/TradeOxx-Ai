@@ -39,7 +39,7 @@ const generateInsight = (symbol: string) => {
 router.get('/prediction/:symbol', requireAuth, async (req, res) => {
   try {
     const userId = (req as any).userId;
-    const { symbol } = req.params;
+    const symbol = req.params.symbol as string;
 
     // For demonstration, we just mock the AI. In production, this would call OpenAI/Gemini
     const aiData = generateInsight(symbol.toUpperCase());
