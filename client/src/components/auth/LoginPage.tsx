@@ -191,7 +191,14 @@ const LoginPage: React.FC = () => {
               autoComplete="current-password"
             />
 
-
+            <div className="flex items-center justify-end">
+              <button
+                type="button"
+                className="text-xs text-dark-400 hover:text-accent-cyan transition-colors"
+              >
+                Forgot Password?
+              </button>
+            </div>
 
             <Button
               type="submit"
@@ -204,9 +211,16 @@ const LoginPage: React.FC = () => {
             </Button>
           </form>
 
-
-
-
+          {/* Sign up link */}
+          <p className="mt-6 text-center text-xs text-dark-400">
+            Don't have an account?{' '}
+            <Link
+              to="/signup"
+              className="text-accent-cyan hover:text-accent-cyan/80 font-medium transition-colors"
+            >
+              Sign Up
+            </Link>
+          </p>
         </div>
 
         {/* Footer */}
