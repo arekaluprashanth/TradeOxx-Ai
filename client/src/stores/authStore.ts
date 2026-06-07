@@ -22,25 +22,7 @@ interface AuthActions {
 type AuthStore = AuthState & AuthActions;
 
 // ── Demo user for offline / static deployments ──────────
-const DEMO_USER: User = {
-  id: 'demo-001',
-  name: 'Demo Trader',
-  email: 'demo@tradesphere.ai',
-};
-const DEMO_TOKEN = 'demo-token-tradesphere-2026';
-
-function loginDemo(set: (state: Partial<AuthState>) => void) {
-  localStorage.setItem('tradesphere_token', DEMO_TOKEN);
-  localStorage.setItem('tradesphere_user', JSON.stringify(DEMO_USER));
-  set({
-    user: DEMO_USER,
-    token: DEMO_TOKEN,
-    isAuthenticated: true,
-    isLoading: false,
-    isDemo: true,
-    error: null,
-  });
-}
+const DEMO_TOKEN_PREFIX = 'demo-token-';
 
 export const useAuthStore = create<AuthStore>((set) => ({
   // ── State ────────────────────────────────────────────
@@ -74,8 +56,33 @@ export const useAuthStore = create<AuthStore>((set) => ({
         error: null,
       });
     } catch {
-      // Backend unreachable — fall back to demo mode
-      loginDemo(set);
+      // Backend unreachable — simulate Local Database for static site
+      const dbStr = localStorage.getItem('tradesphere_users_db');
+      const usersDb = dbStr ? JSON.parse(dbStr) : [];
+      
+      const existingUser = usersDb.find((u: any) => u.email === email && u.password === password);
+      
+      if (existingUser) {
+        // Success
+        const token = DEMO_TOKEN_PREFIX + existingUser.id;
+        const user: User = { id: existingUser.id, name: existingUser.name, email: existingUser.email };
+        
+        localStorage.setItem('tradesphere_token', token);
+        localStorage.setItem('tradesphere_user', JSON.stringify(user));
+
+        set({
+          user,
+          token,
+          isAuthenticated: true,
+          isLoading: false,
+          isDemo: true,
+          error: null,
+        });
+      } else {
+        // Fail
+        set({ isLoading: false, error: 'Invalid email or password' });
+        throw new Error('Invalid credentials');
+      }
     }
   },
 
@@ -100,8 +107,41 @@ export const useAuthStore = create<AuthStore>((set) => ({
         error: null,
       });
     } catch {
-      // Backend unreachable — fall back to demo mode
-      loginDemo(set);
+      // Backend unreachable — simulate Local Database for static site
+      const dbStr = localStorage.getItem('tradesphere_users_db');
+      const usersDb = dbStr ? JSON.parse(dbStr) : [];
+      
+      const existingEmail = usersDb.find((u: any) => u.email === email);
+      if (existingEmail) {
+        set({ isLoading: false, error: 'Email already registered' });
+        throw new Error('Email exists');
+      }
+
+      // Create new user in local DB
+      const newUser = {
+        id: `demo-${Date.now()}`,
+        name,
+        email,
+        password, // stored locally for demo purposes
+      };
+      usersDb.push(newUser);
+      localStorage.setItem('tradesphere_users_db', JSON.stringify(usersDb));
+
+      // Log them in
+      const token = DEMO_TOKEN_PREFIX + newUser.id;
+      const user: User = { id: newUser.id, name: newUser.name, email: newUser.email };
+
+      localStorage.setItem('tradesphere_token', token);
+      localStorage.setItem('tradesphere_user', JSON.stringify(user));
+
+      set({
+        user,
+        token,
+        isAuthenticated: true,
+        isLoading: false,
+        isDemo: true,
+        error: null,
+      });
     }
   },
 
@@ -128,7 +168,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
           user,
           token,
           isAuthenticated: true,
-          isDemo: token === DEMO_TOKEN,
+          isDemo: token.startsWith(DEMO_TOKEN_PREFIX),
         });
       } catch {
         // Corrupted data — clean up
