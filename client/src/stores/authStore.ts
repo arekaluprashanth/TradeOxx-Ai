@@ -14,6 +14,7 @@ interface AuthState {
 interface AuthActions {
   login: (email: string, password: string) => Promise<void>;
   signup: (name: string, email: string, password: string) => Promise<void>;
+  resetPassword: (email: string, newPassword: string) => Promise<void>;
   logout: () => void;
   checkAuth: () => void;
   clearError: () => void;
@@ -142,6 +143,27 @@ export const useAuthStore = create<AuthStore>((set) => ({
         isDemo: true,
         error: null,
       });
+    }
+  },
+
+  resetPassword: async (email: string, newPassword: string) => {
+    set({ isLoading: true, error: null });
+    try {
+      // If we had a real backend, we'd call api.post('/auth/reset-password', { email, newPassword }) here
+      throw new Error('Fallback to local DB');
+    } catch {
+      const dbStr = localStorage.getItem('tradesphere_users_db');
+      const usersDb = dbStr ? JSON.parse(dbStr) : [];
+      
+      const userIndex = usersDb.findIndex((u: any) => u.email === email);
+      if (userIndex !== -1) {
+        usersDb[userIndex].password = newPassword;
+        localStorage.setItem('tradesphere_users_db', JSON.stringify(usersDb));
+        set({ isLoading: false, error: null });
+      } else {
+        // Just fail silently for security, or throw if we strictly want to notify
+        set({ isLoading: false });
+      }
     }
   },
 

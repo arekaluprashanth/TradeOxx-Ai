@@ -1,9 +1,10 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, ShieldCheck, ArrowLeft, Send, CheckCircle } from 'lucide-react';
+import { Mail, ShieldCheck, ArrowLeft, Send, CheckCircle, Lock } from 'lucide-react';
 import toast from 'react-hot-toast';
 import emailjs from '@emailjs/browser';
+import { useAuthStore } from '../../stores/authStore';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { EMAILJS_CONFIG, isEmailJSConfigured } from '../../lib/emailjs';
@@ -160,13 +161,15 @@ type Step = 'email' | 'verify';
 const ForgotPasswordPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [generatedCode, setGeneratedCode] = useState('');
   const [step, setStep] = useState<Step>('email');
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [sendingCode, setSendingCode] = useState(false);
-  const [verifying, setVerifying] = useState(false);
   const [countdown, setCountdown] = useState(0);
 
+  const { resetPassword, isLoading } = useAuthStore();
   const navigate = useNavigate();
 
   // Countdown timer for resend
@@ -250,25 +253,29 @@ const ForgotPasswordPage: React.FC = () => {
     setSendingCode(false);
   };
 
-  const handleVerify = async (e: React.FormEvent) => {
+  const handleVerifyAndReset = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (code.length < 6) {
-      setErrors({ code: 'Please enter the 6-digit code' });
-      return;
-    }
-    if (code !== generatedCode) {
-      setErrors({ code: 'Invalid code. Please try again.' });
+    const errs: Record<string, string> = {};
+    if (code.length < 6) errs.code = 'Please enter the 6-digit code';
+    else if (code !== generatedCode) errs.code = 'Invalid code. Please try again.';
+
+    if (!newPassword) errs.newPassword = 'Password is required';
+    else if (newPassword.length < 6) errs.newPassword = 'Minimum 6 characters';
+    
+    if (!confirmPassword) errs.confirmPassword = 'Please confirm password';
+    else if (newPassword !== confirmPassword) errs.confirmPassword = 'Passwords do not match';
+
+    if (Object.keys(errs).length > 0) {
+      setErrors(errs);
       return;
     }
 
     setErrors({});
-    setVerifying(true);
     
-    // Simulate short network delay
-    await new Promise((r) => setTimeout(r, 600));
+    await resetPassword(email, newPassword);
     
-    toast.success('Email verified! You can now log in.', { duration: 3000 });
+    toast.success('Password reset successfully! You can now log in.', { duration: 4000 });
     navigate('/login');
   };
 
@@ -361,7 +368,7 @@ const ForgotPasswordPage: React.FC = () => {
               </motion.div>
             )}
 
-            {/* ── Step 2: Verification Code ───────────── */}
+            {/* ── Step 2: Verification & New Password ───────────── */}
             {step === 'verify' && (
               <motion.div
                 key="verify"
@@ -370,7 +377,7 @@ const ForgotPasswordPage: React.FC = () => {
                 exit={{ opacity: 0, x: 20 }}
                 transition={{ duration: 0.25 }}
               >
-                <form onSubmit={handleVerify} className="space-y-5">
+                <form onSubmit={handleVerifyAndReset} className="space-y-5">
                   {/* Email display */}
                   <div className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-dark-900/60 border border-white/5">
                     <Mail className="w-4 h-4 text-accent-purple flex-shrink-0" />
@@ -385,26 +392,18 @@ const ForgotPasswordPage: React.FC = () => {
                     </button>
                   </div>
 
-                  {/* Instruction */}
-                  <div className="text-center">
-                    <ShieldCheck className="w-10 h-10 text-accent-purple mx-auto mb-2 opacity-80" />
-                    <p className="text-xs text-dark-400">
-                      We sent a 6-digit verification code to
-                      <br />
-                      <span className="text-accent-purple font-medium">{email}</span>
-                    </p>
-                  </div>
-
                   {/* Code input */}
-                  <CodeInput
-                    length={6}
-                    value={code}
-                    onChange={(val) => { setCode(val); setErrors({}); }}
-                    error={errors.code}
-                  />
-
+                  <div className="pt-2">
+                    <CodeInput
+                      length={6}
+                      value={code}
+                      onChange={(val) => { setCode(val); setErrors((prev) => ({ ...prev, code: '' })); }}
+                      error={errors.code}
+                    />
+                  </div>
+                  
                   {/* Resend */}
-                  <div className="text-center">
+                  <div className="text-center pb-2">
                     {countdown > 0 ? (
                       <span className="text-xs text-dark-500">
                         Resend code in <span className="text-accent-purple font-medium">{countdown}s</span>
@@ -420,14 +419,36 @@ const ForgotPasswordPage: React.FC = () => {
                     )}
                   </div>
 
+                  <div className="space-y-4 pt-2 border-t border-white/5">
+                    <Input
+                      label="New Password"
+                      type="password"
+                      placeholder="••••••••"
+                      icon={<Lock className="w-4 h-4" />}
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      error={errors.newPassword}
+                    />
+                    
+                    <Input
+                      label="Confirm New Password"
+                      type="password"
+                      placeholder="••••••••"
+                      icon={<Lock className="w-4 h-4" />}
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      error={errors.confirmPassword}
+                    />
+                  </div>
+
                   <Button
                     type="submit"
                     fullWidth
                     size="lg"
-                    loading={verifying}
+                    loading={isLoading}
                     icon={<CheckCircle className="w-4 h-4" />}
                   >
-                    Verify & Back to Login
+                    Reset Password
                   </Button>
                 </form>
               </motion.div>
