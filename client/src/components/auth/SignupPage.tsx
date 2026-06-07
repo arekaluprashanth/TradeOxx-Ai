@@ -215,8 +215,9 @@ const SignupPage: React.FC = () => {
           `Verification code sent to ${email}`,
           { duration: 4000, icon: '📧' }
         );
-      } catch {
-        toast.error('Failed to send email. Showing code instead.', { duration: 3000 });
+      } catch (err: any) {
+        console.error('EmailJS Error:', err);
+        toast.error(`Email Error: ${err?.text || err?.message || 'Check console for details'}`, { duration: 5000 });
         toast(`Your code: ${newCode}`, {
           duration: 30000,
           icon: '🔑',
