@@ -1,7 +1,8 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { Mail, Lock, LogIn } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Mail, Lock, LogIn, ShieldCheck, ArrowLeft, Send } from 'lucide-react';
+import toast from 'react-hot-toast';
 import { useAuthStore } from '../../stores/authStore';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
@@ -82,17 +83,100 @@ const ParticleField: React.FC = () => {
   );
 };
 
+// ── OTP Code Input ─────────────────────────────────────
+
+interface CodeInputProps {
+  length: number;
+  value: string;
+  onChange: (val: string) => void;
+  error?: string;
+}
+
+const CodeInput: React.FC<CodeInputProps> = ({ length, value, onChange, error }) => {
+  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const digits = value.split('').concat(Array(length).fill('')).slice(0, length);
+
+  const handleChange = (index: number, char: string) => {
+    if (!/^\d?$/.test(char)) return;
+    const arr = digits.slice();
+    arr[index] = char;
+    const newVal = arr.join('');
+    onChange(newVal);
+    if (char && index < length - 1) {
+      inputRefs.current[index + 1]?.focus();
+    }
+  };
+
+  const handleKeyDown = (index: number, e: React.KeyboardEvent) => {
+    if (e.key === 'Backspace' && !digits[index] && index > 0) {
+      inputRefs.current[index - 1]?.focus();
+    }
+  };
+
+  const handlePaste = (e: React.ClipboardEvent) => {
+    e.preventDefault();
+    const pasted = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, length);
+    onChange(pasted);
+    const focusIdx = Math.min(pasted.length, length - 1);
+    inputRefs.current[focusIdx]?.focus();
+  };
+
+  return (
+    <div>
+      <label className="block text-xs font-medium text-dark-300 mb-2">
+        Verification Code
+      </label>
+      <div className="flex gap-2 justify-center">
+        {Array.from({ length }, (_, i) => (
+          <input
+            key={i}
+            ref={(el) => { inputRefs.current[i] = el; }}
+            type="text"
+            inputMode="numeric"
+            maxLength={1}
+            value={digits[i] || ''}
+            onChange={(e) => handleChange(i, e.target.value)}
+            onKeyDown={(e) => handleKeyDown(i, e)}
+            onPaste={handlePaste}
+            className={`w-11 h-12 text-center text-lg font-bold rounded-xl border
+              bg-dark-900/60 text-white outline-none transition-all duration-200
+              focus:ring-2 focus:ring-accent-cyan/50 focus:border-accent-cyan
+              ${error ? 'border-accent-red/50' : 'border-white/10 hover:border-white/20'}`}
+          />
+        ))}
+      </div>
+      {error && (
+        <p className="mt-1.5 text-xs text-accent-red text-center">{error}</p>
+      )}
+    </div>
+  );
+};
+
 // ── Login Page ─────────────────────────────────────────
+
+type Step = 'credentials' | 'verify';
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+  const [code, setCode] = useState('');
+  const [generatedCode, setGeneratedCode] = useState('');
+  const [step, setStep] = useState<Step>('credentials');
+  const [errors, setErrors] = useState<{ email?: string; password?: string; code?: string }>({});
+  const [sendingCode, setSendingCode] = useState(false);
+  const [countdown, setCountdown] = useState(0);
 
   const { login, isLoading, error, clearError } = useAuthStore();
   const navigate = useNavigate();
 
-  const validate = (): boolean => {
+  // Countdown timer for resend
+  useEffect(() => {
+    if (countdown <= 0) return;
+    const timer = setTimeout(() => setCountdown((c) => c - 1), 1000);
+    return () => clearTimeout(timer);
+  }, [countdown]);
+
+  const validateCredentials = (): boolean => {
     const e: typeof errors = {};
     if (!email.trim()) e.email = 'Email is required';
     else if (!/\S+@\S+\.\S+/.test(email)) e.email = 'Invalid email address';
@@ -102,20 +186,78 @@ const LoginPage: React.FC = () => {
     return Object.keys(e).length === 0;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const generateAndSendCode = () => {
+    const newCode = String(Math.floor(100000 + Math.random() * 900000));
+    setGeneratedCode(newCode);
+    setCode('');
+    setCountdown(60);
+
+    // Show the code via toast (demo mode — no real email server)
+    toast.success(
+      `Verification code sent to ${email}`,
+      { duration: 4000, icon: '📧' }
+    );
+    // Show code in a separate persistent toast for demo
+    toast(
+      `Your code: ${newCode}`,
+      {
+        duration: 30000,
+        icon: '🔑',
+        style: {
+          background: '#1a1f36',
+          color: '#00d4ff',
+          border: '1px solid rgba(0, 212, 255, 0.3)',
+          fontWeight: 600,
+          fontSize: '14px',
+          letterSpacing: '2px',
+        },
+      }
+    );
+  };
+
+  const handleSendCode = async () => {
+    if (!validateCredentials()) return;
+    setSendingCode(true);
+
+    // Simulate network delay
+    await new Promise((r) => setTimeout(r, 800));
+    generateAndSendCode();
+    setStep('verify');
+    setSendingCode(false);
+  };
+
+  const handleVerifyAndLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     clearError();
-    if (!validate()) return;
 
+    if (code.length < 6) {
+      setErrors({ code: 'Please enter the 6-digit code' });
+      return;
+    }
+    if (code !== generatedCode) {
+      setErrors({ code: 'Invalid code. Please try again.' });
+      return;
+    }
+
+    setErrors({});
     try {
       await login(email, password);
       navigate('/');
     } catch {
-      // Error is already set in store
+      // Error handled by store
     }
   };
 
+  const handleResend = () => {
+    if (countdown > 0) return;
+    generateAndSendCode();
+  };
 
+  const handleBack = () => {
+    setStep('credentials');
+    setCode('');
+    setErrors({});
+  };
 
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -153,7 +295,9 @@ const LoginPage: React.FC = () => {
             <h1 className="text-2xl font-bold text-gradient mb-1">
               TradeSphere AI
             </h1>
-            <p className="text-dark-400 text-sm">Welcome back, trader</p>
+            <p className="text-dark-400 text-sm">
+              {step === 'credentials' ? 'Welcome back, trader' : 'Enter verification code'}
+            </p>
           </div>
 
           {/* Error message */}
@@ -167,49 +311,133 @@ const LoginPage: React.FC = () => {
             </motion.div>
           )}
 
-          {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <Input
-              label="Email"
-              type="email"
-              placeholder="you@example.com"
-              icon={<Mail className="w-4 h-4" />}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              error={errors.email}
-              autoComplete="email"
-            />
-
-            <Input
-              label="Password"
-              type="password"
-              placeholder="••••••••"
-              icon={<Lock className="w-4 h-4" />}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              error={errors.password}
-              autoComplete="current-password"
-            />
-
-            <div className="flex items-center justify-end">
-              <button
-                type="button"
-                className="text-xs text-dark-400 hover:text-accent-cyan transition-colors"
+          <AnimatePresence mode="wait">
+            {/* ── Step 1: Email + Password ─────────────── */}
+            {step === 'credentials' && (
+              <motion.div
+                key="credentials"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.25 }}
               >
-                Forgot Password?
-              </button>
-            </div>
+                <form onSubmit={(e) => { e.preventDefault(); handleSendCode(); }} className="space-y-4">
+                  <Input
+                    label="Email"
+                    type="email"
+                    placeholder="you@example.com"
+                    icon={<Mail className="w-4 h-4" />}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    error={errors.email}
+                    autoComplete="email"
+                  />
 
-            <Button
-              type="submit"
-              fullWidth
-              size="lg"
-              loading={isLoading}
-              icon={<LogIn className="w-4 h-4" />}
-            >
-              Sign In
-            </Button>
-          </form>
+                  <Input
+                    label="Password"
+                    type="password"
+                    placeholder="••••••••"
+                    icon={<Lock className="w-4 h-4" />}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    error={errors.password}
+                    autoComplete="current-password"
+                  />
+
+                  <div className="flex items-center justify-end">
+                    <button
+                      type="button"
+                      className="text-xs text-dark-400 hover:text-accent-cyan transition-colors"
+                    >
+                      Forgot Password?
+                    </button>
+                  </div>
+
+                  <Button
+                    type="submit"
+                    fullWidth
+                    size="lg"
+                    loading={sendingCode}
+                    icon={<Send className="w-4 h-4" />}
+                  >
+                    Send Verification Code
+                  </Button>
+                </form>
+              </motion.div>
+            )}
+
+            {/* ── Step 2: Verification Code ───────────── */}
+            {step === 'verify' && (
+              <motion.div
+                key="verify"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ duration: 0.25 }}
+              >
+                <form onSubmit={handleVerifyAndLogin} className="space-y-5">
+                  {/* Email display */}
+                  <div className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-dark-900/60 border border-white/5">
+                    <Mail className="w-4 h-4 text-accent-cyan flex-shrink-0" />
+                    <span className="text-xs text-dark-300 truncate">{email}</span>
+                    <button
+                      type="button"
+                      onClick={handleBack}
+                      className="ml-auto text-xs text-dark-400 hover:text-accent-cyan transition-colors flex items-center gap-1"
+                    >
+                      <ArrowLeft className="w-3 h-3" />
+                      Change
+                    </button>
+                  </div>
+
+                  {/* Instruction */}
+                  <div className="text-center">
+                    <ShieldCheck className="w-10 h-10 text-accent-cyan mx-auto mb-2 opacity-80" />
+                    <p className="text-xs text-dark-400">
+                      We sent a 6-digit code to your email.
+                      <br />
+                      Enter it below to sign in.
+                    </p>
+                  </div>
+
+                  {/* Code input */}
+                  <CodeInput
+                    length={6}
+                    value={code}
+                    onChange={(val) => { setCode(val); setErrors({}); }}
+                    error={errors.code}
+                  />
+
+                  {/* Resend */}
+                  <div className="text-center">
+                    {countdown > 0 ? (
+                      <span className="text-xs text-dark-500">
+                        Resend code in <span className="text-accent-cyan font-medium">{countdown}s</span>
+                      </span>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={handleResend}
+                        className="text-xs text-accent-cyan hover:text-accent-cyan/80 font-medium transition-colors"
+                      >
+                        Resend Code
+                      </button>
+                    )}
+                  </div>
+
+                  <Button
+                    type="submit"
+                    fullWidth
+                    size="lg"
+                    loading={isLoading}
+                    icon={<LogIn className="w-4 h-4" />}
+                  >
+                    Verify & Sign In
+                  </Button>
+                </form>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {/* Sign up link */}
           <p className="mt-6 text-center text-xs text-dark-400">
