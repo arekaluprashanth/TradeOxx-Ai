@@ -69,7 +69,7 @@ class DataStore {
       fs.writeFileSync(STORE_FILE, JSON.stringify(this.data, null, 2), 'utf-8');
       this._dirty = false;
     } catch (err) {
-      console.error('[DataStore] Failed to save:', err.message);
+      console.warn('[DataStore] Failed to save (expected on Vercel):', err.message);
     }
   }
 
@@ -79,9 +79,9 @@ class DataStore {
   _seedDefaults() {
     const demoUser = {
       id: 'demo',
-      email: 'demo@tradesphere.ai',
+      email: 'demo@example.com',
       name: 'Demo Trader',
-      password: 'demo123',
+      password: '$2a$10$8S3qMYwi/lpMl7dLZ5cc8updRGG9235ZwrrGA5cmCFGM1vryvO5IG', // bcrypt of 'password'
       createdAt: new Date().toISOString(),
     };
 
