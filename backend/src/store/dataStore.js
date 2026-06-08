@@ -5,7 +5,8 @@ import { generateId } from '../utils/helpers.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const DATA_DIR = path.resolve(__dirname, '../../data');
+const isVercel = process.env.VERCEL === '1' || process.env.VERCEL_ENV;
+const DATA_DIR = isVercel ? '/tmp/tradespace-data' : path.resolve(__dirname, '../../data');
 const STORE_FILE = path.join(DATA_DIR, 'store.json');
 
 /**
@@ -21,8 +22,6 @@ class DataStore {
       strategies: [],
       indicators: [],
     };
-    this._dirty = false;
-    this._saveInterval = null;
   }
 
   // ─── Lifecycle ──────────────────────────────────────────────
@@ -50,12 +49,8 @@ class DataStore {
     } catch (err) {
       console.error('[DataStore] Failed to load store file:', err.message);
       this._seedDefaults();
+      this.save();
     }
-
-    // Auto-save every 30 seconds if dirty
-    this._saveInterval = setInterval(() => {
-      if (this._dirty) this.save();
-    }, 30_000);
   }
 
   /**
@@ -67,7 +62,6 @@ class DataStore {
         fs.mkdirSync(DATA_DIR, { recursive: true });
       }
       fs.writeFileSync(STORE_FILE, JSON.stringify(this.data, null, 2), 'utf-8');
-      this._dirty = false;
     } catch (err) {
       console.warn('[DataStore] Failed to save (expected on Vercel):', err.message);
     }
@@ -77,32 +71,9 @@ class DataStore {
    * Seed with a demo user and default portfolio.
    */
   _seedDefaults() {
-    const demoUser = {
-      id: 'demo',
-      email: 'demo@example.com',
-      name: 'Demo Trader',
-      password: '$2a$10$8S3qMYwi/lpMl7dLZ5cc8updRGG9235ZwrrGA5cmCFGM1vryvO5IG', // bcrypt of 'password'
-      createdAt: new Date().toISOString(),
-    };
-
-    const demoPortfolio = {
-      id: 'portfolio-demo',
-      userId: 'demo',
-      balance: 100_000,
-      holdings: [],        // { symbol, quantity, avgCost }
-      createdAt: new Date().toISOString(),
-    };
-
-    const demoWatchlist = {
-      id: 'watchlist-demo',
-      userId: 'demo',
-      symbols: ['AAPL', 'BTC', 'SPY', 'TSLA', 'ETH'],
-      createdAt: new Date().toISOString(),
-    };
-
-    this.data.users = [demoUser];
-    this.data.portfolios = [demoPortfolio];
-    this.data.watchlists = [demoWatchlist];
+    this.data.users = [];
+    this.data.portfolios = [];
+    this.data.watchlists = [];
     this.data.trades = [];
     this.data.strategies = [];
     this.data.indicators = [];
@@ -134,7 +105,7 @@ class DataStore {
   create(collection, item) {
     const record = { id: generateId(), createdAt: new Date().toISOString(), ...item };
     this._collection(collection).push(record);
-    this._dirty = true;
+    this.save();
     return record;
   }
 
@@ -143,7 +114,7 @@ class DataStore {
     const idx = col.findIndex((item) => item.id === id);
     if (idx === -1) return null;
     col[idx] = { ...col[idx], ...updates, updatedAt: new Date().toISOString() };
-    this._dirty = true;
+    this.save();
     return col[idx];
   }
 
@@ -152,7 +123,7 @@ class DataStore {
     const idx = col.findIndex((item) => item.id === id);
     if (idx === -1) return false;
     col.splice(idx, 1);
-    this._dirty = true;
+    this.save();
     return true;
   }
 
