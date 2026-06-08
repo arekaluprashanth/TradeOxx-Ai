@@ -27,6 +27,13 @@
       "name": "Tester",
       "email": "tester+ci@example.com",
       "password": "Password123!"
+    },
+    {
+      "id": "222d82b6-be8e-405e-b91c-12fbabc98f10",
+      "createdAt": "2026-06-08T04:56:40.062Z",
+      "name": "test",
+      "email": "test@test.com",
+      "password": "$2a$10$Vz6XCWflCYQKoqSzMdJtxOAWneaF1R71guJjSYk2RZrCZit1YQTnq"
     }
   ],
   "portfolios": [
@@ -55,6 +62,13 @@
       "id": "portfolio-c5fecf1d-3591-4174-af07-677ff4e58560",
       "createdAt": "2026-06-06T11:16:19.089Z",
       "userId": "c5fecf1d-3591-4174-af07-677ff4e58560",
+      "balance": 100000,
+      "holdings": []
+    },
+    {
+      "id": "portfolio-222d82b6-be8e-405e-b91c-12fbabc98f10",
+      "createdAt": "2026-06-08T04:56:52.181Z",
+      "userId": "222d82b6-be8e-405e-b91c-12fbabc98f10",
       "balance": 100000,
       "holdings": []
     }

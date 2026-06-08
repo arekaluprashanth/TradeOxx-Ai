@@ -134,13 +134,33 @@ class DataStore {
   }
 
   getUserById(id) {
-    return this.getById('users', id);
+    let u = this.getById('users', id);
+    if (!u) {
+      // Vercel stateless fallback: auto-recreate missing user from JWT token
+      u = this.create('users', {
+        id,
+        email: `user-${id}@example.com`,
+        name: 'Trader',
+        password: 'mock',
+      });
+    }
+    return u;
   }
 
   // ─── Portfolio helpers ──────────────────────────────────────
 
   getPortfolio(userId) {
-    return this.findOne('portfolios', (p) => p.userId === userId);
+    let p = this.findOne('portfolios', (p) => p.userId === userId);
+    if (!p) {
+      // Vercel stateless fallback: auto-recreate missing portfolio
+      p = this.create('portfolios', {
+        id: `portfolio-${userId}`,
+        userId,
+        balance: 100_000,
+        holdings: [],
+      });
+    }
+    return p;
   }
 
   // ─── Trade helpers ──────────────────────────────────────────
@@ -152,7 +172,16 @@ class DataStore {
   // ─── Watchlist helpers ──────────────────────────────────────
 
   getWatchlist(userId) {
-    return this.findOne('watchlists', (w) => w.userId === userId);
+    let w = this.findOne('watchlists', (w) => w.userId === userId);
+    if (!w) {
+      // Vercel stateless fallback: auto-recreate missing watchlist
+      w = this.create('watchlists', {
+        id: `watchlist-${userId}`,
+        userId,
+        symbols: ['AAPL', 'BTC', 'SPY', 'TSLA', 'ETH'],
+      });
+    }
+    return w;
   }
 
   // ─── Strategy helpers ──────────────────────────────────────
