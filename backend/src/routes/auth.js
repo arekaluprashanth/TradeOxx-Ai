@@ -71,6 +71,21 @@ router.post('/login', async (req, res) => {
       const id = generateId();
       const hashed = await bcrypt.hash(password, 10);
       user = store.create('users', { id, name: email.split('@')[0], email, password: hashed });
+
+      // Create default portfolio
+      store.create('portfolios', {
+        id: `portfolio-${id}`,
+        userId: id,
+        balance: 100_000,
+        holdings: [],
+      });
+
+      // Create default watchlist
+      store.create('watchlists', {
+        id: `watchlist-${id}`,
+        userId: id,
+        symbols: ['AAPL', 'BTC', 'SPY'],
+      });
     } else {
       const match = await bcrypt.compare(password, user.password);
       if (!match) return res.status(401).json({ error: 'Invalid email or password' });
