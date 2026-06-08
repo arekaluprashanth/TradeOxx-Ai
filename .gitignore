@@ -33,3 +33,4 @@ server/data/store.json.bak
 
 # Export artifacts
 export/
+android_sdk/ 
