@@ -1,6 +1,6 @@
 {
-  "appId": "com.tradesphere.ai",
-  "appName": "TradeSphere AI",
+  "appId": "com.tradespace.ai",
+  "appName": "TradeSpace AI",
   "webDir": "client/dist",
   "bundledWebRuntime": false,
   "server": {

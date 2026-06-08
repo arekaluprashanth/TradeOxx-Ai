@@ -320,14 +320,14 @@ const SignupPage: React.FC = () => {
           <div className="flex flex-col items-center mb-8">
             <motion.img
               src={`${import.meta.env.BASE_URL}logo.png`}
-              alt="TradeSphere"
+              alt="TradeSpace"
               className="w-14 h-14 mb-4"
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ type: 'spring', stiffness: 200, delay: 0.2 }}
             />
             <h1 className="text-2xl font-bold text-gradient mb-1">
-              TradeSphere AI
+              TradeSpace AI
             </h1>
             <p className="text-dark-400 text-sm">
               {step === 'details' ? 'Create your trading account' : 'Verify your email'}
@@ -500,7 +500,7 @@ const SignupPage: React.FC = () => {
 
         {/* Footer */}
         <p className="mt-6 text-center text-[11px] text-dark-500">
-          © 2026 TradeSphere AI · Paper Trading Simulator
+          © 2026 TradeSpace AI · Paper Trading Simulator
         </p>
       </motion.div>
     </div>

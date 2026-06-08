@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace = "com.tradesphere.ai"
+    namespace = "com.tradespace.ai"
     compileSdk = rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.tradesphere.ai"
+        applicationId "com.tradespace.ai"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -20,7 +20,7 @@ android {
         release {
             storeFile file('release.keystore')
             storePassword 'password123'
-            keyAlias 'tradesphere'
+            keyAlias 'tradespace'
             keyPassword 'password123'
         }
     }

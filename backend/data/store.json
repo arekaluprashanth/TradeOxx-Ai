@@ -2,7 +2,7 @@
   "users": [
     {
       "id": "demo",
-      "email": "demo@tradesphere.ai",
+      "email": "demo@tradespace.ai",
       "name": "Demo Trader",
       "password": "demo123",
       "createdAt": "2026-06-05T13:57:57.727Z"

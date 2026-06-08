@@ -109,7 +109,7 @@ if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {
     const ip = getLocalIp();
     console.log('');
     console.log('╔══════════════════════════════════════════════╗');
-    console.log('║       TradeSphere AI — Server Running        ║');
+    console.log('║       TradeSpace AI — Server Running        ║');
     console.log('╠══════════════════════════════════════════════╣');
     console.log(`║  HTTP   → http://${ip}:${PORT}                    ║`);
     console.log(`║  Client → ${CLIENT_ORIGIN}         ║`);

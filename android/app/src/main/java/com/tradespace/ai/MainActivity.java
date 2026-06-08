@@ -1,4 +1,4 @@
-package com.tradesphere.ai;
+package com.tradespace.ai;
 
 import com.getcapacitor.BridgeActivity;
 
