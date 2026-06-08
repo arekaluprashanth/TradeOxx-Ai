@@ -4,18 +4,20 @@ export default {
   theme: {
     extend: {
       colors: {
+        white: 'rgb(var(--color-text-main) / <alpha-value>)',
+        black: 'rgb(var(--color-bg-main) / <alpha-value>)',
         dark: {
-          50: '#f0f1f5',
-          100: '#d0d3de',
-          200: '#a1a7bd',
-          300: '#727b9c',
-          400: '#4a537a',
-          500: '#333c5e',
-          600: '#262e4a',
-          700: '#1a2038',
-          800: '#1E1E1E',
-          900: '#121212',
-          950: '#000000',
+          50: 'rgb(var(--color-dark-50) / <alpha-value>)',
+          100: 'rgb(var(--color-dark-100) / <alpha-value>)',
+          200: 'rgb(var(--color-dark-200) / <alpha-value>)',
+          300: 'rgb(var(--color-dark-300) / <alpha-value>)',
+          400: 'rgb(var(--color-dark-400) / <alpha-value>)',
+          500: 'rgb(var(--color-dark-500) / <alpha-value>)',
+          600: 'rgb(var(--color-dark-600) / <alpha-value>)',
+          700: 'rgb(var(--color-dark-700) / <alpha-value>)',
+          800: 'rgb(var(--color-dark-800) / <alpha-value>)',
+          900: 'rgb(var(--color-dark-900) / <alpha-value>)',
+          950: 'rgb(var(--color-dark-950) / <alpha-value>)',
         },
         accent: {
           cyan: '#2962FF',

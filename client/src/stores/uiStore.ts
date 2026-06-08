@@ -1,7 +1,9 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 import type { Notification } from '../types';
 
 interface UiState {
+  theme: 'dark' | 'light';
   sidebarOpen: boolean;
   sidebarCollapsed: boolean;
   activeTab: string;
@@ -10,6 +12,7 @@ interface UiState {
 }
 
 interface UiActions {
+  toggleTheme: () => void;
   toggleSidebar: () => void;
   setSidebarCollapsed: (collapsed: boolean) => void;
   setActiveTab: (tab: string) => void;
@@ -25,56 +28,68 @@ type UiStore = UiState & UiActions;
 
 let notificationCounter = 0;
 
-export const useUiStore = create<UiStore>((set) => ({
-  // ── State ────────────────────────────────────────────
-  sidebarOpen: true,
-  sidebarCollapsed: false,
-  activeTab: 'dashboard',
-  notifications: [],
-  searchQuery: '',
+export const useUiStore = create<UiStore>()(
+  persist(
+    (set) => ({
+      // ── State ────────────────────────────────────────────
+      theme: 'dark',
+      sidebarOpen: true,
+      sidebarCollapsed: false,
+      activeTab: 'dashboard',
+      notifications: [],
+      searchQuery: '',
 
-  // ── Actions ──────────────────────────────────────────
+      // ── Actions ──────────────────────────────────────────
 
-  toggleSidebar: () =>
-    set((state) => ({ sidebarOpen: !state.sidebarOpen })),
+      toggleTheme: () =>
+        set((state) => ({ theme: state.theme === 'dark' ? 'light' : 'dark' })),
 
-  setSidebarCollapsed: (collapsed: boolean) =>
-    set({ sidebarCollapsed: collapsed }),
+      toggleSidebar: () =>
+        set((state) => ({ sidebarOpen: !state.sidebarOpen })),
 
-  setActiveTab: (tab: string) =>
-    set({ activeTab: tab }),
+      setSidebarCollapsed: (collapsed: boolean) =>
+        set({ sidebarCollapsed: collapsed }),
 
-  addNotification: (notification) => {
-    const id = `notif-${Date.now()}-${++notificationCounter}`;
-    const newNotification: Notification = {
-      ...notification,
-      id,
-      timestamp: Date.now(),
-      read: false,
-    };
-    set((state) => ({
-      notifications: [newNotification, ...state.notifications].slice(0, 50),
-    }));
-  },
+      setActiveTab: (tab: string) =>
+        set({ activeTab: tab }),
 
-  markRead: (id: string) =>
-    set((state) => ({
-      notifications: state.notifications.map((n) =>
-        n.id === id ? { ...n, read: true } : n
-      ),
-    })),
+      addNotification: (notification) => {
+        const id = `notif-${Date.now()}-${++notificationCounter}`;
+        const newNotification: Notification = {
+          ...notification,
+          id,
+          timestamp: Date.now(),
+          read: false,
+        };
+        set((state) => ({
+          notifications: [newNotification, ...state.notifications].slice(0, 50),
+        }));
+      },
 
-  markAllRead: () =>
-    set((state) => ({
-      notifications: state.notifications.map((n) => ({ ...n, read: true })),
-    })),
+      markRead: (id: string) =>
+        set((state) => ({
+          notifications: state.notifications.map((n) =>
+            n.id === id ? { ...n, read: true } : n
+          ),
+        })),
 
-  removeNotification: (id: string) =>
-    set((state) => ({
-      notifications: state.notifications.filter((n) => n.id !== id),
-    })),
+      markAllRead: () =>
+        set((state) => ({
+          notifications: state.notifications.map((n) => ({ ...n, read: true })),
+        })),
 
-  clearNotifications: () => set({ notifications: [] }),
+      removeNotification: (id: string) =>
+        set((state) => ({
+          notifications: state.notifications.filter((n) => n.id !== id),
+        })),
 
-  setSearchQuery: (query: string) => set({ searchQuery: query }),
-}));
+      clearNotifications: () => set({ notifications: [] }),
+
+      setSearchQuery: (query: string) => set({ searchQuery: query }),
+    }),
+    {
+      name: 'tradesphere-ui-storage',
+      partialize: (state) => ({ theme: state.theme }), // Only persist theme
+    }
+  )
+);
