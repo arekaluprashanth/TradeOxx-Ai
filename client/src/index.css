@@ -9,6 +9,40 @@
 
 /* ── Base Layer ─────────────────────────────────────── */
 @layer base {
+  :root {
+    --color-dark-50: 240 241 245;
+    --color-dark-100: 208 211 222;
+    --color-dark-200: 161 167 189;
+    --color-dark-300: 114 123 156;
+    --color-dark-400: 74 83 122;
+    --color-dark-500: 51 60 94;
+    --color-dark-600: 38 46 74;
+    --color-dark-700: 26 32 56;
+    --color-dark-800: 17 22 39;
+    --color-dark-900: 10 14 26;
+    --color-dark-950: 6 8 16;
+    
+    --color-text-main: 255 255 255;
+    --color-bg-main: 0 0 0;
+  }
+
+  .light-theme {
+    --color-dark-50: 6 8 16;
+    --color-dark-100: 10 14 26;
+    --color-dark-200: 17 22 39;
+    --color-dark-300: 26 32 56;
+    --color-dark-400: 38 46 74;
+    --color-dark-500: 51 60 94;
+    --color-dark-600: 114 123 156;
+    --color-dark-700: 208 211 222;
+    --color-dark-800: 240 241 245;
+    --color-dark-900: 255 255 255;
+    --color-dark-950: 255 255 255;
+    
+    --color-text-main: 17 24 39;
+    --color-bg-main: 255 255 255;
+  }
+
   *,
   *::before,
   *::after {

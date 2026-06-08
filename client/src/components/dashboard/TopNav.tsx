@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, Search, Bell, ChevronDown, LogOut, Settings, User } from 'lucide-react';
+import { Menu, Search, Bell, ChevronDown, LogOut, Settings, User, Sun, Moon } from 'lucide-react';
 import { useAuthStore } from '../../stores/authStore';
 import { useUiStore } from '../../stores/uiStore';
 
@@ -21,7 +21,7 @@ interface TopNavProps {
 export default function TopNav({ onMenuClick }: TopNavProps) {
   const location = useLocation();
   const { user, logout } = useAuthStore();
-  const { notifications } = useUiStore();
+  const { notifications, theme, toggleTheme } = useUiStore();
   const [searchQuery, setSearchQuery] = useState('');
   const [showUserMenu, setShowUserMenu] = useState(false);
 
@@ -70,6 +70,15 @@ export default function TopNav({ onMenuClick }: TopNavProps) {
 
       {/* Right section */}
       <div className="flex items-center gap-3">
+        {/* Theme Toggle */}
+        <button 
+          onClick={toggleTheme}
+          className="p-2 rounded-xl hover:bg-white/5 text-dark-200 hover:text-white transition-colors"
+          title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+        >
+          {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+        </button>
+
         {/* Notifications */}
         <button className="relative p-2 rounded-xl hover:bg-white/5 text-dark-200 hover:text-white transition-colors">
           <Bell size={20} />
