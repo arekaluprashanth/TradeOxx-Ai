@@ -13,7 +13,6 @@ import StrategyPage from './pages/StrategyPage';
 import AnalyticsPage from './pages/AnalyticsPage';
 import WatchlistPage from './pages/WatchlistPage';
 import { useAuthStore } from './stores/authStore';
-import { useUiStore } from './stores/uiStore';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -27,19 +26,10 @@ const queryClient = new QueryClient({
 
 function App() {
   const checkAuth = useAuthStore((state) => state.checkAuth);
-  const theme = useUiStore((state) => state.theme);
 
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
-
-  useEffect(() => {
-    if (theme === 'light') {
-      document.documentElement.classList.add('light-theme');
-    } else {
-      document.documentElement.classList.remove('light-theme');
-    }
-  }, [theme]);
 
   return (
     <QueryClientProvider client={queryClient}>
