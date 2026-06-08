@@ -4,6 +4,8 @@ export default {
   theme: {
     extend: {
       colors: {
+        white: 'rgb(var(--color-text-main) / <alpha-value>)',
+        black: 'rgb(var(--color-bg-main) / <alpha-value>)',
         dark: {
           50: 'rgb(var(--color-dark-50) / <alpha-value>)',
           100: 'rgb(var(--color-dark-100) / <alpha-value>)',
@@ -17,13 +19,11 @@ export default {
           900: 'rgb(var(--color-dark-900) / <alpha-value>)',
           950: 'rgb(var(--color-dark-950) / <alpha-value>)',
         },
-        white: 'rgb(var(--color-text-main) / <alpha-value>)',
-        black: 'rgb(var(--color-bg-main) / <alpha-value>)',
         accent: {
-          cyan: '#00d4ff',
-          purple: '#a855f7',
-          green: '#10b981',
-          red: '#ef4444',
+          cyan: '#2962FF',
+          purple: '#2962FF',
+          green: '#00D09C',
+          red: '#F93943',
           orange: '#f59e0b',
           blue: '#3b82f6',
         },
