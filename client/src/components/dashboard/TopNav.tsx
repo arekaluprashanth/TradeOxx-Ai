@@ -258,15 +258,20 @@ export default function TopNav({ onMenuClick }: { onMenuClick: () => void }) {
           {NAV_LINKS.map((link) => {
             const isActive = location.pathname === link.path;
             return (
-              <Link
+              <motion.div
                 key={link.path}
-                to={link.path}
-                className={`relative py-2 px-2 text-sm font-medium transition-all whitespace-nowrap outline-none ${
-                  isActive ? 'text-accent-cyan font-bold drop-shadow-[0_0_8px_rgba(0,208,156,0.8)]' : 'text-dark-300 hover:text-accent-cyan hover:drop-shadow-[0_0_8px_rgba(0,208,156,0.6)]'
-                }`}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
               >
-                {link.label}
-              </Link>
+                <Link
+                  to={link.path}
+                  className={`relative py-2 px-2 text-sm font-medium transition-all whitespace-nowrap outline-none ${
+                    isActive ? 'text-accent-cyan font-bold drop-shadow-[0_0_8px_rgba(0,208,156,0.8)]' : 'text-dark-300 hover:text-accent-cyan hover:drop-shadow-[0_0_8px_rgba(0,208,156,0.6)]'
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              </motion.div>
             );
           })}
         </nav>
