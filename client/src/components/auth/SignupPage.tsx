@@ -468,12 +468,12 @@ const SignupPage: React.FC = () => {
                     </div>
                   </li>
                   <li className="flex gap-4">
-                    <div className="mt-1 w-8 h-8 rounded-full bg-accent-purple/10 flex items-center justify-center text-accent-purple shrink-0">
-                      <Zap size={16} />
+                    <div className="mt-1 w-8 h-8 rounded-full bg-accent-green/10 flex items-center justify-center text-accent-green shrink-0">
+                      <Shield size={16} />
                     </div>
                     <div>
-                      <h4 className="text-white font-semibold mb-1">Ultra 165Hz Experience</h4>
-                      <p className="text-sm text-dark-400">No more lag. Our UI is painstakingly optimized for 165Hz refresh rates ensuring a silky smooth feel.</p>
+                      <h4 className="text-white font-semibold mb-1">Bank-Grade Security</h4>
+                      <p className="text-sm text-dark-400">Your data is protected with industry-leading encryption protocols and secure infrastructure.</p>
                     </div>
                   </li>
                 </ul>
@@ -483,30 +483,47 @@ const SignupPage: React.FC = () => {
               </div>
               <div className="lg:w-1/2 relative">
                 <div className="absolute inset-0 bg-gradient-to-tr from-accent-purple/20 to-accent-cyan/20 blur-3xl rounded-full" />
-                <img 
-                  src={`${import.meta.env.BASE_URL}dashboard-mockup.png`} 
-                  alt="Platform Preview" 
-                  className="relative rounded-2xl border border-white/10 shadow-2xl shadow-accent-cyan/10 w-full object-cover"
-                />
+                <div className="relative bg-dark-800/50 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl">
+                  <h3 className="text-2xl font-bold mb-4 text-white">Empowering Traders Worldwide</h3>
+                  <p className="text-dark-300 leading-relaxed mb-6">
+                    TradeOxx Ai is built to bridge the gap between institutional-grade algorithmic trading and retail investors. Our platform offers a seamless ecosystem for discovering assets, analyzing trends, and executing paper trades in real-time.
+                  </p>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-dark-900/50 p-4 rounded-2xl border border-white/5">
+                      <div className="text-2xl font-bold text-accent-cyan mb-1">50K+</div>
+                      <div className="text-xs text-dark-400">Active Paper Traders</div>
+                    </div>
+                    <div className="bg-dark-900/50 p-4 rounded-2xl border border-white/5">
+                      <div className="text-2xl font-bold text-accent-purple mb-1">Zero</div>
+                      <div className="text-xs text-dark-400">Financial Risk</div>
+                    </div>
+                    <div className="bg-dark-900/50 p-4 rounded-2xl border border-white/5">
+                      <div className="text-2xl font-bold text-accent-green mb-1">24/7</div>
+                      <div className="text-xs text-dark-400">Market Access</div>
+                    </div>
+                    <div className="bg-dark-900/50 p-4 rounded-2xl border border-white/5">
+                      <div className="text-2xl font-bold text-accent-blue mb-1">AI</div>
+                      <div className="text-xs text-dark-400">Powered Analytics</div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </section>
 
         {/* Footer */}
-        <footer className="border-t border-white/5 py-8 bg-dark-950">
-          <div className="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-2">
-              <img src={`${import.meta.env.BASE_URL}logo.png`} alt="Logo" className="w-6 h-6 grayscale opacity-50" />
-              <span className="text-sm font-semibold text-dark-400">TradeOxx Ai</span>
+        <footer className="border-t border-white/5 py-12 bg-dark-950">
+          <div className="container mx-auto px-6 flex flex-col items-center justify-center gap-6">
+            <div className="flex gap-6 text-sm font-medium text-dark-400">
+              <Link to="#" className="hover:text-white transition-colors">Terms & Conditions</Link>
+              <Link to="#" className="hover:text-white transition-colors">Privacy Policy</Link>
+              <Link to="#" className="hover:text-white transition-colors">Cookie Policy</Link>
             </div>
-            <p className="text-xs text-dark-500 text-center md:text-left">
-              © 2026 TradeOxx Ai · Educational Paper Trading Simulator. Not real financial advice.
+            <p className="text-xs text-dark-500 text-center max-w-md mx-auto leading-relaxed">
+              © 2026 TradeOxx Ai. All rights reserved.<br/>
+              Educational Paper Trading Simulator. Not real financial advice.
             </p>
-            <div className="flex gap-4 text-xs font-medium text-dark-400">
-              <Link to="#" className="hover:text-white transition-colors">Terms</Link>
-              <Link to="#" className="hover:text-white transition-colors">Privacy</Link>
-            </div>
           </div>
         </footer>
       </div>
