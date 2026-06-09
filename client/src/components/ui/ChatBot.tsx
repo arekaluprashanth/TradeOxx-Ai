@@ -16,7 +16,7 @@ export default function ChatBot() {
     {
       id: '1',
       sender: 'bot',
-      text: 'Hello! I am TradeSpace Apexx Ai. I am connected to live market data and advanced LLM logic. Ask me anything about trading, crypto, or stocks!',
+      text: 'Hello! I am TradeOxx Ai. I am connected to live market data and advanced LLM logic. Ask me anything about trading, crypto, or stocks!',
     },
   ]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -49,13 +49,13 @@ export default function ChatBot() {
     }
     // First check custom intelligent persona responses
     if (lowerQ.includes('hello') || lowerQ.includes('hi') || lowerQ.includes('hey')) {
-      return "Hello there! I'm TradeSpace Apexx AI, your personal financial quant. I'm here to analyze market data, explain complex trading concepts, or help you execute paper trades. What's on your mind today?";
+      return "Hello there! I'm TradeOxx Ai, your personal financial quant. I'm here to analyze market data, explain complex trading concepts, or help you execute paper trades. What's on your mind today?";
     }
     if (lowerQ.includes('who are you') || lowerQ.includes('what are you')) {
-      return "I am TradeSpace Apexx AI, an advanced language model trained specifically for financial markets, quantitative analysis, and high-frequency trading simulation. How can I assist you?";
+      return "I am TradeOxx Ai, an advanced language model trained specifically for financial markets, quantitative analysis, and high-frequency trading simulation. How can I assist you?";
     }
     if (lowerQ.includes('how to trade') || lowerQ.includes('how do i trade') || lowerQ.includes('start trading')) {
-      return "To start trading on TradeSpace, simply navigate to your Dashboard, click on any asset in your Watchlist (or search for one), and click 'Buy' or 'Sell'. The order will be executed against real-time simulated liquidity!";
+      return "To start trading on TradeOxx Ai, simply navigate to your Dashboard, click on any asset in your Watchlist (or search for one), and click 'Buy' or 'Sell'. The order will be executed against real-time simulated liquidity!";
     }
     if (lowerQ.includes('what is the best') && (lowerQ.includes('coin') || lowerQ.includes('stock') || lowerQ.includes('crypto'))) {
       return "As an AI, I cannot provide guaranteed financial advice. However, currently Bitcoin (BTC) and Ethereum (ETH) show the highest institutional adoption, while large-cap tech stocks like AAPL and TSLA provide strong liquidity for active trading strategies.";
@@ -70,7 +70,7 @@ export default function ChatBot() {
       return "I'm glad you're enjoying the experience! My goal is to be the fastest, most advanced paper trading assistant in the world. Let me know if you want to dive into some chart analysis or backtesting.";
     }
     if (lowerQ.includes('fast') || lowerQ.includes('165hz') || lowerQ.includes('speed')) {
-      return "Absolutely! TradeSpace is built on an ultra-optimized architecture designed to run at up to 165Hz. It's built to be fast, furious, and completely lag-free to give you the ultimate trading edge!";
+      return "Absolutely! TradeOxx Ai is built on an ultra-optimized architecture designed to run at up to 165Hz. It's built to be fast, furious, and completely lag-free to give you the ultimate trading edge!";
     }
 
     // Attempt to fetch definition from Wikipedia API for highly intelligent answers
@@ -177,7 +177,7 @@ export default function ChatBot() {
                   </div>
                   <div>
                     <h3 className="text-white font-bold text-sm flex items-center gap-1">
-                      TradeSpace Apexx Ai <Sparkles size={12} className="text-accent-purple" />
+                      TradeOxx Ai <Sparkles size={12} className="text-accent-purple" />
                     </h3>
                     <p className="text-accent-cyan text-[10px] font-mono tracking-wider uppercase">GPT-4 Turbo Equivalent</p>
                   </div>

@@ -1,6 +1,6 @@
 {
-  "appId": "com.tradespace.ai",
-  "appName": "TradeSpace AI",
+  "appId": "com.tradeoxx.ai",
+  "appName": "TradeOxx Ai",
   "webDir": "client/dist",
   "bundledWebRuntime": false,
   "server": {

@@ -69,7 +69,7 @@ export default function TopNav({ onMenuClick }: TopNavProps) {
 
       {/* Breadcrumb */}
       <div className="hidden sm:flex items-center gap-2 text-sm">
-        <span className="text-dark-400">TradeSpace</span>
+        <span className="text-dark-400">TradeOxx Ai</span>
         <span className="text-dark-500">/</span>
         <span className="text-white font-medium">{currentPage}</span>
       </div>
@@ -239,7 +239,7 @@ export default function TopNav({ onMenuClick }: TopNavProps) {
                 >
                   <div className="p-3 border-b border-white/5">
                     <p className="text-sm font-medium text-white">{user?.name || 'Trader'}</p>
-                    <p className="text-xs text-dark-300">{user?.email || 'trader@tradespace.ai'}</p>
+                    <p className="text-xs text-dark-300">{user?.email || 'trader@tradeoxx.ai'}</p>
                   </div>
                   <div className="py-1">
                     <button 

@@ -317,7 +317,7 @@ const ForgotPasswordPage: React.FC = () => {
           <div className="flex flex-col items-center mb-8">
             <motion.img
               src={`${import.meta.env.BASE_URL}logo.png`}
-              alt="TradeSpace"
+              alt="TradeOxx Ai"
               className="w-14 h-14 mb-4"
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
@@ -469,7 +469,7 @@ const ForgotPasswordPage: React.FC = () => {
 
         {/* Footer */}
         <p className="mt-6 text-center text-[11px] text-dark-500">
-          © 2026 TradeSpace AI · Paper Trading Simulator
+          © 2026 TradeOxx Ai · Paper Trading Simulator
         </p>
       </motion.div>
     </div>

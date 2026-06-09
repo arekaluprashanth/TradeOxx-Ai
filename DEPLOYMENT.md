@@ -1,6 +1,6 @@
 # Production Deployment Guide
 
-Since TradeSpace AI has transitioned from a static GitHub Pages site to a full-stack Next.js and Node.js platform, deployment requires new hosting providers.
+Since TradeOxx Ai has transitioned from a static GitHub Pages site to a full-stack Next.js and Node.js platform, deployment requires new hosting providers.
 
 ## 1. Database (Supabase / Render / Railway)
 1. Create a PostgreSQL database on Supabase or Railway.
@@ -24,7 +24,7 @@ Since TradeSpace AI has transitioned from a static GitHub Pages site to a full-s
 3. Set the **Framework Preset** to Next.js.
 4. Set the **Root Directory** to `frontend`.
 5. Environment Variables:
-   - `NEXT_PUBLIC_API_URL`: The URL of your deployed backend (e.g., `https://tradespace-api.onrender.com/api`)
+   - `NEXT_PUBLIC_API_URL`: The URL of your deployed backend (e.g., `https://tradeoxx-api.onrender.com/api`)
 6. Deploy!
 
 > Note: Because this application requires a running Node.js server, it **cannot** be hosted on GitHub Pages anymore.

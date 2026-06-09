@@ -5,10 +5,10 @@
 //    Copy the Service ID below
 //
 // 2. Go to Email Templates → Create New Template
-//    Set Subject: "TradeSpace AI - Verification Code"
+//    Set Subject: "TradeOxx Ai - Verification Code"
 //    Set Content:
 //      Hello,
-//      Your TradeSpace AI verification code is: {{verification_code}}
+//      Your TradeOxx Ai verification code is: {{verification_code}}
 //      This code expires in 10 minutes.
 //    Copy the Template ID below
 //

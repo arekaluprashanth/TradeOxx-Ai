@@ -56,7 +56,7 @@ export default function Sidebar({ collapsed, onToggle, mobileOpen, onMobileClose
       {/* Logo */}
       <div className="flex items-center gap-3 px-5 py-6 border-b border-white/5">
         <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-accent-cyan to-accent-purple flex items-center justify-center shadow-glow-cyan">
-          <img src={`${import.meta.env.BASE_URL}logo.png`} alt="TradeSpace" className="w-6 h-6" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+          <img src={`${import.meta.env.BASE_URL}logo.png`} alt="TradeOxx Ai" className="w-6 h-6" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
         </div>
         {!collapsed && (
           <motion.span
@@ -64,7 +64,7 @@ export default function Sidebar({ collapsed, onToggle, mobileOpen, onMobileClose
             animate={{ opacity: 1, x: 0 }}
             className="text-lg font-bold bg-gradient-to-r from-accent-cyan to-accent-purple bg-clip-text text-transparent whitespace-nowrap"
           >
-            TradeSpace
+            TradeOxx Ai
           </motion.span>
         )}
         {/* Mobile close */}
@@ -139,7 +139,7 @@ export default function Sidebar({ collapsed, onToggle, mobileOpen, onMobileClose
                 {user?.name || 'Trader'}
               </p>
               <p className="text-xs text-dark-300 truncate">
-                {user?.email || 'trader@tradespace.ai'}
+                {user?.email || 'trader@tradeoxx.ai'}
               </p>
             </motion.div>
           )}

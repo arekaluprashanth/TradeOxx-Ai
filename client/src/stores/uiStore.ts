@@ -88,7 +88,7 @@ export const useUiStore = create<UiStore>()(
       setSearchQuery: (query: string) => set({ searchQuery: query }),
     }),
     {
-      name: 'tradespace-ui-storage',
+      name: 'tradeoxx-ui-storage',
       partialize: (state) => ({ theme: state.theme }), // Only persist theme
     }
   )

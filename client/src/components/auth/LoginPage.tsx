@@ -77,7 +77,7 @@ const LoginPage: React.FC = () => {
         <nav className="container mx-auto px-6 py-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <img src={`${import.meta.env.BASE_URL}logo.png`} alt="Logo" className="w-8 h-8" />
-            <span className="text-xl font-bold text-gradient">TradeSpace AI</span>
+            <span className="text-xl font-bold text-gradient">TradeOxx Ai</span>
           </div>
           <div className="flex items-center gap-4">
             <div className="hidden md:flex gap-6 text-sm font-medium text-dark-300 mr-2">
@@ -104,7 +104,7 @@ const LoginPage: React.FC = () => {
                 Next-Gen Trading
               </div>
               <h1 className="text-5xl lg:text-7xl font-bold leading-tight mb-6">
-                Master the Markets with <span className="text-gradient">TradeSpace AI</span>
+                Master the Markets with <span className="text-gradient">TradeOxx Ai</span>
               </h1>
               <p className="text-dark-300 text-lg mb-8 max-w-xl mx-auto lg:mx-0">
                 Experience the future of algorithmic paper trading. Professional-grade tools, lightning-fast execution, and zero financial risk.
@@ -187,7 +187,7 @@ const LoginPage: React.FC = () => {
         <section id="features" className="py-20 border-y border-white/5 bg-dark-900/50">
           <div className="container mx-auto px-6">
             <div className="text-center max-w-2xl mx-auto mb-16">
-              <h2 className="text-3xl lg:text-4xl font-bold mb-4">Why Choose TradeSpace?</h2>
+              <h2 className="text-3xl lg:text-4xl font-bold mb-4">Why Choose TradeOxx Ai?</h2>
               <p className="text-dark-300">We provide the most realistic, high-performance paper trading experience available on the market.</p>
             </div>
             
@@ -252,10 +252,10 @@ const LoginPage: React.FC = () => {
           <div className="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2">
               <img src={`${import.meta.env.BASE_URL}logo.png`} alt="Logo" className="w-6 h-6 grayscale opacity-50" />
-              <span className="text-sm font-semibold text-dark-400">TradeSpace AI</span>
+              <span className="text-sm font-semibold text-dark-400">TradeOxx Ai</span>
             </div>
             <p className="text-xs text-dark-500 text-center md:text-left">
-              © 2026 TradeSpace AI · Educational Paper Trading Simulator. Not real financial advice.
+              © 2026 TradeOxx Ai · Educational Paper Trading Simulator. Not real financial advice.
             </p>
             <div className="flex gap-4 text-xs font-medium text-dark-400">
               <Link to="#" className="hover:text-white transition-colors">Terms</Link>

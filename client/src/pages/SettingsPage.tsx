@@ -76,7 +76,7 @@ export default function SettingsPage() {
                     <label className="block text-xs font-medium text-dark-400 mb-1">Email Address</label>
                     <input 
                       type="email" 
-                      defaultValue={user?.email || 'trader@tradespace.ai'} 
+                      defaultValue={user?.email || 'trader@tradeoxx.ai'} 
                       disabled
                       className="w-full px-4 py-2 bg-dark-900/50 border border-white/5 rounded-xl text-dark-300 cursor-not-allowed"
                     />

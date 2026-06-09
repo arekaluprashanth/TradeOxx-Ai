@@ -1,5 +1,5 @@
 {
-  "name": "tradespaceai",
+  "name": "tradeoxxai",
   "version": "1.0.0",
   "description": "Full-stack trading application with real-time market data",
   "type": "module",
@@ -11,7 +11,7 @@
     "build": "npm --prefix client install && npm --prefix client run build",
     "start": "npm --prefix backend start",
     "prod": "npm run build && npm run start",
-    "android:init": "npx cap init com.tradespace.ai TradeSpaceAI --web-dir=client/dist",
+    "android:init": "npx cap init com.tradeoxx.ai TradeOxx AiAI --web-dir=client/dist",
     "android:add": "npx cap add android",
     "android:sync": "npx cap sync android",
     "android:open": "npx cap open android"

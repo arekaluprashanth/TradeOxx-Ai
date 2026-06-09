@@ -45,8 +45,8 @@ export const useAuthStore = create<AuthStore>((set) => ({
       );
 
       const { user, token } = data;
-      localStorage.setItem('tradespace_token', token);
-      localStorage.setItem('tradespace_user', JSON.stringify(user));
+      localStorage.setItem('tradeoxx_token', token);
+      localStorage.setItem('tradeoxx_user', JSON.stringify(user));
 
       set({
         user,
@@ -58,7 +58,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
       });
     } catch {
       // Backend unreachable — simulate Local Database for static site
-      const dbStr = localStorage.getItem('tradespace_users_db');
+      const dbStr = localStorage.getItem('tradeoxx_users_db');
       const usersDb = dbStr ? JSON.parse(dbStr) : [];
       
       const existingUser = usersDb.find((u: any) => u.email === email && u.password === password);
@@ -68,8 +68,8 @@ export const useAuthStore = create<AuthStore>((set) => ({
         const token = DEMO_TOKEN_PREFIX + existingUser.id;
         const user: User = { id: existingUser.id, name: existingUser.name, email: existingUser.email };
         
-        localStorage.setItem('tradespace_token', token);
-        localStorage.setItem('tradespace_user', JSON.stringify(user));
+        localStorage.setItem('tradeoxx_token', token);
+        localStorage.setItem('tradeoxx_user', JSON.stringify(user));
 
         set({
           user,
@@ -96,8 +96,8 @@ export const useAuthStore = create<AuthStore>((set) => ({
       );
 
       const { user, token } = data;
-      localStorage.setItem('tradespace_token', token);
-      localStorage.setItem('tradespace_user', JSON.stringify(user));
+      localStorage.setItem('tradeoxx_token', token);
+      localStorage.setItem('tradeoxx_user', JSON.stringify(user));
 
       set({
         user,
@@ -109,7 +109,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
       });
     } catch {
       // Backend unreachable — simulate Local Database for static site
-      const dbStr = localStorage.getItem('tradespace_users_db');
+      const dbStr = localStorage.getItem('tradeoxx_users_db');
       const usersDb = dbStr ? JSON.parse(dbStr) : [];
       
       // Default demo user for easy testing
@@ -131,14 +131,14 @@ export const useAuthStore = create<AuthStore>((set) => ({
         password, // stored locally for demo purposes
       };
       usersDb.push(newUser);
-      localStorage.setItem('tradespace_users_db', JSON.stringify(usersDb));
+      localStorage.setItem('tradeoxx_users_db', JSON.stringify(usersDb));
 
       // Log them in
       const token = DEMO_TOKEN_PREFIX + newUser.id;
       const user: User = { id: newUser.id, name: newUser.name, email: newUser.email };
 
-      localStorage.setItem('tradespace_token', token);
-      localStorage.setItem('tradespace_user', JSON.stringify(user));
+      localStorage.setItem('tradeoxx_token', token);
+      localStorage.setItem('tradeoxx_user', JSON.stringify(user));
 
       set({
         user,
@@ -157,13 +157,13 @@ export const useAuthStore = create<AuthStore>((set) => ({
       // If we had a real backend, we'd call api.post('/auth/reset-password', { email, newPassword }) here
       throw new Error('Fallback to local DB');
     } catch {
-      const dbStr = localStorage.getItem('tradespace_users_db');
+      const dbStr = localStorage.getItem('tradeoxx_users_db');
       const usersDb = dbStr ? JSON.parse(dbStr) : [];
       
       const userIndex = usersDb.findIndex((u: any) => u.email === email);
       if (userIndex !== -1) {
         usersDb[userIndex].password = newPassword;
-        localStorage.setItem('tradespace_users_db', JSON.stringify(usersDb));
+        localStorage.setItem('tradeoxx_users_db', JSON.stringify(usersDb));
         set({ isLoading: false, error: null });
       } else {
         // Just fail silently for security, or throw if we strictly want to notify
@@ -173,8 +173,8 @@ export const useAuthStore = create<AuthStore>((set) => ({
   },
 
   logout: () => {
-    localStorage.removeItem('tradespace_token');
-    localStorage.removeItem('tradespace_user');
+    localStorage.removeItem('tradeoxx_token');
+    localStorage.removeItem('tradeoxx_user');
     set({
       user: null,
       token: null,
@@ -185,8 +185,8 @@ export const useAuthStore = create<AuthStore>((set) => ({
   },
 
   checkAuth: () => {
-    const token = localStorage.getItem('tradespace_token');
-    const userJson = localStorage.getItem('tradespace_user');
+    const token = localStorage.getItem('tradeoxx_token');
+    const userJson = localStorage.getItem('tradeoxx_user');
 
     if (token && userJson) {
       try {
@@ -199,8 +199,8 @@ export const useAuthStore = create<AuthStore>((set) => ({
         });
       } catch {
         // Corrupted data — clean up
-        localStorage.removeItem('tradespace_token');
-        localStorage.removeItem('tradespace_user');
+        localStorage.removeItem('tradeoxx_token');
+        localStorage.removeItem('tradeoxx_user');
         set({ user: null, token: null, isAuthenticated: false, isDemo: false });
       }
     }

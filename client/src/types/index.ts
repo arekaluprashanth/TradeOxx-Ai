@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════
-// TradeSpace AI — Type Definitions
+// TradeOxx Ai — Type Definitions
 // ═══════════════════════════════════════════════════════
 
 export type AssetCategory = 'stock' | 'crypto' | 'bond' | 'etf';

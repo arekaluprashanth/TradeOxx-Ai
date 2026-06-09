@@ -1,4 +1,4 @@
-# 🚀 Run TradespaceAi WITHOUT Visual Studio Code
+# 🚀 Run TradeOxx AiAi WITHOUT Visual Studio Code
 
 Your app can run independently and continuously, even when VS Code is closed.
 
@@ -34,7 +34,7 @@ This will:
 - ✅ Perfect for leaving running on your PC
 - ✅ **Never stops - true 24/7 operation**
 
-**To stop servers:** Close all terminals with "TradespaceAi" in the title
+**To stop servers:** Close all terminals with "TradeOxx AiAi" in the title
 
 ---
 
@@ -140,12 +140,12 @@ Double-click: CREATE_SHORTCUTS.bat
 ## 🛑 STOPPING THE SERVICES
 
 **If using RUN_BACKGROUND.bat:**
-- Close the "TradespaceAi - Backend Server" window
-- Close the "TradespaceAi - Frontend App" window
+- Close the "TradeOxx AiAi - Backend Server" window
+- Close the "TradeOxx AiAi - Frontend App" window
 
 **If using RUN_ALWAYS_ON.bat:**
 - Press Ctrl+C in the main window
-- Or close all terminals with "TradespaceAi" in title
+- Or close all terminals with "TradeOxx AiAi" in title
 
 **To completely stop:**
 ```bash

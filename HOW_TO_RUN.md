@@ -2,7 +2,7 @@
 
 ## 📍 Project Saved At:
 ```
-C:\Users\prash\Downloads\Trade\TradespaceAi\
+C:\Users\prash\Downloads\Trade\TradeOxx AiAi\
 ```
 
 This is your complete, production-ready project folder.
@@ -15,7 +15,7 @@ This is your complete, production-ready project folder.
 
 Navigate to:
 ```
-C:\Users\prash\Downloads\Trade\TradespaceAi\
+C:\Users\prash\Downloads\Trade\TradeOxx AiAi\
 ```
 
 Double-click: **`RUN_WINDOWS.bat`**
@@ -33,7 +33,7 @@ This will:
 Open **Command Prompt** or **PowerShell** and run:
 
 ```bash
-cd C:\Users\prash\Downloads\Trade\TradespaceAi
+cd C:\Users\prash\Downloads\Trade\TradeOxx AiAi
 npm run dev
 ```
 
@@ -68,7 +68,7 @@ Open browser → `http://localhost:5173`
 ## 📂 Project Files & Structure
 
 ```
-C:\Users\prash\Downloads\Trade\TradespaceAi\
+C:\Users\prash\Downloads\Trade\TradeOxx AiAi\
 │
 ├── RUN_WINDOWS.bat          ← ⭐ CLICK TO START (No VS Code needed!)
 ├── START.bat                ← Alternative launcher
@@ -179,7 +179,7 @@ copy server/data/store.json server/data/store.json.backup
 
 Everything you need is in ONE folder:
 ```
-C:\Users\prash\Downloads\Trade\TradespaceAi\
+C:\Users\prash\Downloads\Trade\TradeOxx AiAi\
 ```
 
 You can:

@@ -1,4 +1,4 @@
-# TradespaceAi - Installation & Persistent Run Guide
+# TradeOxx AiAi - Installation & Persistent Run Guide
 
 ## 🎯 One-Click Startup
 
@@ -133,7 +133,7 @@ npm run start          # Start backend only
 ## 📂 Project Structure
 
 ```
-TradespaceAi/
+TradeOxx AiAi/
 ├── START.bat                 ← Click to run!
 ├── START.ps1                 ← Or use this
 ├── package.json              ← Root config

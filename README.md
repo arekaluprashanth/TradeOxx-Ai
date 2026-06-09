@@ -1,6 +1,6 @@
-# TradeSpace AI 🚀
+# TradeOxx Ai 🚀
 
-**TradeSpace AI** is a modern, full-stack simulated paper trading platform. It provides a risk-free environment for users to practice trading stocks and cryptocurrencies using real-time market simulation, portfolio tracking, and interactive charting.
+**TradeOxx Ai** is a modern, full-stack simulated paper trading platform. It provides a risk-free environment for users to practice trading stocks and cryptocurrencies using real-time market simulation, portfolio tracking, and interactive charting.
 
 ---
 
@@ -37,7 +37,7 @@
 The project uses a monorepo approach, keeping the frontend and backend cleanly separated but easy to deploy together.
 
 ```text
-TradeSpaceAi/
+TradeOxx AiAi/
 ├── client/                 # React Frontend Application
 │   ├── src/
 │   │   ├── components/     # Reusable UI elements (Dashboard, Modals, Forms)

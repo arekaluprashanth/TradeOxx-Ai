@@ -1,6 +1,6 @@
 # SSL Deployment Guide (Nginx + Let's Encrypt)
 
-This document describes a simple approach to deploy TradespaceAi with TLS using Docker + nginx and Let's Encrypt certificates.
+This document describes a simple approach to deploy TradeOxx AiAi with TLS using Docker + nginx and Let's Encrypt certificates.
 
 Prerequisites:
 - A server with a public IP and domain name pointed to it (e.g. `example.com`).

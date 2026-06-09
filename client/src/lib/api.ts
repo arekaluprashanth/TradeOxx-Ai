@@ -21,7 +21,7 @@ const api = axios.create({
 // ── Request Interceptor: Attach auth token ─────────────
 api.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    const token = localStorage.getItem('tradespace_token');
+    const token = localStorage.getItem('tradeoxx_token');
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -41,8 +41,8 @@ api.interceptors.response.use(
 
       // Unauthorized — clear token and redirect to login
       if (status === 401) {
-        localStorage.removeItem('tradespace_token');
-        localStorage.removeItem('tradespace_user');
+        localStorage.removeItem('tradeoxx_token');
+        localStorage.removeItem('tradeoxx_user');
         if (!window.location.hash.includes('/login')) {
           window.location.hash = '#/login';
         }

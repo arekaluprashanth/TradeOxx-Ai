@@ -5,7 +5,7 @@
 Your complete, ready-to-use project is saved at:
 
 ```
-📁 C:\Users\prash\Downloads\Trade\TradespaceAi\
+📁 C:\Users\prash\Downloads\Trade\TradeOxx AiAi\
 ```
 
 ---
@@ -15,7 +15,7 @@ Your complete, ready-to-use project is saved at:
 ### ⭐ EASIEST - Double-Click (No Command Needed)
 
 1. Open File Explorer
-2. Navigate to: `C:\Users\prash\Downloads\Trade\TradespaceAi\`
+2. Navigate to: `C:\Users\prash\Downloads\Trade\TradeOxx AiAi\`
 3. **Double-click: `RUN_WINDOWS.bat`**
 4. Wait ~10 seconds for servers to start
 5. Browser will open automatically to the app
@@ -23,7 +23,7 @@ Your complete, ready-to-use project is saved at:
 ### Alternative 1 - Command Prompt
 
 ```bash
-cd C:\Users\prash\Downloads\Trade\TradespaceAi
+cd C:\Users\prash\Downloads\Trade\TradeOxx AiAi
 npm run dev
 ```
 
@@ -38,7 +38,7 @@ npm run dev
 ## 📂 FOLDER CONTENTS
 
 ```
-TradespaceAi/
+TradeOxx AiAi/
 │
 ├─ 🚀 RUN_WINDOWS.bat              ← CLICK TO START ★★★
 ├─ 📘 HOW_TO_RUN.md                ← Read this first
@@ -137,7 +137,7 @@ If commands not found → Install Node.js from https://nodejs.org/
 
 ### Step 1: Open Folder
 ```
-C:\Users\prash\Downloads\Trade\TradespaceAi\
+C:\Users\prash\Downloads\Trade\TradeOxx AiAi\
 ```
 
 ### Step 2: Double-Click
@@ -212,7 +212,7 @@ copy server/data/store.json server/data/store.json.backup
 ### Issue: "RUN_WINDOWS.bat won't open"
 **Solution:**
 - Right-click → Open with → Command Prompt
-- Or run from terminal: `cd C:\Users\prash\Downloads\Trade\TradespaceAi && npm run dev`
+- Or run from terminal: `cd C:\Users\prash\Downloads\Trade\TradeOxx AiAi && npm run dev`
 
 ---
 
@@ -259,7 +259,7 @@ copy server/data/store.json server/data/store.json.backup
 
 To run on a server (not local PC):
 
-1. Upload entire `TradespaceAi/` folder to server
+1. Upload entire `TradeOxx AiAi/` folder to server
 2. SSH into server
 3. Run: `npm run build && npm start`
 4. Access via: `http://your-server-ip:3001`
@@ -313,7 +313,7 @@ Before running, verify these files exist:
 
 All should be present in:
 ```
-C:\Users\prash\Downloads\Trade\TradespaceAi\
+C:\Users\prash\Downloads\Trade\TradeOxx AiAi\
 ```
 
 ---

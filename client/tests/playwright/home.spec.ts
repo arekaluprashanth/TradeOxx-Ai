@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test('homepage loads and is responsive', async ({ page }) => {
   await page.goto('http://localhost:5174');
-  await expect(page).toHaveTitle(/TradeSpace/);
+  await expect(page).toHaveTitle(/TradeOxx Ai/);
 
   // mobile viewport
   await page.setViewportSize({ width: 375, height: 812 });
