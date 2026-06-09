@@ -6,6 +6,7 @@ import { useAuthStore } from '../../stores/authStore';
 import { useUiStore } from '../../stores/uiStore';
 import { useMarketStore } from '../../stores/marketStore';
 import AssetModal from '../trading/AssetModal';
+import ChatBot from '../ui/ChatBot';
 import { useMemo } from 'react';
 
 const pageTitles: Record<string, string> = {
@@ -143,6 +144,9 @@ export default function TopNav({ onMenuClick }: TopNavProps) {
 
       {/* Right section */}
       <div className="flex items-center gap-3">
+        {/* Apexx AI ChatBot */}
+        <ChatBot />
+
         {/* Theme Toggle */}
         <button 
           onClick={toggleTheme}

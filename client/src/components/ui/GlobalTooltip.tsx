@@ -25,10 +25,10 @@ export default function GlobalTooltip() {
         if (info && info.length > 0) {
           currentTarget = interactiveEl;
           
-          // Add highlight styling
-          interactiveEl.style.outline = '2px solid #00f0ff';
-          interactiveEl.style.outlineOffset = '2px';
-          interactiveEl.style.transition = 'all 0.2s ease';
+          // Add scale highlight styling
+          interactiveEl.style.transform = 'scale(1.05)';
+          interactiveEl.style.transition = 'transform 0.15s cubic-bezier(0.4, 0, 0.2, 1)';
+          interactiveEl.style.zIndex = '50';
           
           // Show tooltip
           const rect = interactiveEl.getBoundingClientRect();
@@ -50,8 +50,8 @@ export default function GlobalTooltip() {
     const handleMouseOut = (e: MouseEvent) => {
       if (currentTarget) {
         // Remove highlight
-        currentTarget.style.outline = '';
-        currentTarget.style.outlineOffset = '';
+        currentTarget.style.transform = '';
+        currentTarget.style.zIndex = '';
         
         // Restore native title
         if (currentTarget.dataset.title) {
@@ -71,7 +71,7 @@ export default function GlobalTooltip() {
       document.removeEventListener('mouseover', handleMouseOver, true);
       document.removeEventListener('mouseout', handleMouseOut, true);
       if (currentTarget) {
-        currentTarget.style.outline = '';
+        currentTarget.style.transform = '';
       }
     };
   }, []);
