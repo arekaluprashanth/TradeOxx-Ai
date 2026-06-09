@@ -56,11 +56,7 @@ export default function TopNav({ onMenuClick }: { onMenuClick: () => void }) {
       <div className="flex items-center justify-between h-16 px-4 lg:px-8 max-w-7xl mx-auto w-full gap-4 lg:gap-8">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2 group shrink-0">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-accent-cyan to-accent-purple flex items-center justify-center p-0.5 group-hover:shadow-[0_0_15px_rgba(0,208,156,0.3)] transition-all">
-            <div className="w-full h-full bg-dark-900 rounded-[10px] flex items-center justify-center">
-              <Hexagon size={20} className="text-accent-cyan" />
-            </div>
-          </div>
+          <img src={`${import.meta.env.BASE_URL}logo.png`} alt="Logo" className="w-8 h-8" onError={(e) => { e.currentTarget.style.display='none' }} />
           <span className="text-lg font-bold text-white hidden sm:block tracking-tight">TradeOxx Ai</span>
         </Link>
 
