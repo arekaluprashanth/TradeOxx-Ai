@@ -12,6 +12,8 @@ import PortfolioPage from './pages/PortfolioPage';
 import StrategyPage from './pages/StrategyPage';
 import AnalyticsPage from './pages/AnalyticsPage';
 import WatchlistPage from './pages/WatchlistPage';
+import SettingsPage from './pages/SettingsPage';
+import GlobalRipple from './components/ui/GlobalRipple';
 import { useAuthStore } from './stores/authStore';
 import { useUiStore } from './stores/uiStore';
 
@@ -55,9 +57,11 @@ function App() {
             <Route path="strategy" element={<StrategyPage />} />
             <Route path="analytics" element={<AnalyticsPage />} />
             <Route path="watchlist" element={<WatchlistPage />} />
+            <Route path="settings" element={<SettingsPage />} />
           </Route>
         </Routes>
       </HashRouter>
+      <GlobalRipple />
       <Toaster
         position="top-right"
         toastOptions={{

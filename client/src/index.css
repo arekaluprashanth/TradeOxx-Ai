@@ -68,6 +68,30 @@
     -webkit-backdrop-filter: none !important;
   }
 
+  /* Global Click Ripple */
+  .global-ripple {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    background: rgba(0, 212, 255, 0.4);
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    pointer-events: none;
+    z-index: 99999;
+    animation: ripple-burst 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+
+  @keyframes ripple-burst {
+    0% {
+      transform: translate(-50%, -50%) scale(0);
+      opacity: 1;
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(5);
+      opacity: 0;
+    }
+  }
+
   /* Eliminate the 300ms mobile tap delay for instant clicks */
   a, button, input, select, textarea {
     touch-action: manipulation;

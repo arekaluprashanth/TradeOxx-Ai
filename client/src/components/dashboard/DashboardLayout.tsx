@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { Outlet, useNavigate, useLocation } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useAuthStore } from '../../stores/authStore';
 import Sidebar from './Sidebar';
 import TopNav from './TopNav';
@@ -8,6 +8,7 @@ import TopNav from './TopNav';
 export default function DashboardLayout() {
   const { isAuthenticated } = useAuthStore();
   const navigate = useNavigate();
+  const location = useLocation();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -37,14 +38,18 @@ export default function DashboardLayout() {
       >
         <TopNav onMenuClick={() => setMobileMenuOpen(true)} />
 
-        <main className="p-4 lg:p-6">
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <Outlet />
-          </motion.div>
+        <main className="p-4 lg:p-6 overflow-x-hidden">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={location.pathname}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
+            >
+              <Outlet />
+            </motion.div>
+          </AnimatePresence>
         </main>
       </div>
     </div>

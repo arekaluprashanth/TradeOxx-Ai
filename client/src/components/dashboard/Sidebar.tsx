@@ -1,5 +1,7 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+
+const MotionNavLink = motion.create ? motion.create(NavLink) : motion(NavLink);
 import {
   LayoutDashboard,
   LineChart,
@@ -77,11 +79,12 @@ export default function Sidebar({ collapsed, onToggle, mobileOpen, onMobileClose
       {/* Navigation */}
       <nav className="flex-1 py-4 px-3 space-y-1 overflow-y-auto">
         {navItems.map((item) => (
-          <NavLink
+          <MotionNavLink
             key={item.to}
             to={item.to}
             end={item.end}
             onClick={onMobileClose}
+            whileTap={{ scale: 0.95 }}
             className={({ isActive }) =>
               `flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-200 group relative ${
                 isActive
@@ -105,7 +108,7 @@ export default function Sidebar({ collapsed, onToggle, mobileOpen, onMobileClose
                 {item.label}
               </div>
             )}
-          </NavLink>
+          </MotionNavLink>
         ))}
       </nav>
 
@@ -141,13 +144,14 @@ export default function Sidebar({ collapsed, onToggle, mobileOpen, onMobileClose
             </motion.div>
           )}
           {!collapsed && (
-            <button
+            <motion.button
+              whileTap={{ scale: 0.9 }}
               onClick={handleLogout}
               className="p-1.5 rounded-lg hover:bg-white/10 text-dark-300 hover:text-accent-red transition-colors"
               title="Logout"
             >
               <LogOut size={16} />
-            </button>
+            </motion.button>
           )}
         </div>
       </div>

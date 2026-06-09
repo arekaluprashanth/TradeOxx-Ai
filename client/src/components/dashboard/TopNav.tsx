@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, Search, Bell, ChevronDown, LogOut, Settings, User, Sun, Moon } from 'lucide-react';
 import { useAuthStore } from '../../stores/authStore';
@@ -20,6 +20,7 @@ interface TopNavProps {
 
 export default function TopNav({ onMenuClick }: TopNavProps) {
   const location = useLocation();
+  const navigate = useNavigate();
   const { user, logout } = useAuthStore();
   const { notifications, theme, toggleTheme } = useUiStore();
   const [searchQuery, setSearchQuery] = useState('');
@@ -123,11 +124,23 @@ export default function TopNav({ onMenuClick }: TopNavProps) {
                     <p className="text-xs text-dark-300">{user?.email || 'trader@tradespace.ai'}</p>
                   </div>
                   <div className="py-1">
-                    <button className="w-full flex items-center gap-2 px-3 py-2 text-sm text-dark-200 hover:bg-white/5 hover:text-white transition-colors">
+                    <button 
+                      onClick={() => {
+                        setShowUserMenu(false);
+                        navigate('/settings');
+                      }}
+                      className="w-full flex items-center gap-2 px-3 py-2 text-sm text-dark-200 hover:bg-white/5 hover:text-white transition-colors"
+                    >
                       <User size={14} />
                       Profile
                     </button>
-                    <button className="w-full flex items-center gap-2 px-3 py-2 text-sm text-dark-200 hover:bg-white/5 hover:text-white transition-colors">
+                    <button 
+                      onClick={() => {
+                        setShowUserMenu(false);
+                        navigate('/settings');
+                      }}
+                      className="w-full flex items-center gap-2 px-3 py-2 text-sm text-dark-200 hover:bg-white/5 hover:text-white transition-colors"
+                    >
                       <Settings size={14} />
                       Settings
                     </button>
