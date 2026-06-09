@@ -7,13 +7,16 @@ const DEMO_ASSETS: Asset[] = [
   { symbol: 'AAPL', name: 'Apple Inc.', category: 'stock', price: 198.45, change: 3.21, changePercent: 1.64, volume: 54_230_100, high: 199.80, low: 195.10, open: 195.50, marketCap: 3_080_000_000_000 },
   { symbol: 'GOOGL', name: 'Alphabet Inc.', category: 'stock', price: 178.92, change: -1.45, changePercent: -0.80, volume: 28_150_000, high: 181.30, low: 177.60, open: 180.20, marketCap: 2_210_000_000_000 },
   { symbol: 'MSFT', name: 'Microsoft Corp.', category: 'stock', price: 442.58, change: 5.67, changePercent: 1.30, volume: 22_800_000, high: 445.00, low: 437.90, open: 438.00, marketCap: 3_290_000_000_000 },
-  { symbol: 'AMZN', name: 'Amazon.com Inc.', category: 'stock', price: 192.83, change: 2.14, changePercent: 1.12, volume: 41_200_000, high: 194.10, low: 190.50, open: 191.00, marketCap: 2_000_000_000_000 },
   { symbol: 'TSLA', name: 'Tesla Inc.', category: 'stock', price: 248.92, change: -4.33, changePercent: -1.71, volume: 98_500_000, high: 255.10, low: 247.30, open: 253.00, marketCap: 793_000_000_000 },
   { symbol: 'NVDA', name: 'NVIDIA Corp.', category: 'stock', price: 135.40, change: 4.52, changePercent: 3.45, volume: 312_000_000, high: 136.80, low: 130.90, open: 131.50, marketCap: 3_340_000_000_000 },
+  { symbol: 'NIFTY50', name: 'NIFTY 50 Index', category: 'index', price: 23512.45, change: 125.30, changePercent: 0.54, volume: 215_000_000, high: 23550.00, low: 23390.00, open: 23400.00 },
+  { symbol: 'SENSEX', name: 'BSE SENSEX', category: 'index', price: 77203.15, change: 350.20, changePercent: 0.46, volume: 15_000_000, high: 77300.00, low: 76800.00, open: 76900.00 },
   { symbol: 'BTC', name: 'Bitcoin', category: 'crypto', price: 71_245.00, change: 1_823.50, changePercent: 2.63, volume: 42_000_000_000, high: 72_100.00, low: 69_400.00, open: 69_500.00 },
   { symbol: 'ETH', name: 'Ethereum', category: 'crypto', price: 3_892.45, change: 87.30, changePercent: 2.29, volume: 18_500_000_000, high: 3_950.00, low: 3_800.00, open: 3_810.00 },
-  { symbol: 'SPY', name: 'SPDR S&P 500 ETF', category: 'etf', price: 543.21, change: 4.12, changePercent: 0.76, volume: 67_300_000, high: 545.00, low: 539.80, open: 540.00 },
-  { symbol: 'QQQ', name: 'Invesco QQQ Trust', category: 'etf', price: 478.95, change: 6.78, changePercent: 1.44, volume: 45_100_000, high: 480.50, low: 473.20, open: 474.00 },
+  { symbol: 'SOL', name: 'Solana', category: 'crypto', price: 145.20, change: 12.50, changePercent: 9.42, volume: 3_500_000_000, high: 148.00, low: 132.00, open: 133.00 },
+  { symbol: 'BNB', name: 'Binance Coin', category: 'crypto', price: 590.30, change: -15.40, changePercent: -2.54, volume: 1_200_000_000, high: 610.00, low: 585.00, open: 605.00 },
+  { symbol: 'RELIANCE', name: 'Reliance Ind.', category: 'stock', price: 2985.40, change: 45.20, changePercent: 1.54, volume: 8_500_000, high: 3000.00, low: 2940.00, open: 2950.00 },
+  { symbol: 'TCS', name: 'TCS Ltd.', category: 'stock', price: 3850.10, change: -25.40, changePercent: -0.66, volume: 2_100_000, high: 3890.00, low: 3820.00, open: 3880.00 },
 ];
 
 function generateDemoCandles(basePrice: number, count: number = 100): Candle[] {
