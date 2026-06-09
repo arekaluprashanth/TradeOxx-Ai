@@ -304,8 +304,8 @@ const SignupPage: React.FC = () => {
       <div className="absolute inset-0 bg-auth" />
       <div className="absolute inset-0 bg-grid opacity-40" />
 
-      {/* Particles */}
-      <ParticleField />
+      {/* Particles Removed for extreme performance */}
+      {/* <ParticleField /> */}
 
       {/* Content */}
       <motion.div
