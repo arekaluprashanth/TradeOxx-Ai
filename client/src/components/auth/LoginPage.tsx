@@ -6,6 +6,7 @@ import { useAuthStore } from '../../stores/authStore';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import ChatBot from '../ui/ChatBot';
+import FloatingCryptoBackground from '../ui/FloatingCryptoBackground';
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -70,11 +71,7 @@ const LoginPage: React.FC = () => {
   return (
     <div className="relative min-h-screen bg-dark-950 overflow-y-auto overflow-x-hidden text-white">
       {/* Background Elements */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30" style={{ backgroundImage: `url(${import.meta.env.BASE_URL}hero-bg.png)` }} />
-        <div className="absolute inset-0 bg-gradient-to-b from-dark-950/80 via-dark-950 to-dark-950" />
-        <div className="absolute inset-0 bg-grid opacity-20" />
-      </div>
+      <FloatingCryptoBackground />
 
       <div className="relative z-10">
         <nav className="container mx-auto px-6 py-6 flex items-center justify-between">
