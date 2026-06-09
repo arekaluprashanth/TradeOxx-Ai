@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
   LineChart,
@@ -39,6 +40,8 @@ const correlationData = correlationAssets.map((a) =>
 );
 
 export default function AnalyticsDashboard() {
+  const [activePeriod, setActivePeriod] = useState('1M');
+
   const metrics = [
     {
       title: 'Current RSI',
@@ -145,8 +148,9 @@ export default function AnalyticsDashboard() {
             {['1W', '1M', '3M', '1Y', 'All'].map((period) => (
               <button
                 key={period}
+                onClick={() => setActivePeriod(period)}
                 className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-colors ${
-                  period === '1M'
+                  period === activePeriod
                     ? 'bg-accent-cyan/15 text-accent-cyan'
                     : 'text-dark-300 hover:text-white hover:bg-white/5'
                 }`}

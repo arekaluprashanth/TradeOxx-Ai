@@ -7,12 +7,14 @@ import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { Plus, Trash2, RefreshCcw } from 'lucide-react';
 import toast from 'react-hot-toast';
+import AssetModal from '../components/trading/AssetModal';
 
 export default function WatchlistPage() {
   const { isConnected } = useMarketData();
   const [symbols, setSymbols] = useState<string[]>([]);
   const [symbolInput, setSymbolInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const [selectedAsset, setSelectedAsset] = useState<null | any>(null);
   const quotes = useMarketStore((state) => state.quotes);
 
   const loadWatchlist = async () => {
@@ -126,7 +128,11 @@ export default function WatchlistPage() {
               const changeClass = quote?.change >= 0 ? 'text-accent-green' : 'text-accent-red';
 
               return (
-                <div key={symbol} className="flex flex-col gap-3 rounded-3xl bg-dark-900/80 border border-white/5 p-4 md:flex-row md:items-center md:justify-between">
+                <div 
+                  key={symbol} 
+                  onClick={() => quote && setSelectedAsset({ symbol, name: symbol, price: quote.price, changePercent: quote.changePercent })}
+                  className="flex flex-col gap-3 rounded-3xl bg-dark-900/80 border border-white/5 p-4 md:flex-row md:items-center md:justify-between cursor-pointer hover:bg-white/5 transition-colors"
+                >
                   <div>
                     <p className="text-sm text-dark-400">{symbol}</p>
                     <p className="mt-1 text-xl font-semibold text-white">{value}</p>
@@ -136,7 +142,7 @@ export default function WatchlistPage() {
                       </p>
                     )}
                   </div>
-                  <Button variant="ghost" onClick={() => handleRemove(symbol)}>
+                  <Button variant="ghost" onClick={(e) => { e.stopPropagation(); handleRemove(symbol); }}>
                     <Trash2 size={16} />
                     Remove
                   </Button>
@@ -146,6 +152,12 @@ export default function WatchlistPage() {
           </div>
         )}
       </div>
+
+      <AssetModal
+        isOpen={!!selectedAsset}
+        onClose={() => setSelectedAsset(null)}
+        asset={selectedAsset}
+      />
     </div>
   );
 }

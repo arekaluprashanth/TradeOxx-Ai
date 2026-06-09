@@ -25,6 +25,7 @@ export default function TopNav({ onMenuClick }: TopNavProps) {
   const { notifications, theme, toggleTheme } = useUiStore();
   const [searchQuery, setSearchQuery] = useState('');
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
 
   const currentPage = pageTitles[location.pathname] || 'Dashboard';
   const unreadCount = notifications?.filter((n: any) => !n.read).length || 0;
@@ -81,14 +82,56 @@ export default function TopNav({ onMenuClick }: TopNavProps) {
         </button>
 
         {/* Notifications */}
-        <button className="relative p-2 rounded-xl hover:bg-white/5 text-dark-200 hover:text-white transition-colors">
-          <Bell size={20} />
-          {unreadCount > 0 && (
-            <span className="absolute -top-0.5 -right-0.5 w-5 h-5 bg-accent-red rounded-full flex items-center justify-center text-[10px] font-bold text-white">
-              {unreadCount > 9 ? '9+' : unreadCount}
-            </span>
-          )}
-        </button>
+        <div className="relative">
+          <button 
+            onClick={() => setShowNotifications(!showNotifications)}
+            className="relative p-2 rounded-xl hover:bg-white/5 text-dark-200 hover:text-white transition-colors"
+          >
+            <Bell size={20} />
+            {unreadCount > 0 && (
+              <span className="absolute -top-0.5 -right-0.5 w-5 h-5 bg-accent-red rounded-full flex items-center justify-center text-[10px] font-bold text-white">
+                {unreadCount > 9 ? '9+' : unreadCount}
+              </span>
+            )}
+          </button>
+
+          <AnimatePresence>
+            {showNotifications && (
+              <>
+                <div
+                  className="fixed inset-0 z-40"
+                  onClick={() => setShowNotifications(false)}
+                />
+                <motion.div
+                  initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                  transition={{ duration: 0.15 }}
+                  className="absolute right-0 top-full mt-2 w-80 bg-dark-800 border border-white/10 rounded-xl shadow-glass overflow-hidden z-50"
+                >
+                  <div className="p-4 border-b border-white/5 flex items-center justify-between">
+                    <h3 className="text-sm font-semibold text-white">Notifications</h3>
+                    <span className="text-xs text-accent-cyan cursor-pointer hover:underline">Mark all read</span>
+                  </div>
+                  <div className="max-h-64 overflow-y-auto">
+                    {notifications?.length > 0 ? (
+                      notifications.map((n: any, i: number) => (
+                        <div key={i} className="p-4 border-b border-white/5 hover:bg-white/5 transition-colors cursor-pointer">
+                          <p className="text-sm text-white font-medium">{n.title || 'Notification'}</p>
+                          <p className="text-xs text-dark-300 mt-1">{n.message || 'You have a new alert.'}</p>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="p-8 text-center text-dark-400 text-sm">
+                        No new notifications
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
+              </>
+            )}
+          </AnimatePresence>
+        </div>
 
         {/* User menu */}
         <div className="relative">
