@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ArrowUpRight, ArrowDownRight, TrendingUp } from 'lucide-react';
 import { formatCurrency } from '../../lib/utils';
@@ -21,7 +21,18 @@ export default function AssetModal({ isOpen, onClose, asset }: AssetModalProps) 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { executeTrade } = usePortfolio();
 
-  if (!asset) return null;
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
+  if (!isOpen || !asset) return null;
 
   const isPositive = asset.changePercent >= 0;
   const totalCost = parseFloat(quantity || '0') * asset.price;
@@ -52,11 +63,11 @@ export default function AssetModal({ isOpen, onClose, asset }: AssetModalProps) 
             className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50"
           />
           <motion.div
-            initial={{ opacity: 0, y: '100%' }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: '100%' }}
+            initial={{ opacity: 0, y: '20px', scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: '20px', scale: 0.95 }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed inset-x-0 bottom-0 z-50 md:inset-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 w-full md:max-w-md bg-dark-900/95 backdrop-blur-2xl rounded-t-3xl md:rounded-3xl shadow-glow-cyan border border-white/10 overflow-hidden flex flex-col max-h-[90vh]"
+            className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-[95%] sm:w-full max-w-md bg-dark-900/95 backdrop-blur-2xl rounded-3xl shadow-glow-cyan border border-white/10 overflow-hidden flex flex-col max-h-[90vh]"
           >
             {/* Header */}
             <div className="p-6 pb-4 border-b border-dark-600 flex justify-between items-start">

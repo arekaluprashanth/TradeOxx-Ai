@@ -57,22 +57,34 @@ export default function ChatBot() {
       return "TradeSpace is built on an ultra-optimized 165Hz architecture. It's designed to be fast, furious, and completely lag-free to give you the ultimate trading edge!";
     }
 
-    // Attempt to fetch definition from free dictionary API as a fallback for random words
+    // Attempt to fetch definition from Wikipedia API for highly intelligent answers
     try {
-      const words = lowerQ.split(' ');
-      const searchWord = words[words.length - 1].replace(/[^a-z]/g, '');
-      if (searchWord.length > 3) {
-        const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${searchWord}`);
-        if (res.ok) {
-          const data = await res.json();
-          const meaning = data[0]?.meanings[0]?.definitions[0]?.definition;
-          if (meaning) {
-            return `From my knowledge base regarding "${searchWord}": ${meaning}. How does this relate to your trading strategy today?`;
+      // Get the last noun or main word
+      const words = lowerQ.replace(/[^\w\s]/g, '').split(' ').filter(w => w.length > 3);
+      if (words.length > 0) {
+        // use the most significant sounding word (often the last one)
+        const searchWord = words[words.length - 1];
+        
+        // 1. Search for the best matching article title
+        const searchRes = await fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${searchWord}&utf8=&format=json&origin=*`);
+        if (searchRes.ok) {
+          const searchData = await searchRes.json();
+          if (searchData.query?.search?.length > 0) {
+            const title = searchData.query.search[0].title;
+            
+            // 2. Fetch the summary for that title
+            const summaryRes = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`);
+            if (summaryRes.ok) {
+              const summaryData = await summaryRes.json();
+              if (summaryData.extract) {
+                return `Here is what my global database says about ${title}:\n\n"${summaryData.extract}"\n\nHow does this fit into your current trading or investment goals?`;
+              }
+            }
           }
         }
       }
     } catch (e) {
-      // ignore
+      // ignore and fallback
     }
 
     // Default sophisticated fallback

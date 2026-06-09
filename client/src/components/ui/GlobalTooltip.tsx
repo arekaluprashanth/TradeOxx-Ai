@@ -26,8 +26,9 @@ export default function GlobalTooltip() {
           currentTarget = interactiveEl;
           
           // Add scale highlight styling
-          interactiveEl.style.transform = 'scale(1.05)';
-          interactiveEl.style.transition = 'transform 0.15s cubic-bezier(0.4, 0, 0.2, 1)';
+          interactiveEl.style.transform = 'scale(1.08)';
+          interactiveEl.style.boxShadow = '0 0 15px 2px rgba(0,240,255,0.5)';
+          interactiveEl.style.transition = 'all 0.15s cubic-bezier(0.4, 0, 0.2, 1)';
           interactiveEl.style.zIndex = '50';
           
           // Show tooltip
@@ -51,6 +52,7 @@ export default function GlobalTooltip() {
       if (currentTarget) {
         // Remove highlight
         currentTarget.style.transform = '';
+        currentTarget.style.boxShadow = '';
         currentTarget.style.zIndex = '';
         
         // Restore native title
@@ -72,6 +74,7 @@ export default function GlobalTooltip() {
       document.removeEventListener('mouseout', handleMouseOut, true);
       if (currentTarget) {
         currentTarget.style.transform = '';
+        currentTarget.style.boxShadow = '';
       }
     };
   }, []);

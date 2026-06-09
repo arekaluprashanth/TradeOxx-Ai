@@ -7,6 +7,7 @@ import emailjs from '@emailjs/browser';
 import { useAuthStore } from '../../stores/authStore';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
+import ChatBot from '../ui/ChatBot';
 import { EMAILJS_CONFIG, isEmailJSConfigured } from '../../lib/emailjs';
 
 // ── OTP Code Input ─────────────────────────────────────
@@ -223,9 +224,12 @@ const SignupPage: React.FC = () => {
             <img src={`${import.meta.env.BASE_URL}logo.png`} alt="Logo" className="w-8 h-8" />
             <span className="text-xl font-bold text-gradient">TradeSpace AI</span>
           </div>
-          <div className="hidden md:flex gap-6 text-sm font-medium text-dark-300">
-            <a href="#features" className="hover:text-white transition-colors">Features</a>
-            <a href="#platform" className="hover:text-white transition-colors">Platform</a>
+          <div className="flex items-center gap-4">
+            <div className="hidden md:flex gap-6 text-sm font-medium text-dark-300 mr-2">
+              <a href="#features" className="hover:text-white transition-colors">Features</a>
+              <a href="#platform" className="hover:text-white transition-colors">Platform</a>
+            </div>
+            <ChatBot />
           </div>
         </nav>
 
