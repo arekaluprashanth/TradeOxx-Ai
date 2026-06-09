@@ -46,13 +46,13 @@ export default function DashboardPage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="rounded-3xl bg-dark-800/70 border border-white/10 p-5">
-              <p className="text-sm text-dark-400">Portfolio Value</p>
-              <p className="mt-3 text-3xl font-semibold text-white">{formatCurrency(totalValue)}</p>
+            <div className="rounded-3xl bg-dark-800/70 border border-white/10 p-5 min-w-0 overflow-hidden flex flex-col justify-center">
+              <p className="text-sm text-dark-400 truncate">Portfolio Value</p>
+              <p className="mt-3 text-2xl lg:text-3xl font-semibold text-white truncate" title={formatCurrency(totalValue)}>{formatCurrency(totalValue)}</p>
             </div>
-            <div className="rounded-3xl bg-dark-800/70 border border-white/10 p-5">
-              <p className="text-sm text-dark-400">Performance</p>
-              <p className={`mt-3 text-3xl font-semibold ${pnlClass}`}>
+            <div className="rounded-3xl bg-dark-800/70 border border-white/10 p-5 min-w-0 overflow-hidden flex flex-col justify-center">
+              <p className="text-sm text-dark-400 truncate">Performance</p>
+              <p className={`mt-3 text-2xl lg:text-3xl font-semibold truncate ${pnlClass}`} title={`${totalPnl >= 0 ? '+' : ''}${formatCurrency(totalPnl)}`}>
                 {totalPnl >= 0 ? '+' : ''}{formatCurrency(totalPnl)}
               </p>
             </div>

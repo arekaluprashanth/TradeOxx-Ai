@@ -69,7 +69,7 @@ export default function MetricCard({
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ y: -2 }}
       transition={{ duration: 0.2 }}
-      className="bg-dark-800/50 backdrop-blur-xl border border-white/5 rounded-2xl p-5 hover:border-white/10 transition-colors"
+      className="bg-dark-800/50 backdrop-blur-xl border border-white/5 rounded-2xl p-5 hover:border-white/10 transition-colors min-w-0 overflow-hidden"
     >
       <div className="flex items-start justify-between mb-3">
         <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${colors.bg} flex items-center justify-center`}>
@@ -89,8 +89,10 @@ export default function MetricCard({
         )}
       </div>
 
-      <p className="text-xs text-dark-400 mb-1">{title}</p>
-      <p className={`text-2xl font-bold font-mono ${colors.text}`}>{value}</p>
+      <div className="min-w-0">
+        <p className="text-xs text-dark-400 mb-1 truncate">{title}</p>
+        <p className={`text-xl lg:text-2xl font-bold font-mono truncate ${colors.text}`} title={String(value)}>{value}</p>
+      </div>
 
       {sparkData.length > 0 && (
         <div className="mt-3 -mx-1" style={{ height: 40 }}>

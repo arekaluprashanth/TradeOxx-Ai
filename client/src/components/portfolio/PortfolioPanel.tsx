@@ -61,18 +61,20 @@ export default function PortfolioPanel() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
-            className="bg-dark-800/50 backdrop-blur-xl border border-white/5 rounded-2xl p-5"
+            className="bg-dark-800/50 backdrop-blur-xl border border-white/5 rounded-2xl p-5 min-w-0 overflow-hidden flex flex-col justify-between"
           >
-            <div className="flex items-start justify-between mb-3">
-              <span className="text-dark-300 text-sm">{card.title}</span>
-              <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${card.color} flex items-center justify-center`}>
+            <div className="flex items-start justify-between mb-3 gap-2">
+              <span className="text-dark-300 text-sm truncate">{card.title}</span>
+              <div className={`w-8 h-8 shrink-0 rounded-lg bg-gradient-to-br ${card.color} flex items-center justify-center`}>
                 <card.icon size={16} className="text-white" />
               </div>
             </div>
-            <p className={`text-2xl font-bold font-mono ${card.textColor}`}>{card.value}</p>
-            {card.subtitle && (
-              <p className={`text-sm font-mono mt-1 ${card.textColor}`}>{card.subtitle}</p>
-            )}
+            <div className="min-w-0">
+              <p className={`text-xl lg:text-2xl font-bold font-mono truncate ${card.textColor}`} title={card.value}>{card.value}</p>
+              {card.subtitle && (
+                <p className={`text-sm font-mono mt-1 truncate ${card.textColor}`}>{card.subtitle}</p>
+              )}
+            </div>
           </motion.div>
         ))}
       </div>
