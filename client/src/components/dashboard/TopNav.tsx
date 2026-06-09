@@ -59,15 +59,21 @@ export default function TopNav({ onMenuClick }: { onMenuClick: () => void }) {
           <motion.img 
             src={`${import.meta.env.BASE_URL}logo.png`} 
             alt="Logo" 
-            className="w-8 h-8" 
+            className="w-8 h-8 drop-shadow-lg" 
             onError={(e) => { e.currentTarget.style.display='none' }}
             animate={{ 
-              rotateY: [0, 360],
+              y: [0, -3, 0],
+              scale: [1, 1.03, 1],
+              filter: [
+                'drop-shadow(0px 0px 0px rgba(0,208,156,0))',
+                'drop-shadow(0px 4px 8px rgba(0,208,156,0.3))',
+                'drop-shadow(0px 0px 0px rgba(0,208,156,0))'
+              ]
             }}
             transition={{ 
               duration: 4, 
               repeat: Infinity, 
-              ease: "linear" 
+              ease: "easeInOut" 
             }}
           />
           <span className="text-lg font-bold text-white hidden sm:block tracking-tight">TradeOxx Ai</span>

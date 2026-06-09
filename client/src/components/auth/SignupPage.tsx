@@ -221,9 +221,17 @@ const SignupPage: React.FC = () => {
             <motion.img 
               src={`${import.meta.env.BASE_URL}logo.png`} 
               alt="Logo" 
-              className="w-8 h-8" 
-              animate={{ rotateY: [0, 360] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+              className="w-8 h-8 drop-shadow-lg" 
+              animate={{ 
+                y: [0, -3, 0],
+                scale: [1, 1.03, 1],
+                filter: [
+                  'drop-shadow(0px 0px 0px rgba(0,208,156,0))',
+                  'drop-shadow(0px 4px 8px rgba(0,208,156,0.3))',
+                  'drop-shadow(0px 0px 0px rgba(0,208,156,0))'
+                ]
+              }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             />
             <span className="text-xl font-bold text-gradient">TradeOxx Ai</span>
           </div>
