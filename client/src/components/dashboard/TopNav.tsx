@@ -122,7 +122,7 @@ export default function TopNav({ onMenuClick }: { onMenuClick: () => void }) {
                           setShowSearchResults(false);
                           setSearchQuery('');
                         }}
-                        className="px-4 py-3 hover:bg-white/5 cursor-pointer flex items-center justify-between border-b border-white/5 last:border-none transition-colors"
+                        className="px-4 py-3 hover:drop-shadow-[0_0_8px_rgba(0,208,156,0.5)] cursor-pointer flex items-center justify-between border-b border-white/5 last:border-none transition-all"
                       >
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 rounded-full bg-dark-700 border border-white/5 flex items-center justify-center text-xs font-bold text-accent-cyan">
@@ -185,7 +185,7 @@ export default function TopNav({ onMenuClick }: { onMenuClick: () => void }) {
                     <div className="max-h-64 overflow-y-auto">
                       {notifications?.length > 0 ? (
                         notifications.map((n: any, i: number) => (
-                          <div key={i} className="p-4 border-b border-white/5 hover:bg-white/5 transition-colors cursor-pointer">
+                          <div key={i} className="p-4 border-b border-white/5 hover:drop-shadow-[0_0_8px_rgba(0,208,156,0.5)] transition-all cursor-pointer">
                             <p className="text-sm text-white font-medium">{n.title || 'Alert'}</p>
                             <p className="text-xs text-dark-300 mt-1">{n.message}</p>
                           </div>
@@ -203,7 +203,7 @@ export default function TopNav({ onMenuClick }: { onMenuClick: () => void }) {
           <div className="relative">
             <button
               onClick={() => setShowUserMenu(!showUserMenu)}
-              className="flex items-center gap-2 p-1 pr-2 rounded-full border border-transparent hover:border-white/10 hover:bg-dark-800 transition-all"
+              className="flex items-center gap-2 p-1 pr-2 rounded-full border border-transparent hover:drop-shadow-[0_0_8px_rgba(0,208,156,0.5)] transition-all"
             >
               <div className="w-8 h-8 rounded-full bg-accent-cyan/10 border border-accent-cyan/20 flex items-center justify-center text-accent-cyan text-sm font-bold">
                 {initials}
@@ -227,20 +227,20 @@ export default function TopNav({ onMenuClick }: { onMenuClick: () => void }) {
                     </div>
                     <button 
                       onClick={() => { setShowUserMenu(false); navigate('/settings'); }}
-                      className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-dark-200 hover:bg-dark-700 hover:text-white transition-colors"
+                      className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-dark-200 hover:text-accent-cyan hover:drop-shadow-[0_0_8px_rgba(0,208,156,0.5)] transition-all"
                     >
                       <User size={16} /> Profile
                     </button>
                     <button 
                       onClick={() => { setShowUserMenu(false); navigate('/settings'); }}
-                      className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-dark-200 hover:bg-dark-700 hover:text-white transition-colors"
+                      className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-dark-200 hover:text-accent-cyan hover:drop-shadow-[0_0_8px_rgba(0,208,156,0.5)] transition-all"
                     >
                       <Settings size={16} /> Settings
                     </button>
                     <div className="h-px bg-white/5 my-2" />
                     <button
                       onClick={() => { logout(); setShowUserMenu(false); }}
-                      className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-accent-red hover:bg-accent-red/10 transition-colors"
+                      className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-accent-red hover:drop-shadow-[0_0_8px_rgba(239,68,68,0.8)] transition-all"
                     >
                       <LogOut size={16} /> Logout
                     </button>
@@ -258,20 +258,15 @@ export default function TopNav({ onMenuClick }: { onMenuClick: () => void }) {
           {NAV_LINKS.map((link) => {
             const isActive = location.pathname === link.path;
             return (
-              <motion.div
+              <Link
                 key={link.path}
-                whileHover={{ scale: 1.1, y: -2 }}
-                whileTap={{ scale: 0.95 }}
+                to={link.path}
+                className={`relative py-2 px-2 text-sm font-medium transition-all whitespace-nowrap outline-none ${
+                  isActive ? 'text-accent-cyan font-bold drop-shadow-[0_0_8px_rgba(0,208,156,0.8)]' : 'text-dark-300 hover:text-accent-cyan hover:drop-shadow-[0_0_8px_rgba(0,208,156,0.6)]'
+                }`}
               >
-                <Link
-                  to={link.path}
-                  className={`relative py-2 px-2 text-sm font-medium transition-colors whitespace-nowrap outline-none ${
-                    isActive ? 'text-accent-cyan font-bold' : 'text-dark-300 hover:text-white'
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              </motion.div>
+                {link.label}
+              </Link>
             );
           })}
         </nav>
