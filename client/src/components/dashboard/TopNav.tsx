@@ -4,6 +4,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, Search, Bell, ChevronDown, LogOut, Settings, User, Sun, Moon } from 'lucide-react';
 import { useAuthStore } from '../../stores/authStore';
 import { useUiStore } from '../../stores/uiStore';
+import { useMarketStore } from '../../stores/marketStore';
+import AssetModal from '../trading/AssetModal';
+import { useMemo } from 'react';
 
 const pageTitles: Record<string, string> = {
   '/': 'Dashboard',
@@ -26,6 +29,20 @@ export default function TopNav({ onMenuClick }: TopNavProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [showSearchResults, setShowSearchResults] = useState(false);
+  const [selectedAsset, setSelectedAsset] = useState<any>(null);
+
+  const assets = useMarketStore((state) => state.assets);
+
+  const filteredAssets = useMemo(() => {
+    if (!searchQuery.trim()) return [];
+    const query = searchQuery.toLowerCase();
+    return assets.filter(
+      (a) =>
+        a.symbol.toLowerCase().includes(query) ||
+        a.name.toLowerCase().includes(query)
+    ).slice(0, 5); // top 5 matches
+  }, [searchQuery, assets]);
 
   const currentPage = pageTitles[location.pathname] || 'Dashboard';
   const unreadCount = notifications?.filter((n: any) => !n.read).length || 0;
@@ -63,10 +80,62 @@ export default function TopNav({ onMenuClick }: TopNavProps) {
           <input
             type="text"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+              setShowSearchResults(true);
+            }}
+            onFocus={() => setShowSearchResults(true)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && filteredAssets.length > 0) {
+                setSelectedAsset(filteredAssets[0]);
+                setShowSearchResults(false);
+              }
+            }}
             placeholder="Search assets, strategies..."
             className="w-full pl-10 pr-4 py-2 bg-dark-700/50 rounded-xl border border-white/5 text-sm text-white placeholder:text-dark-400 focus:outline-none focus:border-accent-cyan/50 focus:ring-1 focus:ring-accent-cyan/20 transition-all"
           />
+          <AnimatePresence>
+            {showSearchResults && searchQuery.trim() && (
+              <>
+                <div className="fixed inset-0 z-40" onClick={() => setShowSearchResults(false)} />
+                <motion.div
+                  initial={{ opacity: 0, y: -5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -5 }}
+                  className="absolute left-0 right-0 top-full mt-2 bg-dark-800 border border-white/10 rounded-xl shadow-glass overflow-hidden z-50"
+                >
+                  {filteredAssets.length > 0 ? (
+                    filteredAssets.map((asset) => (
+                      <div
+                        key={asset.symbol}
+                        onClick={() => {
+                          setSelectedAsset(asset);
+                          setShowSearchResults(false);
+                          setSearchQuery('');
+                        }}
+                        className="px-4 py-3 hover:bg-white/5 cursor-pointer flex items-center justify-between border-b border-white/5 last:border-none transition-colors"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-accent-cyan/20 to-accent-purple/20 flex items-center justify-center text-xs font-bold text-accent-cyan">
+                            {asset.symbol.slice(0, 2)}
+                          </div>
+                          <div>
+                            <p className="text-sm font-medium text-white">{asset.symbol}</p>
+                            <p className="text-xs text-dark-400 truncate w-24 sm:w-32">{asset.name}</p>
+                          </div>
+                        </div>
+                        <p className="text-sm font-mono text-white">${asset.price.toFixed(2)}</p>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="px-4 py-4 text-center text-xs text-dark-400">
+                      No assets found
+                    </div>
+                  )}
+                </motion.div>
+              </>
+            )}
+          </AnimatePresence>
         </div>
       </div>
 
@@ -204,6 +273,12 @@ export default function TopNav({ onMenuClick }: TopNavProps) {
           </AnimatePresence>
         </div>
       </div>
+
+      <AssetModal
+        isOpen={!!selectedAsset}
+        onClose={() => setSelectedAsset(null)}
+        asset={selectedAsset}
+      />
     </header>
   );
 }

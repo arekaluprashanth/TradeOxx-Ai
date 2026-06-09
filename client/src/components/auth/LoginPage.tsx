@@ -157,7 +157,11 @@ const LoginPage: React.FC = () => {
             <h1 className="text-2xl font-bold text-gradient mb-1">
               TradeSpace AI
             </h1>
-            <p className="text-dark-400 text-sm">Welcome back, trader</p>
+            <p className="text-dark-300 text-xs text-center mt-2 mb-2 px-2">
+              Advanced algorithmic paper trading platform powered by artificial intelligence. Master the markets with real-time data and zero financial risk.
+            </p>
+            <div className="w-12 h-1 bg-gradient-to-r from-accent-cyan to-accent-purple rounded-full mb-4"></div>
+            <p className="text-accent-cyan text-sm font-medium">Welcome back, trader</p>
           </div>
 
           {/* Error message */}
