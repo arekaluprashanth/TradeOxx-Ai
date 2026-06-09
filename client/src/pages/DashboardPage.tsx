@@ -87,7 +87,7 @@ export default function DashboardPage() {
                     onClick={() => setSelectedAsset(quote)}
                     className="min-w-[140px] bg-dark-800 rounded-2xl p-4 border border-white/5 hover:bg-dark-700 cursor-pointer transition-colors shrink-0"
                   >
-                    <div className="w-10 h-10 rounded-lg bg-dark-900 border border-white/5 flex items-center justify-center text-xs font-bold text-accent-cyan mb-3">
+                    <div className="w-10 h-10 rounded-full bg-dark-900 border border-white/5 flex items-center justify-center text-xs font-bold text-accent-cyan mb-3">
                       {asset.symbol.slice(0, 2)}
                     </div>
                     <p className="text-sm font-medium text-white truncate">{quote.symbol}</p>
@@ -167,10 +167,10 @@ export default function DashboardPage() {
             </div>
             
             <div className="mt-6 flex gap-3">
-              <button className="flex-1 bg-accent-cyan hover:bg-accent-cyan/90 text-dark-950 font-semibold py-2.5 rounded-xl transition-colors text-sm">
+              <button className="flex-1 bg-accent-cyan hover:bg-accent-cyan/90 text-dark-950 font-semibold py-2.5 rounded-full transition-colors text-sm">
                 Add Money
               </button>
-              <button className="flex-1 bg-dark-700 hover:bg-dark-600 text-white font-semibold py-2.5 rounded-xl transition-colors text-sm">
+              <button className="flex-1 bg-dark-700 hover:bg-dark-600 text-white font-semibold py-2.5 rounded-full transition-colors text-sm">
                 Withdraw
               </button>
             </div>

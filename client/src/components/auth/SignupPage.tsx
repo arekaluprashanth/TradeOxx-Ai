@@ -221,7 +221,7 @@ const SignupPage: React.FC = () => {
             <motion.img 
               src={`${import.meta.env.BASE_URL}logo.png`} 
               alt="Logo" 
-              className="w-8 h-8 drop-shadow-lg" 
+              className="w-8 h-8 rounded-full object-cover drop-shadow-lg ring-1 ring-white/10" 
               animate={{ 
                 y: [0, -3, 0],
                 scale: [1, 1.03, 1],

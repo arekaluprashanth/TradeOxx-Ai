@@ -59,7 +59,7 @@ export default function TopNav({ onMenuClick }: { onMenuClick: () => void }) {
           <motion.img 
             src={`${import.meta.env.BASE_URL}logo.png`} 
             alt="Logo" 
-            className="w-8 h-8 drop-shadow-lg" 
+            className="w-9 h-9 rounded-full object-cover drop-shadow-lg ring-1 ring-white/10" 
             onError={(e) => { e.currentTarget.style.display='none' }}
             animate={{ 
               y: [0, -3, 0],
@@ -99,7 +99,7 @@ export default function TopNav({ onMenuClick }: { onMenuClick: () => void }) {
               }
             }}
             placeholder="Search stocks, crypto, mutual funds..."
-            className="w-full pl-11 pr-4 py-2.5 bg-dark-800 rounded-xl border border-white/5 text-sm text-white placeholder:text-dark-400 focus:outline-none focus:border-accent-cyan/50 focus:bg-dark-700 transition-all shadow-inner"
+            className="w-full pl-11 pr-4 py-2.5 bg-dark-800 rounded-full border border-white/5 text-sm text-white placeholder:text-dark-400 focus:outline-none focus:border-accent-cyan/50 focus:bg-dark-700 transition-all shadow-inner"
           />
           
           {/* Search Dropdown */}
@@ -111,7 +111,7 @@ export default function TopNav({ onMenuClick }: { onMenuClick: () => void }) {
                   initial={{ opacity: 0, y: -5 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -5 }}
-                  className="absolute left-0 right-0 top-full mt-2 bg-dark-800 border border-white/10 rounded-xl shadow-2xl overflow-hidden z-50"
+                  className="absolute left-0 right-0 top-full mt-2 bg-dark-800 border border-white/10 rounded-2xl shadow-2xl overflow-hidden z-50"
                 >
                   {filteredAssets.length > 0 ? (
                     filteredAssets.map((asset) => (
@@ -125,7 +125,7 @@ export default function TopNav({ onMenuClick }: { onMenuClick: () => void }) {
                         className="px-4 py-3 hover:bg-white/5 cursor-pointer flex items-center justify-between border-b border-white/5 last:border-none transition-colors"
                       >
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-lg bg-dark-700 border border-white/5 flex items-center justify-center text-xs font-bold text-accent-cyan">
+                          <div className="w-10 h-10 rounded-full bg-dark-700 border border-white/5 flex items-center justify-center text-xs font-bold text-accent-cyan">
                             {asset.symbol.slice(0, 2)}
                           </div>
                           <div>
