@@ -85,7 +85,7 @@ export default function DashboardPage() {
                   <div 
                     key={asset.symbol}
                     onClick={() => setSelectedAsset(quote)}
-                    className="min-w-[140px] bg-dark-800 rounded-2xl p-4 border border-white/5 hover:bg-dark-700 cursor-pointer transition-colors shrink-0"
+                    className="min-w-[140px] bg-dark-800 rounded-2xl p-4 border border-white/5  cursor-pointer transition-colors shrink-0"
                   >
                     <div className="w-10 h-10 rounded-full bg-dark-900 border border-white/5 flex items-center justify-center text-xs font-bold text-accent-cyan mb-3">
                       {asset.symbol.slice(0, 2)}
@@ -109,7 +109,7 @@ export default function DashboardPage() {
                     <div 
                       key={asset.symbol}
                       onClick={() => setSelectedAsset(quote)}
-                      className={`flex justify-between items-center p-4 cursor-pointer hover:bg-dark-700 transition-colors ${i !== topGainers.length - 1 ? 'border-b border-white/5' : ''}`}
+                      className={`flex justify-between items-center p-4 cursor-pointer  transition-colors ${i !== topGainers.length - 1 ? 'border-b border-white/5' : ''}`}
                     >
                       <div>
                         <p className="text-sm font-medium text-white">{quote.symbol}</p>
@@ -132,7 +132,7 @@ export default function DashboardPage() {
                     <div 
                       key={asset.symbol}
                       onClick={() => setSelectedAsset(quote)}
-                      className={`flex justify-between items-center p-4 cursor-pointer hover:bg-dark-700 transition-colors ${i !== topLosers.length - 1 ? 'border-b border-white/5' : ''}`}
+                      className={`flex justify-between items-center p-4 cursor-pointer  transition-colors ${i !== topLosers.length - 1 ? 'border-b border-white/5' : ''}`}
                     >
                       <div>
                         <p className="text-sm font-medium text-white">{quote.symbol}</p>
@@ -167,10 +167,10 @@ export default function DashboardPage() {
             </div>
             
             <div className="mt-6 flex gap-3">
-              <button className="flex-1 bg-accent-cyan hover:bg-accent-cyan/90 text-dark-950 font-semibold py-2.5 rounded-full transition-colors text-sm">
+              <button className="flex-1 bg-accent-cyan  text-dark-950 font-semibold py-2.5 rounded-full transition-colors text-sm">
                 Add Money
               </button>
-              <button className="flex-1 bg-dark-700 hover:bg-dark-600 text-white font-semibold py-2.5 rounded-full transition-colors text-sm">
+              <button className="flex-1 bg-dark-700  text-white font-semibold py-2.5 rounded-full transition-colors text-sm">
                 Withdraw
               </button>
             </div>
@@ -190,7 +190,7 @@ export default function DashboardPage() {
                   <div 
                     key={asset.symbol}
                     onClick={() => setSelectedAsset(quote)}
-                    className="flex justify-between items-center p-4 hover:bg-dark-700 cursor-pointer transition-colors border-b border-white/5 last:border-none"
+                    className="flex justify-between items-center p-4  cursor-pointer transition-colors border-b border-white/5 last:border-none"
                   >
                     <div>
                       <p className="text-sm font-medium text-white">{quote.symbol}</p>

@@ -19,11 +19,11 @@ const variantStyles: Record<ButtonVariant, string> = {
   primary:
     'bg-gradient-to-r from-accent-cyan to-accent-purple text-white shadow-glow-cyan hover:shadow-glow-purple',
   secondary:
-    'bg-white/10 text-dark-100 border border-white/10 hover:bg-white/15 hover:border-white/20',
+    'bg-white/10 text-dark-100 border border-white/10  hover:border-white/20',
   danger:
-    'bg-accent-red/10 text-accent-red border border-accent-red/20 hover:bg-accent-red/20',
+    'bg-accent-red/10 text-accent-red border border-accent-red/20 ',
   ghost:
-    'bg-transparent text-dark-200 hover:bg-white/5 hover:text-dark-100',
+    'bg-transparent text-dark-200  hover:text-dark-100',
 };
 
 const sizeStyles: Record<ButtonSize, string> = {

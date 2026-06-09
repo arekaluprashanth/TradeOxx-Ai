@@ -153,7 +153,7 @@ export default function TopNav({ onMenuClick }: { onMenuClick: () => void }) {
 
           <button 
             onClick={toggleTheme}
-            className="p-2.5 rounded-full hover:bg-dark-800 text-dark-200 hover:text-white transition-colors"
+            className="p-2.5 rounded-full  text-dark-200 hover:text-white transition-colors"
           >
             {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
           </button>
@@ -161,7 +161,7 @@ export default function TopNav({ onMenuClick }: { onMenuClick: () => void }) {
           <div className="relative">
             <button 
               onClick={() => setShowNotifications(!showNotifications)}
-              className="relative p-2.5 rounded-full hover:bg-dark-800 text-dark-200 hover:text-white transition-colors"
+              className="relative p-2.5 rounded-full  text-dark-200 hover:text-white transition-colors"
             >
               <Bell size={20} />
               {unreadCount > 0 && (

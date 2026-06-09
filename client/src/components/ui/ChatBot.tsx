@@ -150,7 +150,7 @@ export default function ChatBot() {
     <div className="relative">
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className="p-2 rounded-xl hover:bg-white/5 text-accent-cyan hover:text-accent-cyan/80 transition-colors relative"
+        className="p-2 rounded-xl  text-accent-cyan hover:text-accent-cyan/80 transition-colors relative"
         title="Ask Apexx AI"
       >
         <Sparkles size={20} className="absolute top-1 right-1 w-3 h-3 text-accent-purple animate-pulse" />
@@ -184,7 +184,7 @@ export default function ChatBot() {
                 </div>
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="text-dark-400 hover:text-white p-1 rounded-lg hover:bg-white/5 transition-colors"
+                  className="text-dark-400 hover:text-white p-1 rounded-lg  transition-colors"
                 >
                   <X size={20} />
                 </button>

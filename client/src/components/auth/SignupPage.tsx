@@ -439,7 +439,7 @@ const SignupPage: React.FC = () => {
             
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
               {features.map((feature, idx) => (
-                <div key={idx} className="bg-dark-800/30 border border-white/5 rounded-2xl p-6 hover:bg-dark-800/50 hover:border-white/10 transition-colors">
+                <div key={idx} className="bg-dark-800/30 border border-white/5 rounded-2xl p-6  hover:border-white/10 transition-colors">
                   <div className="w-12 h-12 rounded-xl bg-dark-900 border border-white/5 flex items-center justify-center mb-4">
                     {feature.icon}
                   </div>

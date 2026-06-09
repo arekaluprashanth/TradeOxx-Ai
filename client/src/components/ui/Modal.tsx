@@ -82,7 +82,7 @@ export const Modal: React.FC<ModalProps> = ({
                 </h2>
                 <button
                   onClick={onClose}
-                  className="p-1.5 rounded-lg text-dark-400 hover:text-dark-100 hover:bg-white/5 transition-colors"
+                  className="p-1.5 rounded-lg text-dark-400 hover:text-dark-100  transition-colors"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -93,7 +93,7 @@ export const Modal: React.FC<ModalProps> = ({
             {!title && (
               <button
                 onClick={onClose}
-                className="absolute top-4 right-4 p-1.5 rounded-lg text-dark-400 hover:text-dark-100 hover:bg-white/5 transition-colors z-10"
+                className="absolute top-4 right-4 p-1.5 rounded-lg text-dark-400 hover:text-dark-100  transition-colors z-10"
               >
                 <X className="w-4 h-4" />
               </button>

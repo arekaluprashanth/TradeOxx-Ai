@@ -152,7 +152,7 @@ export default function AnalyticsDashboard() {
                 className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-colors ${
                   period === activePeriod
                     ? 'bg-accent-cyan/15 text-accent-cyan'
-                    : 'text-dark-300 hover:text-white hover:bg-white/5'
+                    : 'text-dark-300 hover:text-white '
                 }`}
               >
                 {period}

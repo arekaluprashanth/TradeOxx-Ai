@@ -124,7 +124,7 @@ export default function TradeHistory() {
           {/* Export */}
           <button
             onClick={exportCSV}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-dark-700/50 border border-white/5 text-xs text-dark-200 hover:text-white hover:bg-dark-700 transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-dark-700/50 border border-white/5 text-xs text-dark-200 hover:text-white  transition-colors"
           >
             <Download size={12} />
             Export CSV
@@ -157,7 +157,7 @@ export default function TradeHistory() {
                 const pnl = trade.pnl || 0;
 
                 return (
-                  <tr key={trade.id || i} className="hover:bg-white/5 transition-colors">
+                  <tr key={trade.id || i} className=" transition-colors">
                     <td className="px-6 py-3 text-sm font-mono text-dark-200">
                       {format(
                         new Date(
@@ -204,7 +204,7 @@ export default function TradeHistory() {
             <button
               onClick={() => setPage(Math.max(1, page - 1))}
               disabled={page === 1}
-              className="p-1.5 rounded-lg hover:bg-white/5 text-dark-300 disabled:opacity-30 disabled:cursor-not-allowed"
+              className="p-1.5 rounded-lg  text-dark-300 disabled:opacity-30 disabled:cursor-not-allowed"
             >
               <ChevronLeft size={16} />
             </button>
@@ -216,7 +216,7 @@ export default function TradeHistory() {
                 key={p}
                 onClick={() => setPage(p)}
                 className={`w-8 h-8 rounded-lg text-xs font-medium transition-colors ${
-                  page === p ? 'bg-accent-cyan/15 text-accent-cyan' : 'text-dark-300 hover:bg-white/5'
+                  page === p ? 'bg-accent-cyan/15 text-accent-cyan' : 'text-dark-300 '
                 }`}
               >
                 {p}
@@ -225,7 +225,7 @@ export default function TradeHistory() {
             <button
               onClick={() => setPage(Math.min(totalPages, page + 1))}
               disabled={page === totalPages}
-              className="p-1.5 rounded-lg hover:bg-white/5 text-dark-300 disabled:opacity-30 disabled:cursor-not-allowed"
+              className="p-1.5 rounded-lg  text-dark-300 disabled:opacity-30 disabled:cursor-not-allowed"
             >
               <ChevronRight size={16} />
             </button>

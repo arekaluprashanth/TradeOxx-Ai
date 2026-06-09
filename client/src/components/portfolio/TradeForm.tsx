@@ -86,7 +86,7 @@ export default function TradeForm({ isOpen, onClose, defaultSymbol }: TradeFormP
                 <h2 className="text-lg font-semibold text-white">New Trade</h2>
                 <button
                   onClick={onClose}
-                  className="p-1.5 rounded-lg hover:bg-white/10 text-dark-300 hover:text-white transition-colors"
+                  className="p-1.5 rounded-lg  text-dark-300 hover:text-white transition-colors"
                 >
                   <X size={18} />
                 </button>
@@ -147,7 +147,7 @@ export default function TradeForm({ isOpen, onClose, defaultSymbol }: TradeFormP
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                      className="p-2 rounded-lg bg-dark-700/50 border border-white/5 text-dark-300 hover:text-white hover:bg-dark-700 transition-colors"
+                      className="p-2 rounded-lg bg-dark-700/50 border border-white/5 text-dark-300 hover:text-white  transition-colors"
                     >
                       <Minus size={16} />
                     </button>
@@ -160,7 +160,7 @@ export default function TradeForm({ isOpen, onClose, defaultSymbol }: TradeFormP
                     />
                     <button
                       onClick={() => setQuantity(quantity + 1)}
-                      className="p-2 rounded-lg bg-dark-700/50 border border-white/5 text-dark-300 hover:text-white hover:bg-dark-700 transition-colors"
+                      className="p-2 rounded-lg bg-dark-700/50 border border-white/5 text-dark-300 hover:text-white  transition-colors"
                     >
                       <Plus size={16} />
                     </button>
@@ -231,8 +231,8 @@ export default function TradeForm({ isOpen, onClose, defaultSymbol }: TradeFormP
                   disabled={isSubmitting || !canAfford || quantity <= 0}
                   className={`w-full py-3 rounded-xl font-semibold text-white transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed ${
                     side === 'buy'
-                      ? 'bg-accent-green hover:bg-accent-green/90 shadow-glow-green'
-                      : 'bg-accent-red hover:bg-accent-red/90 shadow-glow-red'
+                      ? 'bg-accent-green  shadow-glow-green'
+                      : 'bg-accent-red  shadow-glow-red'
                   }`}
                 >
                   {isSubmitting && <Loader2 size={18} className="animate-spin" />}

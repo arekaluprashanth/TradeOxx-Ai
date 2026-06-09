@@ -117,7 +117,7 @@ export default function PortfolioPanel() {
                       animate={{ opacity: 1 }}
                       transition={{ delay: i * 0.05 }}
                       onClick={() => setSelectedAsset({ symbol: holding.symbol, name: holding.name, price: holding.currentPrice, changePercent: plPercent })}
-                      className="hover:bg-white/5 cursor-pointer transition-colors"
+                      className=" cursor-pointer transition-colors"
                     >
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">

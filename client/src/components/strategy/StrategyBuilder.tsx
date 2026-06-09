@@ -176,7 +176,7 @@ export default function StrategyBuilder({ onRunBacktest }: StrategyBuilderProps)
 
       <button
         onClick={() => removeCondition(type, condition.id)}
-        className="p-2 rounded-lg hover:bg-accent-red/10 text-dark-400 hover:text-accent-red transition-colors"
+        className="p-2 rounded-lg  text-dark-400 hover:text-accent-red transition-colors"
       >
         <Trash2 size={14} />
       </button>
@@ -238,7 +238,7 @@ export default function StrategyBuilder({ onRunBacktest }: StrategyBuilderProps)
               <label className="text-xs font-medium text-accent-green uppercase tracking-wider">Entry Conditions (Buy)</label>
               <button
                 onClick={() => addCondition('entry')}
-                className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-accent-green/10 text-accent-green text-xs font-medium hover:bg-accent-green/20 transition-colors"
+                className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-accent-green/10 text-accent-green text-xs font-medium  transition-colors"
               >
                 <Plus size={12} />
                 Add
@@ -262,7 +262,7 @@ export default function StrategyBuilder({ onRunBacktest }: StrategyBuilderProps)
               <label className="text-xs font-medium text-accent-red uppercase tracking-wider">Exit Conditions (Sell)</label>
               <button
                 onClick={() => addCondition('exit')}
-                className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-accent-red/10 text-accent-red text-xs font-medium hover:bg-accent-red/20 transition-colors"
+                className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-accent-red/10 text-accent-red text-xs font-medium  transition-colors"
               >
                 <Plus size={12} />
                 Add
@@ -284,7 +284,7 @@ export default function StrategyBuilder({ onRunBacktest }: StrategyBuilderProps)
           <div className="flex gap-3 pt-2">
             <button
               onClick={handleSave}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-accent-cyan text-dark-900 font-semibold text-sm hover:bg-accent-cyan/90 transition-colors shadow-glow-cyan"
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-accent-cyan text-dark-900 font-semibold text-sm  transition-colors shadow-glow-cyan"
             >
               <Save size={16} />
               {editingStrategy ? 'Update' : 'Save'} Strategy
@@ -292,7 +292,7 @@ export default function StrategyBuilder({ onRunBacktest }: StrategyBuilderProps)
             {editingStrategy && (
               <button
                 onClick={resetForm}
-                className="px-5 py-2.5 rounded-xl border border-white/10 text-dark-200 text-sm hover:bg-white/5 transition-colors"
+                className="px-5 py-2.5 rounded-xl border border-white/10 text-dark-200 text-sm  transition-colors"
               >
                 Cancel
               </button>
@@ -315,7 +315,7 @@ export default function StrategyBuilder({ onRunBacktest }: StrategyBuilderProps)
         {strategies.length > 0 ? (
           <div className="divide-y divide-white/5">
             {strategies.map((strategy) => (
-              <div key={strategy.id} className="px-6 py-4 hover:bg-white/5 transition-colors">
+              <div key={strategy.id} className="px-6 py-4  transition-colors">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-center gap-2">
@@ -345,8 +345,8 @@ export default function StrategyBuilder({ onRunBacktest }: StrategyBuilderProps)
                       onClick={() => toggleActive(strategy.id)}
                       className={`p-2 rounded-lg transition-colors ${
                         strategy.active
-                          ? 'text-accent-green hover:bg-accent-green/10'
-                          : 'text-dark-400 hover:bg-white/5'
+                          ? 'text-accent-green '
+                          : 'text-dark-400 '
                       }`}
                       title={strategy.active ? 'Deactivate' : 'Activate'}
                     >
@@ -354,21 +354,21 @@ export default function StrategyBuilder({ onRunBacktest }: StrategyBuilderProps)
                     </button>
                     <button
                       onClick={() => editStrategy(strategy)}
-                      className="p-2 rounded-lg text-dark-400 hover:text-accent-cyan hover:bg-accent-cyan/10 transition-colors"
+                      className="p-2 rounded-lg text-dark-400 hover:text-accent-cyan  transition-colors"
                       title="Edit"
                     >
                       <AlertCircle size={16} />
                     </button>
                     <button
                       onClick={() => onRunBacktest?.(strategy)}
-                      className="p-2 rounded-lg text-dark-400 hover:text-accent-purple hover:bg-accent-purple/10 transition-colors"
+                      className="p-2 rounded-lg text-dark-400 hover:text-accent-purple  transition-colors"
                       title="Run Backtest"
                     >
                       <Play size={16} />
                     </button>
                     <button
                       onClick={() => deleteStrategy(strategy.id)}
-                      className="p-2 rounded-lg text-dark-400 hover:text-accent-red hover:bg-accent-red/10 transition-colors"
+                      className="p-2 rounded-lg text-dark-400 hover:text-accent-red  transition-colors"
                       title="Delete"
                     >
                       <Trash2 size={16} />

@@ -61,7 +61,7 @@ export default function ChartToolbar({
       <div className="relative">
         <button
           onClick={() => setShowAssetDropdown(!showAssetDropdown)}
-          className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-dark-700/50 hover:bg-dark-700 border border-white/5 text-sm font-medium text-white transition-colors"
+          className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-dark-700/50  border border-white/5 text-sm font-medium text-white transition-colors"
         >
           <span className="font-mono">{activeSymbol || 'AAPL'}</span>
           <ChevronDown size={14} className="text-dark-300" />
@@ -98,7 +98,7 @@ export default function ChartToolbar({
                         setShowAssetDropdown(false);
                         setAssetSearch('');
                       }}
-                      className={`w-full flex items-center justify-between px-3 py-2 text-sm hover:bg-white/5 transition-colors ${
+                      className={`w-full flex items-center justify-between px-3 py-2 text-sm  transition-colors ${
                         asset.symbol === activeSymbol ? 'text-accent-cyan bg-accent-cyan/5' : 'text-white'
                       }`}
                     >
@@ -127,7 +127,7 @@ export default function ChartToolbar({
             className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-colors ${
               activeTimeframe === tf
                 ? 'bg-accent-cyan/15 text-accent-cyan'
-                : 'text-dark-300 hover:text-white hover:bg-white/5'
+                : 'text-dark-300 hover:text-white '
             }`}
           >
             {tf}
@@ -148,7 +148,7 @@ export default function ChartToolbar({
             className={`p-1.5 rounded-lg transition-colors ${
               chartType === type
                 ? 'bg-accent-cyan/15 text-accent-cyan'
-                : 'text-dark-300 hover:text-white hover:bg-white/5'
+                : 'text-dark-300 hover:text-white '
             }`}
           >
             <Icon size={16} />
@@ -163,7 +163,7 @@ export default function ChartToolbar({
       <div className="relative">
         <button
           onClick={() => setShowIndicators(!showIndicators)}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-dark-200 hover:text-white hover:bg-white/5 transition-colors"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-dark-200 hover:text-white  transition-colors"
         >
           <Plus size={14} />
           <span className="text-xs font-medium">Indicators</span>
@@ -190,7 +190,7 @@ export default function ChartToolbar({
                   <button
                     key={ind.id}
                     onClick={() => onIndicatorToggle?.(ind.id)}
-                    className="w-full flex items-center justify-between px-3 py-2 text-sm hover:bg-white/5 transition-colors"
+                    className="w-full flex items-center justify-between px-3 py-2 text-sm  transition-colors"
                   >
                     <div>
                       <span className="font-medium text-white">{ind.label}</span>

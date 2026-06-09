@@ -142,8 +142,8 @@ export default function AssetModal({ isOpen, onClose, asset }: AssetModalProps) 
                 disabled={isSubmitting || !quantity || parseFloat(quantity) <= 0}
                 className={`w-full py-4 rounded-xl text-white font-bold text-lg flex justify-center items-center gap-2 transition-all ${
                   orderType === 'buy'
-                    ? 'bg-accent-green hover:bg-accent-green/90'
-                    : 'bg-accent-red hover:bg-accent-red/90'
+                    ? 'bg-accent-green '
+                    : 'bg-accent-red '
                 } disabled:opacity-50 disabled:cursor-not-allowed`}
               >
                 {isSubmitting ? (

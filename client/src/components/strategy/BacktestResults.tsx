@@ -209,7 +209,7 @@ export default function BacktestResults({ results, isLoading = false }: Backtest
             </thead>
             <tbody className="divide-y divide-white/5">
               {data.trades.map((trade, i) => (
-                <tr key={i} className="hover:bg-white/5 transition-colors">
+                <tr key={i} className=" transition-colors">
                   <td className="px-6 py-3 text-sm font-mono text-dark-200">{trade.entryDate}</td>
                   <td className="px-6 py-3 text-sm font-mono text-dark-200">{trade.exitDate}</td>
                   <td className="px-6 py-3 text-sm font-mono font-medium text-white">{trade.symbol}</td>

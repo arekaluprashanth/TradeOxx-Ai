@@ -131,7 +131,7 @@ export default function WatchlistPage() {
                 <div 
                   key={symbol} 
                   onClick={() => quote && setSelectedAsset({ symbol, name: symbol, price: quote.price, changePercent: quote.changePercent })}
-                  className="flex flex-col gap-3 rounded-3xl bg-dark-900/80 border border-white/5 p-4 md:flex-row md:items-center md:justify-between cursor-pointer hover:bg-white/5 transition-colors"
+                  className="flex flex-col gap-3 rounded-3xl bg-dark-900/80 border border-white/5 p-4 md:flex-row md:items-center md:justify-between cursor-pointer  transition-colors"
                 >
                   <div>
                     <p className="text-sm text-dark-400">{symbol}</p>

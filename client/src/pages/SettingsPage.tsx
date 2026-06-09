@@ -30,7 +30,7 @@ export default function SettingsPage() {
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${
                 activeTab === item.label 
                   ? 'bg-accent-cyan/10 text-accent-cyan border border-accent-cyan/20' 
-                  : 'text-dark-300 hover:bg-dark-800 hover:text-white'
+                  : 'text-dark-300  hover:text-white'
               }`}
             >
               <item.icon size={18} />
@@ -40,7 +40,7 @@ export default function SettingsPage() {
           
           <button 
             onClick={logout}
-            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-accent-red hover:bg-accent-red/10 transition-colors mt-4"
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-accent-red  transition-colors mt-4"
           >
             <LogOut size={18} />
             <span className="font-medium text-sm">Sign Out</span>
