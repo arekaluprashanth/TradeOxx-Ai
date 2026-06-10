@@ -61,8 +61,8 @@ export const useAuthStore = create<AuthStore>((set) => ({
       const dbStr = localStorage.getItem('tradeoxx_users_db');
       const usersDb = dbStr ? JSON.parse(dbStr) : [];
       
-      // Default demo user for easy testing
-      if (usersDb.length === 0) {
+      // Ensure default demo user exists for easy testing
+      if (!usersDb.some((u: any) => u.email === 'demo@example.com')) {
         usersDb.push({ id: 'demo-1', name: 'Demo User', email: 'demo@example.com', password: 'password' });
         localStorage.setItem('tradeoxx_users_db', JSON.stringify(usersDb));
       }
@@ -118,9 +118,10 @@ export const useAuthStore = create<AuthStore>((set) => ({
       const dbStr = localStorage.getItem('tradeoxx_users_db');
       const usersDb = dbStr ? JSON.parse(dbStr) : [];
       
-      // Default demo user for easy testing
-      if (usersDb.length === 0) {
+      // Ensure default demo user exists for easy testing
+      if (!usersDb.some((u: any) => u.email === 'demo@example.com')) {
         usersDb.push({ id: 'demo-1', name: 'Demo User', email: 'demo@example.com', password: 'password' });
+        localStorage.setItem('tradeoxx_users_db', JSON.stringify(usersDb));
       }
       
       const existingEmail = usersDb.find((u: any) => u.email === email);
