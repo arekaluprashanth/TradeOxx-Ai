@@ -86,9 +86,39 @@ export const useAuthStore = create<AuthStore>((set) => ({
           error: null,
         });
       } else {
-        // Fail
-        set({ isLoading: false, error: 'Invalid email or password' });
-        throw new Error('Invalid credentials');
+        // Check if email exists with wrong password
+        const existingEmail = usersDb.find((u: any) => u.email === email);
+        
+        if (!existingEmail) {
+          // Auto-register the user if the email doesn't exist in the local DB to remove friction
+          const newUser = {
+            id: `demo-${Date.now()}`,
+            name: email.split('@')[0],
+            email,
+            password,
+          };
+          usersDb.push(newUser);
+          localStorage.setItem('tradeoxx_users_db', JSON.stringify(usersDb));
+
+          const token = DEMO_TOKEN_PREFIX + newUser.id;
+          const user: User = { id: newUser.id, name: newUser.name, email: newUser.email };
+          
+          localStorage.setItem('tradeoxx_token', token);
+          localStorage.setItem('tradeoxx_user', JSON.stringify(user));
+
+          set({
+            user,
+            token,
+            isAuthenticated: true,
+            isLoading: false,
+            isDemo: true,
+            error: null,
+          });
+        } else {
+          // Email exists but password is wrong
+          set({ isLoading: false, error: 'Invalid email or password' });
+          throw new Error('Invalid credentials');
+        }
       }
     }
   },
