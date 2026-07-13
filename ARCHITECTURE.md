@@ -16,23 +16,20 @@ TradeOxx Ai/
 ├── backend/                # Node.js + Express API server simulating financial markets
 ├── client/                 # React + Vite + Tailwind CSS frontend interface
 ├── docker/                 # Container files for local and cloud Docker deployments
-└── scripts & configs       # Helper batch scripts and platform configurations
+└── configs & workflows     # CI/CD workflows and deployment configurations
 ```
 
 ---
 
 ## 📂 Detailed File & Directory Map
 
-### 1. Root Configuration & Scripts
-These files manage the multi-package installation, running, building, and environment setups.
+### 1. Root Configuration & Dependencies
+These files manage dependencies, scripts, build workflows, and deployment targets.
 
-- [package.json](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/package.json): Defines root scripts for the monorepo workspace to concurrently control both client and backend (e.g., `npm run dev`, `npm run build`, `npm run install:all`).
+- [package.json](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/package.json): Defines root scripts for the monorepo workspace to concurrently install, develop, build, and deploy both backend and client (e.g., `npm run dev`, `npm run build`, `npm run install:all`).
 - [vercel.json](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/vercel.json): Configures routes, output directory, and serverless path rewrites for serverless Vercel cloud deployment.
-- [.vercelignore](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/.vercelignore): Specifies files and directories (like `android/`, `docker/`, and local scripts) that Vercel should skip uploading to optimize build speeds.
+- [.vercelignore](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/.vercelignore): Specifies files and directories (like `android/` and `docker/`) that Vercel should skip uploading to optimize build speeds.
 - [.gitignore](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/.gitignore): Prevents build folders (`client/dist`), dependencies (`node_modules`), keys, and environment overrides from being committed to version control.
-- [START.bat](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/START.bat) / [START.ps1](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/START.ps1): One-click scripts that install all dependencies (if missing) and boot up both backend and frontend servers in development mode.
-- [RUN_WINDOWS.bat](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/RUN_WINDOWS.bat) / [RUN_BACKGROUND.bat](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/RUN_BACKGROUND.bat): Runs the backend in the background and opens the frontend development URL.
-- [EXPORT_FOR_DEPLOY.bat](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/EXPORT_FOR_DEPLOY.bat) / [EXPORT_FOR_DEPLOY.ps1](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/EXPORT_FOR_DEPLOY.ps1): Packages the codebase into a clean, deployable distribution ZIP file.
 
 ---
 
