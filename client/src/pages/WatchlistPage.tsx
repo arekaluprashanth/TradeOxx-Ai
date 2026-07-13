@@ -5,7 +5,7 @@ import { useMarketStore } from '../stores/marketStore';
 import { formatCurrency } from '../lib/utils';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
-import { Plus, Trash2, RefreshCcw } from 'lucide-react';
+import { Plus, Trash2, RefreshCcw, Star, TrendingUp, TrendingDown, ArrowUpRight } from 'lucide-react';
 import toast from 'react-hot-toast';
 import AssetModal from '../components/trading/AssetModal';
 
@@ -45,7 +45,7 @@ export default function WatchlistPage() {
       });
       setSymbols(data.watchlist.symbols);
       setSymbolInput('');
-      toast.success('Symbol added');
+      toast.success('Symbol added to watchlist');
     } catch (err: any) {
       toast.error(err?.message || 'Unable to add symbol');
     } finally {
@@ -67,90 +67,112 @@ export default function WatchlistPage() {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="rounded-3xl bg-dark-800/70 border border-white/10 p-6">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <p className="text-sm text-dark-400 uppercase tracking-[0.18em]">Watchlist</p>
-            <h1 className="text-3xl font-semibold text-white">Track favorite assets</h1>
+    <div className="space-y-8 animate-fade-in pb-20">
+      {/* Header */}
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-accent-purple/10 to-transparent border border-white/5 p-6 sm:p-8 backdrop-blur-md">
+        <div className="relative z-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-2xl bg-accent-purple/15 border border-accent-purple/20 flex items-center justify-center text-accent-purple shadow-[0_0_20px_rgba(168,85,247,0.15)]">
+              <Star size={22} className="fill-accent-purple/20" />
+            </div>
+            <div>
+              <p className="text-xs text-dark-400 uppercase tracking-widest font-bold">Watchlist</p>
+              <h1 className="text-3xl font-black text-white mt-0.5">Starred Assets</h1>
+            </div>
           </div>
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-            <p className="text-sm text-dark-400">Market feed: {isConnected ? 'Live' : 'Disconnected'}</p>
-            <Button variant="secondary" onClick={loadWatchlist} icon={<RefreshCcw size={16} />}>
-              Refresh
+          <div className="flex items-center gap-3">
+            <span className="text-xs text-dark-400 font-bold uppercase tracking-wider">Feed: {isConnected ? 'Live' : 'Offline'}</span>
+            <Button variant="secondary" onClick={loadWatchlist} icon={<RefreshCcw size={14} />}>
+              Refresh Feed
             </Button>
           </div>
         </div>
       </div>
 
-      <div className="grid gap-4 xl:grid-cols-[0.65fr_0.35fr]">
-        <div className="rounded-3xl bg-dark-800/70 border border-white/10 p-6">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <p className="text-sm text-dark-400">Add symbol</p>
-              <p className="text-lg font-semibold text-white">Keep an eye on key movers.</p>
+      <div className="grid gap-8 xl:grid-cols-[1.3fr_0.7fr]">
+        {/* Left Column: Watchlist Items */}
+        <div className="space-y-6">
+          <div className="bg-dark-850 rounded-3xl p-6 border border-white/5 shadow-2xl">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-sm font-bold text-white uppercase tracking-wider">Tracked Assets</h2>
+              <span className="text-xs text-dark-400 uppercase tracking-widest font-bold">{symbols.length} symbols</span>
             </div>
-            <div className="flex flex-col gap-3 sm:flex-row">
+
+            {symbols.length === 0 ? (
+              <div className="rounded-2xl bg-dark-900/50 border border-white/5 p-12 text-center text-dark-400 text-sm font-medium">
+                No symbols added yet. Use the sidebar to add tickers to your watchlist.
+              </div>
+            ) : (
+              <div className="grid gap-3">
+                {symbols.map((symbol) => {
+                  const quote = quotes[symbol];
+                  const value = quote ? formatCurrency(quote.price) : 'Loading...';
+                  const isPositive = quote ? quote.change >= 0 : true;
+                  const changeClass = isPositive ? 'text-accent-green bg-accent-green/5 border-accent-green/10' : 'text-accent-red bg-accent-red/5 border-accent-red/10';
+
+                  return (
+                    <div 
+                      key={symbol} 
+                      onClick={() => quote && setSelectedAsset({ symbol, name: symbol, price: quote.price, changePercent: quote.changePercent })}
+                      className="group flex items-center justify-between p-4 rounded-2xl bg-dark-900/60 border border-white/5 hover:border-accent-purple/35 cursor-pointer transition-all duration-300"
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className="w-10 h-10 rounded-xl bg-dark-800 border border-white/5 flex items-center justify-center font-black text-white text-xs">
+                          {symbol.slice(0, 2)}
+                        </div>
+                        <div>
+                          <p className="text-sm font-bold text-white group-hover:text-accent-purple transition-colors">{symbol}</p>
+                          <p className="text-[10px] text-dark-400 font-semibold uppercase tracking-wider">{quote ? quote.category : 'Asset'}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-6">
+                        <div className="text-right">
+                          <p className="text-base font-black font-mono text-white">{value}</p>
+                          {quote && (
+                            <span className={`inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full border text-[10px] font-bold mt-1 ${changeClass}`}>
+                              {isPositive ? <TrendingUp size={10} /> : <TrendingDown size={10} />}
+                              {isPositive ? '+' : ''}{quote.changePercent.toFixed(2)}%
+                            </span>
+                          )}
+                        </div>
+                        <Button 
+                          variant="ghost" 
+                          onClick={(e) => { e.stopPropagation(); handleRemove(symbol); }}
+                          className="text-dark-400 hover:text-accent-red hover:bg-accent-red/5 hover:border-accent-red/10 p-2 rounded-xl border border-transparent transition-all"
+                        >
+                          <Trash2 size={15} />
+                        </Button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Right Column: Search/Add */}
+        <div className="space-y-6">
+          <div className="rounded-3xl bg-gradient-to-b from-dark-850 to-dark-900 border border-white/5 p-6 shadow-2xl relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-accent-purple/5 rounded-full filter blur-2xl pointer-events-none" />
+            <h3 className="text-xs font-bold text-dark-400 uppercase tracking-widest mb-4">Add Ticker</h3>
+            <p className="text-sm text-dark-300 leading-relaxed mb-6">
+              Enter any supported asset symbol (e.g., AAPL, BTC, ETH, TSLA) to add it to your watchlist dashboard.
+            </p>
+            <div className="flex flex-col gap-3">
               <Input
                 type="text"
-                placeholder="AAPL"
+                placeholder="e.g. AAPL"
                 value={symbolInput}
                 onChange={(e) => setSymbolInput(e.target.value)}
+                className="bg-dark-950/60 border-white/5 text-sm"
               />
-              <Button onClick={handleAdd} loading={loading} icon={<Plus size={16} />}>
-                Add
+              <Button onClick={handleAdd} loading={loading} icon={<Plus size={15} />} className="w-full">
+                Add to Watchlist
               </Button>
             </div>
           </div>
         </div>
-
-        <div className="rounded-3xl bg-dark-800/70 border border-white/10 p-6">
-          <p className="text-sm text-dark-400">Portfolio watch</p>
-          <p className="mt-2 text-sm text-dark-300">Your watchlist updates with current market prices.</p>
-        </div>
-      </div>
-
-      <div className="rounded-3xl bg-dark-800/70 border border-white/10 p-6">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-white">Symbols</h2>
-          <span className="text-xs uppercase tracking-[0.18em] text-dark-400">{symbols.length} assets</span>
-        </div>
-
-        {symbols.length === 0 ? (
-          <div className="rounded-3xl bg-dark-900/80 border border-white/5 p-8 text-center text-dark-400">
-            No symbols added yet. Use the form above to add one.
-          </div>
-        ) : (
-          <div className="grid gap-3">
-            {symbols.map((symbol) => {
-              const quote = quotes[symbol];
-              const value = quote ? formatCurrency(quote.price) : 'Loading...';
-              const changeClass = quote?.change >= 0 ? 'text-accent-green' : 'text-accent-red';
-
-              return (
-                <div 
-                  key={symbol} 
-                  onClick={() => quote && setSelectedAsset({ symbol, name: symbol, price: quote.price, changePercent: quote.changePercent })}
-                  className="flex flex-col gap-3 rounded-3xl bg-dark-900/80 border border-white/5 p-4 md:flex-row md:items-center md:justify-between cursor-pointer  transition-colors"
-                >
-                  <div>
-                    <p className="text-sm text-dark-400">{symbol}</p>
-                    <p className="mt-1 text-xl font-semibold text-white">{value}</p>
-                    {quote && (
-                      <p className={`text-xs font-medium ${changeClass}`}>
-                        {quote.change >= 0 ? '+' : ''}{quote.change.toFixed(2)} ({quote.changePercent.toFixed(2)}%)
-                      </p>
-                    )}
-                  </div>
-                  <Button variant="ghost" onClick={(e) => { e.stopPropagation(); handleRemove(symbol); }}>
-                    <Trash2 size={16} />
-                    Remove
-                  </Button>
-                </div>
-              );
-            })}
-          </div>
-        )}
       </div>
 
       <AssetModal
