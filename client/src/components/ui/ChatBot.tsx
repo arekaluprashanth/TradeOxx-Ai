@@ -191,7 +191,7 @@ export default function ChatBot() {
               </div>
 
               {/* Chat Area */}
-              <div ref={containerRef} className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-hide scroll-smooth">
+              <div ref={containerRef} className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-hide scroll-smooth overscroll-contain">
                 {messages.map((msg) => (
                   <div
                     key={msg.id}

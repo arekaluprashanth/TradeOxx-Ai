@@ -27,6 +27,17 @@ export default function TradeForm({ isOpen, onClose, defaultSymbol }: TradeFormP
     if (defaultSymbol) setSymbol(defaultSymbol);
   }, [defaultSymbol]);
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
   const currentPrice = quotes?.[symbol]?.price || 0;
   const priceChange = quotes?.[symbol]?.change || 0;
   const executionPrice = orderType === 'limit' ? parseFloat(limitPrice) || 0 : currentPrice;

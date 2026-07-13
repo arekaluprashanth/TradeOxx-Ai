@@ -22,6 +22,17 @@ export default function AssetModal({ isOpen, onClose, asset }: AssetModalProps) 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { executeTrade } = usePortfolio();
 
+  useEffect(() => {
+    if (isOpen && asset) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen, asset]);
+
   if (!isOpen || !asset) return null;
 
   const isPositive = asset.changePercent >= 0;
