@@ -4,6 +4,7 @@ import { useMarketStore } from '../stores/marketStore';
 import ChartToolbar from '../components/charts/ChartToolbar';
 import ChartContainer from '../components/charts/ChartContainer';
 import { formatCurrency } from '../lib/utils';
+import { AreaChart, TrendingUp, HelpCircle } from 'lucide-react';
 
 export default function ChartsPage() {
   const { isConnected, lastUpdate } = useMarketData();
@@ -23,33 +24,45 @@ export default function ChartsPage() {
     return `${activeQuote.change >= 0 ? '+' : ''}${activeQuote.change.toFixed(2)} (${activeQuote.changePercent.toFixed(2)}%)`;
   }, [activeQuote]);
 
+  const changeClass = activeQuote?.change >= 0 ? 'text-accent-green' : 'text-accent-red';
+
   return (
-    <div className="space-y-6">
-      <div className="rounded-3xl bg-dark-800/70 border border-white/10 p-6">
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-          <div>
-            <p className="text-sm text-dark-400">Charting</p>
-            <h1 className="text-3xl font-semibold text-white">Market visualization</h1>
+    <div className="space-y-8 animate-fade-in pb-20">
+      {/* Visual Header */}
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-accent-cyan/10 to-transparent border border-white/5 p-6 sm:p-8 backdrop-blur-md">
+        <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-6">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-2xl bg-accent-cyan/15 border border-accent-cyan/20 flex items-center justify-center text-accent-cyan shadow-[0_0_20px_rgba(0,212,255,0.15)]">
+              <AreaChart size={22} />
+            </div>
+            <div>
+              <p className="text-xs text-dark-400 uppercase tracking-widest font-bold">Charting station</p>
+              <h1 className="text-3xl font-black text-white mt-0.5">Real-time Visualization</h1>
+            </div>
           </div>
-          <div className="grid gap-3 sm:grid-cols-3">
-            <div className="rounded-3xl bg-dark-900/80 border border-white/10 p-4">
-              <p className="text-xs uppercase tracking-[0.18em] text-dark-400">Symbol</p>
-              <p className="mt-2 text-xl font-semibold text-white">{activeSymbol}</p>
+          
+          <div className="grid gap-3 grid-cols-3 max-w-lg w-full">
+            <div className="rounded-2xl bg-dark-900/60 border border-white/5 p-3.5">
+              <p className="text-[10px] uppercase font-bold tracking-wider text-dark-400">Asset</p>
+              <p className="mt-1 text-base font-black text-white font-mono">{activeSymbol}</p>
             </div>
-            <div className="rounded-3xl bg-dark-900/80 border border-white/10 p-4">
-              <p className="text-xs uppercase tracking-[0.18em] text-dark-400">Price</p>
-              <p className="mt-2 text-xl font-semibold text-white">{activeQuote ? formatCurrency(activeQuote.price) : 'Loading...'}</p>
+            <div className="rounded-2xl bg-dark-900/60 border border-white/5 p-3.5">
+              <p className="text-[10px] uppercase font-bold tracking-wider text-dark-400">Price</p>
+              <p className="mt-1 text-base font-black text-white font-mono">{activeQuote ? formatCurrency(activeQuote.price) : 'Loading...'}</p>
             </div>
-            <div className="rounded-3xl bg-dark-900/80 border border-white/10 p-4">
-              <p className="text-xs uppercase tracking-[0.18em] text-dark-400">Change</p>
-              <p className="mt-2 text-xl font-semibold text-white">{quoteChangeLabel}</p>
+            <div className="rounded-2xl bg-dark-900/60 border border-white/5 p-3.5">
+              <p className="text-[10px] uppercase font-bold tracking-wider text-dark-400">Change</p>
+              <p className={`mt-1 text-xs font-bold font-mono truncate ${changeClass}`}>{quoteChangeLabel}</p>
             </div>
           </div>
         </div>
-        <p className="mt-4 text-sm text-dark-400">{isConnected ? `Live feed active · last update ${lastUpdate ? new Date(lastUpdate).toLocaleTimeString() : '—'}` : 'Market feed offline'}</p>
+        <p className="mt-4 text-xs text-dark-400 font-semibold relative z-10">
+          {isConnected ? `Live simulator feed active · last update ${lastUpdate ? new Date(lastUpdate).toLocaleTimeString() : '—'}` : 'Market feed offline'}
+        </p>
       </div>
 
-      <div className="space-y-4">
+      {/* Toolbar & Visuals */}
+      <div className="space-y-4 bg-dark-850 rounded-3xl p-4 border border-white/5 shadow-2xl">
         <ChartToolbar
           chartType={chartType}
           onChartTypeChange={setChartType}
@@ -58,7 +71,9 @@ export default function ChartsPage() {
           activeIndicators={activeIndicators}
           onIndicatorToggle={toggleIndicator}
         />
-        <ChartContainer chartType={chartType} />
+        <div className="rounded-2xl overflow-hidden border border-white/5">
+          <ChartContainer chartType={chartType} />
+        </div>
       </div>
     </div>
   );
