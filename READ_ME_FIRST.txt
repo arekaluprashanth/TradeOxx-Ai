@@ -1,12 +1,12 @@
 ╔════════════════════════════════════════════════════════════════════════╗
 ║                                                                        ║
-║                      ⭐ TRADESPACEAI - START HERE ⭐                  ║
+║                      ⭐ TradeOxx Ai - START HERE ⭐                  ║
 ║                   RUNS INDEPENDENTLY WITHOUT VS CODE                  ║
 ║                                                                        ║
 ╚════════════════════════════════════════════════════════════════════════╝
 
 📍 PROJECT LOCATION:
-   C:\Users\prash\Downloads\Trade\TradespaceAi\
+   C:\Users\prash\Downloads\Trade\TradeOxx Ai\
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -130,5 +130,5 @@
    Then open: http://localhost:5173
 
 ╔════════════════════════════════════════════════════════════════════════╗
-║              Your TradespaceAi is ready to trade! 📈                  ║
+║              Your TradeOxx Ai is ready to trade! 📈                  ║
 ╚════════════════════════════════════════════════════════════════════════╝

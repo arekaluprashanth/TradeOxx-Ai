@@ -1,12 +1,12 @@
 ═══════════════════════════════════════════════════════════════════════
-  TradespaceAi - Quick Reference
+  TradeOxx Ai - Quick Reference
 ═══════════════════════════════════════════════════════════════════════
 
 📍 PROJECT LOCATION:
-   C:\Users\prash\Downloads\Trade\TradespaceAi\
+   C:\Users\prash\Downloads\Trade\TradeOxx Ai\
 
 🚀 HOW TO START:
-   1. Navigate to: C:\Users\prash\Downloads\Trade\TradespaceAi\
+   1. Navigate to: C:\Users\prash\Downloads\Trade\TradeOxx Ai\
    2. Double-click: RUN_WINDOWS.bat
    3. Wait ~10 seconds
    4. Open browser: http://localhost:5173
@@ -45,7 +45,7 @@
    • Ensure Node.js installed: https://nodejs.org/
    • Check file exists: RUN_WINDOWS.bat
    • Try running from Command Prompt:
-     cd C:\Users\prash\Downloads\Trade\TradespaceAi
+     cd C:\Users\prash\Downloads\Trade\TradeOxx Ai
      npm run dev
 
 📚 MORE INFO:

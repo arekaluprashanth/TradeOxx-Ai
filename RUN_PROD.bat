@@ -2,7 +2,7 @@
 setlocal enabledelayedexpansion
 
 REM =========================================================
-REM   TradespaceAi - Production Startup Script
+REM   TradeOxx Ai - Production Startup Script
 REM   Builds the client and starts the backend server.
 REM =========================================================
 
@@ -10,7 +10,7 @@ cd /d "%~dp0"
 
 echo.
 echo ╔════════════════════════════════════════════════════════════╗
-echo ║          TradespaceAi - Production Web App Startup          ║
+echo ║          TradeOxx Ai - Production Web App Startup          ║
 echo ╚════════════════════════════════════════════════════════════╝
 echo.
 

@@ -37,7 +37,7 @@
 The project uses a monorepo approach, keeping the frontend and backend cleanly separated but easy to deploy together.
 
 ```text
-TradeOxx AiAi/
+TradeOxx Ai/
 ├── client/                 # React Frontend Application
 │   ├── src/
 │   │   ├── components/     # Reusable UI elements (Dashboard, Modals, Forms)

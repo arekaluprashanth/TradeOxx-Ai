@@ -1,6 +1,6 @@
 @echo off
 echo ============================================
-echo    TradespaceAI - Build and Export
+echo    TradeOxx Ai - Build and Export
 echo ============================================
 echo.
 
@@ -45,11 +45,11 @@ if not exist "client\dist" (
 )
 
 if not exist "%EXPORT_DIR%" mkdir "%EXPORT_DIR%"
-if exist "%EXPORT_DIR%\tradespaceai-dist.zip" del "%EXPORT_DIR%\tradespaceai-dist.zip"
+if exist "%EXPORT_DIR%\TradeOxx Ai-dist.zip" del "%EXPORT_DIR%\TradeOxx Ai-dist.zip"
 
 echo ^> Creating ZIP archive...
-powershell -NoProfile -Command "Compress-Archive -Path 'client\dist\*' -DestinationPath '%EXPORT_DIR%\tradespaceai-dist.zip' -Force"
-echo   [OK] Dist ZIP created: export\tradespaceai-dist.zip
+powershell -NoProfile -Command "Compress-Archive -Path 'client\dist\*' -DestinationPath '%EXPORT_DIR%\TradeOxx Ai-dist.zip' -Force"
+echo   [OK] Dist ZIP created: export\TradeOxx Ai-dist.zip
 echo.
 echo   Upload this ZIP directly to Netlify or Vercel:
 echo     Netlify: Drag and drop at app.netlify.com/drop
@@ -76,23 +76,23 @@ if not exist "%DOCKER_EXPORT%" mkdir "%DOCKER_EXPORT%"
 
 cd /d "%PROJECT_ROOT%"
 
-echo ^> Building server image (tradespaceai-server)...
-docker build -t tradespaceai-server:latest -f docker/Dockerfile.server .
+echo ^> Building server image (TradeOxx Ai-server)...
+docker build -t TradeOxx Ai-server:latest -f docker/Dockerfile.server .
 if errorlevel 1 ( echo   [FAIL] Server image build failed! && exit /b 1 )
 echo   [OK] Server image built
 
-echo ^> Building client image (tradespaceai-client)...
-docker build -t tradespaceai-client:latest -f docker/Dockerfile.client .
+echo ^> Building client image (TradeOxx Ai-client)...
+docker build -t TradeOxx Ai-client:latest -f docker/Dockerfile.client .
 if errorlevel 1 ( echo   [FAIL] Client image build failed! && exit /b 1 )
 echo   [OK] Client image built
 
 echo ^> Exporting server image to tar...
-docker save -o "%DOCKER_EXPORT%\tradespaceai-server.tar" tradespaceai-server:latest
-echo   [OK] Server tar: export\docker\tradespaceai-server.tar
+docker save -o "%DOCKER_EXPORT%\TradeOxx Ai-server.tar" TradeOxx Ai-server:latest
+echo   [OK] Server tar: export\docker\TradeOxx Ai-server.tar
 
 echo ^> Exporting client image to tar...
-docker save -o "%DOCKER_EXPORT%\tradespaceai-client.tar" tradespaceai-client:latest
-echo   [OK] Client tar: export\docker\tradespaceai-client.tar
+docker save -o "%DOCKER_EXPORT%\TradeOxx Ai-client.tar" TradeOxx Ai-client:latest
+echo   [OK] Client tar: export\docker\TradeOxx Ai-client.tar
 
 copy "%PROJECT_ROOT%docker\docker-compose.yml" "%DOCKER_EXPORT%\" >nul
 copy "%PROJECT_ROOT%docker\nginx.conf" "%DOCKER_EXPORT%\" >nul
@@ -101,8 +101,8 @@ echo   [OK] Copied docker-compose.yml and nginx.conf
 echo.
 echo   To deploy on any server:
 echo     1. Copy the export\docker\ folder to your server
-echo     2. docker load -i tradespaceai-server.tar
-echo     3. docker load -i tradespaceai-client.tar
+echo     2. docker load -i TradeOxx Ai-server.tar
+echo     3. docker load -i TradeOxx Ai-client.tar
 echo     4. docker compose up -d
 echo.
 

@@ -2,13 +2,13 @@
 setlocal enabledelayedexpansion
 
 REM =========================================================
-REM   TradespaceAi - Standalone Startup Script
+REM   TradeOxx Ai - Standalone Startup Script
 REM   Works independently without Visual Studio Code
 REM =========================================================
 
 echo.
 echo ╔════════════════════════════════════════════════════════════╗
-echo ║          TradespaceAi - Complete Trading Platform         ║
+echo ║          TradeOxx Ai - Complete Trading Platform         ║
 echo ║              Initializing Application...                   ║
 echo ╚════════════════════════════════════════════════════════════╝
 echo.

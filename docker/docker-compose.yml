@@ -2,11 +2,11 @@ version: '3.8'
 
 services:
   server:
-    image: tradespaceai-server:latest
+    image: tradeoxxai-server:latest
     build:
       context: ..
       dockerfile: docker/Dockerfile.server
-    container_name: tradespace-server
+    container_name: tradeoxx-server
     restart: unless-stopped
     environment:
       - NODE_ENV=production
@@ -15,22 +15,22 @@ services:
     expose:
       - "3001"
     networks:
-      - tradespace-net
+      - tradeoxx-net
 
   client:
-    image: tradespaceai-client:latest
+    image: tradeoxxai-client:latest
     build:
       context: ..
       dockerfile: docker/Dockerfile.client
-    container_name: tradespace-client
+    container_name: tradeoxx-client
     restart: unless-stopped
     ports:
       - "80:80"
     depends_on:
       - server
     networks:
-      - tradespace-net
+      - tradeoxx-net
 
 networks:
-  tradespace-net:
+  tradeoxx-net:
     driver: bridge

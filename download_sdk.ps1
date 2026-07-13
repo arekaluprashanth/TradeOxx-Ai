@@ -1,6 +1,6 @@
 $ErrorActionPreference = 'Stop'
 $url = 'https://dl.google.com/android/repository/commandlinetools-win-11076708_latest.zip'
-$sdk = 'C:\Users\prash\Downloads\TradespaceAi\android_sdk'
+$sdk = 'C:\Users\prash\Downloads\TradeOxx Ai\android_sdk'
 $dest = "$sdk\cmdline-tools.zip"
 
 Write-Host "Creating directory $sdk\cmdline-tools"

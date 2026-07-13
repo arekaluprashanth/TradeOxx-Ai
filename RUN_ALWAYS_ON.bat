@@ -1,6 +1,6 @@
 @echo off
 REM =========================================================
-REM   TradespaceAi - Always-On Service (Auto-Restart)
+REM   TradeOxx Ai - Always-On Service (Auto-Restart)
 REM   Automatically restarts if either server crashes
 REM =========================================================
 
@@ -12,7 +12,7 @@ cls
 
 echo.
 echo ╔════════════════════════════════════════════════════════════╗
-echo ║       TradespaceAi - Always-On Service Monitor             ║
+echo ║       TradeOxx Ai - Always-On Service Monitor             ║
 echo ║     (Keeps running, auto-restarts if crashed)              ║
 echo ╚════════════════════════════════════════════════════════════╝
 echo.
@@ -51,11 +51,11 @@ if not exist "client\node_modules\" (
 )
 
 echo [*] Backend Server: Starting (port 3001)...
-start "TradespaceAi Backend" /MIN cmd /c cd server ^& npm run dev
+start "TradeOxx Ai Backend" /MIN cmd /c cd server ^& npm run dev
 
 echo [*] Frontend App: Starting (port 5173)...
 timeout /t 2 /nobreak >nul
-start "TradespaceAi Frontend" /MIN cmd /c cd client ^& npm run dev
+start "TradeOxx Ai Frontend" /MIN cmd /c cd client ^& npm run dev
 
 echo [✓] Services started
 echo [✓] Monitoring for crashes...
@@ -65,6 +65,6 @@ REM Monitor for 24 hours, then restart
 timeout /t 86400 /nobreak
 
 echo [!] 24-hour cycle complete - restarting...
-taskkill /FI "windowtitle eq TradespaceAi*" /T /F >nul 2>&1
+taskkill /FI "windowtitle eq TradeOxx Ai*" /T /F >nul 2>&1
 
 goto START_SERVICES

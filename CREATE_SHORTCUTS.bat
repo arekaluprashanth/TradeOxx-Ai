@@ -1,6 +1,6 @@
 @echo off
 REM =========================================================
-REM   TradespaceAi - Startup Shortcut Creator
+REM   TradeOxx Ai - Startup Shortcut Creator
 REM   Creates shortcuts for easy launching
 REM =========================================================
 
@@ -8,7 +8,7 @@ setlocal
 cd /d "%~dp0"
 
 echo.
-echo Creating TradespaceAi startup shortcuts...
+echo Creating TradeOxx Ai startup shortcuts...
 echo.
 
 set DESKTOP=%USERPROFILE%\Desktop
@@ -18,15 +18,15 @@ REM Create Desktop Shortcut for RUN_BACKGROUND.bat
 echo Creating Desktop shortcut...
 powershell -Command ^
     "$ws = New-Object -ComObject WScript.Shell;" ^
-    "$shortcut = $ws.CreateShortcut('%DESKTOP%\TradespaceAi - Start.lnk');" ^
+    "$shortcut = $ws.CreateShortcut('%DESKTOP%\TradeOxx Ai - Start.lnk');" ^
     "$shortcut.TargetPath = '%cd%\RUN_BACKGROUND.bat';" ^
     "$shortcut.WorkingDirectory = '%cd%';" ^
-    "$shortcut.Description = 'Launch TradespaceAi - Background Service';" ^
+    "$shortcut.Description = 'Launch TradeOxx Ai - Background Service';" ^
     "$shortcut.IconLocation = 'C:\Windows\System32\cmd.exe';" ^
     "$shortcut.Save()"
 
 if %errorlevel% equ 0 (
-    echo [✓] Desktop shortcut created: TradespaceAi - Start.lnk
+    echo [✓] Desktop shortcut created: TradeOxx Ai - Start.lnk
 ) else (
     echo [!] Could not create desktop shortcut
 )
@@ -39,10 +39,10 @@ if /i "%ADD_STARTUP%"=="Y" (
     echo Creating Startup shortcut...
     powershell -Command ^
         "$ws = New-Object -ComObject WScript.Shell;" ^
-        "$shortcut = $ws.CreateShortcut('%STARTUP%\TradespaceAi.lnk');" ^
+        "$shortcut = $ws.CreateShortcut('%STARTUP%\TradeOxx Ai.lnk');" ^
         "$shortcut.TargetPath = '%cd%\RUN_BACKGROUND.bat';" ^
         "$shortcut.WorkingDirectory = '%cd%';" ^
-        "$shortcut.Description = 'TradespaceAi - Auto-Start';" ^
+        "$shortcut.Description = 'TradeOxx Ai - Auto-Start';" ^
         "$shortcut.WindowStyle = 3;" ^
         "$shortcut.Save()"
     

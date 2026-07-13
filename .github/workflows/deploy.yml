@@ -24,14 +24,14 @@ jobs:
           context: ./
           file: docker/Dockerfile.server
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/tradespace-server:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/tradeoxx-server:latest
       - name: Build and push client image
         uses: docker/build-push-action@v4
         with:
           context: ./
           file: docker/Dockerfile.client
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/tradespace-client:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/tradeoxx-client:latest
 
   deploy-ssh:
     needs: build-and-push
@@ -44,8 +44,8 @@ jobs:
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.DEPLOY_KEY }}
           script: |
-            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/tradespace-server:latest
-            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/tradespace-client:latest
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/tradeoxx-server:latest
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/tradeoxx-client:latest
             docker compose -f docker/compose-traefik.yml up -d --build
 
 # Notes: set secrets DOCKERHUB_USERNAME, DOCKERHUB_TOKEN, DEPLOY_HOST, DEPLOY_USER, DEPLOY_KEY.

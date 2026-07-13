@@ -1,0 +1,24 @@
+# Ignore Android projects and build files
+android/
+android_sdk/
+
+# Ignore Docker configurations
+docker/
+
+# Ignore local dependency folders
+node_modules/
+.git/
+.github/
+
+# Ignore local startup and helper scripts
+*.bat
+*.ps1
+*.txt
+*.md
+*.lnk
+
+# Ignore local temp and cache
+.tmp/
+tmp/
+temp/
+cache/

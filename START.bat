@@ -1,10 +1,10 @@
 @echo off
-REM TradespaceAi - Startup Script for Windows
+REM TradeOxx Ai - Startup Script for Windows
 REM This script starts both the server and client
 
 echo.
 echo ╔════════════════════════════════════════════════════════════╗
-echo ║         TradespaceAi - Full Stack Application             ║
+echo ║         TradeOxx Ai - Full Stack Application             ║
 echo ║          Starting Backend and Frontend Servers             ║
 echo ╚════════════════════════════════════════════════════════════╝
 echo.

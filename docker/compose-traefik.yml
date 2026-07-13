@@ -25,13 +25,13 @@ services:
     build:
       context: ..
       dockerfile: docker/Dockerfile.server
-    container_name: tradespace-server
+    container_name: tradeoxx-server
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.tradespace-server.rule=Host(`YOUR_DOMAIN_HERE`) && PathPrefix(`/api`)"
-      - "traefik.http.routers.tradespace-server.entrypoints=websecure"
-      - "traefik.http.routers.tradespace-server.tls.certresolver=myresolver"
+      - "traefik.http.routers.tradeoxx-server.rule=Host(`YOUR_DOMAIN_HERE`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.tradeoxx-server.entrypoints=websecure"
+      - "traefik.http.routers.tradeoxx-server.tls.certresolver=myresolver"
     environment:
       - NODE_ENV=production
       - PORT=3001
@@ -43,13 +43,13 @@ services:
     build:
       context: ..
       dockerfile: docker/Dockerfile.client
-    container_name: tradespace-client
+    container_name: tradeoxx-client
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.tradespace-client.rule=Host(`YOUR_DOMAIN_HERE`)"
-      - "traefik.http.routers.tradespace-client.entrypoints=websecure"
-      - "traefik.http.routers.tradespace-client.tls.certresolver=myresolver"
+      - "traefik.http.routers.tradeoxx-client.rule=Host(`YOUR_DOMAIN_HERE`)"
+      - "traefik.http.routers.tradeoxx-client.entrypoints=websecure"
+      - "traefik.http.routers.tradeoxx-client.tls.certresolver=myresolver"
     networks:
       - traefik-net
     depends_on:

@@ -6,7 +6,7 @@ import { generateId } from '../utils/helpers.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const isVercel = process.env.VERCEL === '1' || process.env.VERCEL_ENV;
-const DATA_DIR = isVercel ? '/tmp/tradespace-data' : path.resolve(__dirname, '../../data');
+const DATA_DIR = isVercel ? '/tmp/tradeoxx-data' : path.resolve(__dirname, '../../data');
 const STORE_FILE = path.join(DATA_DIR, 'store.json');
 
 /**

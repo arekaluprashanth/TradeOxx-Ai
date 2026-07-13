@@ -2,7 +2,7 @@
 setlocal enabledelayedexpansion
 
 REM =========================================================
-REM   TradespaceAi - Persistent Background Service
+REM   TradeOxx Ai - Persistent Background Service
 REM   Runs the app in background even after closing VS Code
 REM =========================================================
 
@@ -11,7 +11,7 @@ cls
 
 echo.
 echo ╔════════════════════════════════════════════════════════════╗
-echo ║          TradespaceAi - Background Service                 ║
+echo ║          TradeOxx Ai - Background Service                 ║
 echo ║         Starting in Independent Terminals...               ║
 echo ╚════════════════════════════════════════════════════════════╝
 echo.
@@ -58,14 +58,14 @@ echo.
 
 REM Start Backend in separate window
 echo [*] Starting Backend Server (port 3001)...
-start "TradespaceAi - Backend Server" cmd /k cd /d "%cd%\server" ^& npm run dev
+start "TradeOxx Ai - Backend Server" cmd /k cd /d "%cd%\server" ^& npm run dev
 
 REM Wait 3 seconds for backend to start
 timeout /t 3 /nobreak
 
 REM Start Frontend in separate window
 echo [*] Starting Frontend App (port 5173)...
-start "TradespaceAi - Frontend App" cmd /k cd /d "%cd%\client" ^& npm run dev
+start "TradeOxx Ai - Frontend App" cmd /k cd /d "%cd%\client" ^& npm run dev
 
 REM Wait for frontend to start
 timeout /t 3 /nobreak

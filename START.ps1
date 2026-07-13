@@ -1,9 +1,9 @@
 #!/usr/bin/env pwsh
-# TradespaceAi - PowerShell Startup Script
+# TradeOxx Ai - PowerShell Startup Script
 
 Write-Host ""
 Write-Host "╔════════════════════════════════════════════════════════════╗" -ForegroundColor Cyan
-Write-Host "║         TradespaceAi - Full Stack Application             ║" -ForegroundColor Cyan
+Write-Host "║         TradeOxx Ai - Full Stack Application             ║" -ForegroundColor Cyan
 Write-Host "║          Starting Backend and Frontend Servers             ║" -ForegroundColor Cyan
 Write-Host "╚════════════════════════════════════════════════════════════╝" -ForegroundColor Cyan
 Write-Host ""
