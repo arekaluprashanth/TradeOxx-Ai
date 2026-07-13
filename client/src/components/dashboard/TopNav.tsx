@@ -31,6 +31,7 @@ export default function TopNav({ onMenuClick }: { onMenuClick: () => void }) {
   const [selectedAsset, setSelectedAsset] = useState<any>(null);
 
   const assets = useMarketStore((state) => state.assets);
+  const quotes = useMarketStore((state) => state.quotes);
 
   const filteredAssets = useMemo(() => {
     if (!searchQuery.trim()) return [];
