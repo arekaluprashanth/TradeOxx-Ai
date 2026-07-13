@@ -1,10 +1,12 @@
 import { useState, useMemo } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Bell, ChevronDown, LogOut, Settings, User, Sun, Moon, Hexagon } from 'lucide-react';
+import { Search, Bell, ChevronDown, LogOut, Settings, User, Sun, Moon, Hexagon, TrendingUp, TrendingDown, RefreshCw, BarChart2, Star, Percent } from 'lucide-react';
 import { useAuthStore } from '../../stores/authStore';
 import { useUiStore } from '../../stores/uiStore';
 import { useMarketStore } from '../../stores/marketStore';
+import { usePortfolio } from '../../hooks/usePortfolio';
+import { formatCurrency } from '../../lib/utils';
 import AssetModal from '../trading/AssetModal';
 import ChatBot from '../ui/ChatBot';
 
@@ -20,6 +22,7 @@ export default function TopNav({ onMenuClick }: { onMenuClick: () => void }) {
   const navigate = useNavigate();
   const { user, logout } = useAuthStore();
   const { notifications, theme, toggleTheme } = useUiStore();
+  const { portfolio } = usePortfolio();
   
   const [searchQuery, setSearchQuery] = useState('');
   const [showUserMenu, setShowUserMenu] = useState(false);
@@ -275,6 +278,122 @@ export default function TopNav({ onMenuClick }: { onMenuClick: () => void }) {
             );
           })}
         </nav>
+      </div>
+
+      {/* Page-Specific Custom UI Sub-Bars */}
+      <div className="border-t border-white/5 bg-dark-900/60 backdrop-blur-md">
+        <div className="px-4 lg:px-8 max-w-7xl mx-auto w-full py-3">
+          <AnimatePresence mode="wait">
+            {location.pathname === '/' && (
+              <motion.div
+                key="explore-bar"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="flex items-center justify-between text-xs overflow-hidden"
+              >
+                {/* Horizontal Live Quote Ticker */}
+                <div className="flex items-center gap-2 text-dark-300 font-medium shrink-0 mr-4 border-r border-white/10 pr-4">
+                  <RefreshCw size={12} className="animate-spin text-accent-cyan" />
+                  <span>LIVE SIMULATOR</span>
+                </div>
+                <div className="flex-1 overflow-hidden relative">
+                  <div className="flex gap-8 animate-marquee whitespace-nowrap">
+                    {[...assets.slice(0, 8), ...assets.slice(0, 8)].map((asset, index) => {
+                      const quote = quotes[asset.symbol] || asset;
+                      const isPositive = quote.changePercent >= 0;
+                      return (
+                        <div key={`${asset.symbol}-${index}`} className="inline-flex items-center gap-2 cursor-pointer shrink-0" onClick={() => setSelectedAsset(quote)}>
+                          <span className="font-bold text-white">{quote.symbol}</span>
+                          <span className="font-mono text-dark-100">${quote.price.toFixed(2)}</span>
+                          <span className={`inline-flex items-center gap-0.5 ${isPositive ? 'text-accent-green' : 'text-accent-red'}`}>
+                            {isPositive ? <TrendingUp size={10} /> : <TrendingDown size={10} />}
+                            {isPositive ? '+' : ''}{quote.changePercent.toFixed(2)}%
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </motion.div>
+            )}
+
+            {location.pathname === '/portfolio' && (
+              <motion.div
+                key="portfolio-bar"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="flex flex-wrap items-center justify-between gap-4 text-xs"
+              >
+                <div className="flex items-center gap-6">
+                  <div>
+                    <span className="text-dark-400 block mb-0.5 uppercase tracking-wider">Net Equity</span>
+                    <span className="font-mono text-sm font-semibold text-white">
+                      {formatCurrency(portfolio?.totalValue ?? 0)}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-dark-400 block mb-0.5 uppercase tracking-wider">Unrealized PnL</span>
+                    <span className={`font-mono text-sm font-semibold ${(portfolio?.totalPnl ?? 0) >= 0 ? 'text-accent-green' : 'text-accent-red'}`}>
+                      {(portfolio?.totalPnl ?? 0) >= 0 ? '+' : ''}{formatCurrency(portfolio?.totalPnl ?? 0)}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-dark-400 block mb-0.5 uppercase tracking-wider">Available Cash</span>
+                    <span className="font-mono text-sm font-semibold text-accent-cyan">
+                      {formatCurrency(portfolio?.balance ?? 100000)}
+                    </span>
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <span className="px-2.5 py-1 rounded-full bg-accent-cyan/10 border border-accent-cyan/20 text-accent-cyan font-bold tracking-wide">
+                    ACTIVE PORTFOLIO
+                  </span>
+                </div>
+              </motion.div>
+            )}
+
+            {location.pathname === '/watchlist' && (
+              <motion.div
+                key="watchlist-bar"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="flex items-center justify-between text-xs"
+              >
+                <div className="flex gap-2">
+                  <button className="px-3 py-1 rounded-full bg-dark-700 text-white border border-white/10 hover:border-accent-cyan transition-colors">All Assets</button>
+                  <button className="px-3 py-1 rounded-full bg-dark-800 text-dark-300 hover:text-white transition-colors">Stocks</button>
+                  <button className="px-3 py-1 rounded-full bg-dark-800 text-dark-300 hover:text-white transition-colors">Crypto</button>
+                </div>
+                <div className="text-dark-400 flex items-center gap-1 font-medium">
+                  <Star size={12} className="text-accent-cyan" />
+                  <span>Real-time tracking of starred assets</span>
+                </div>
+              </motion.div>
+            )}
+
+            {location.pathname === '/analytics' && (
+              <motion.div
+                key="analytics-bar"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="flex items-center justify-between text-xs"
+              >
+                <div className="flex items-center gap-2">
+                  <BarChart2 size={14} className="text-accent-cyan" />
+                  <span className="font-semibold text-white uppercase tracking-wider">Algo Strategy Backtester</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="text-dark-400">Simulation Speed:</span>
+                  <span className="font-semibold text-white">Tick/2s</span>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
 
       <AssetModal

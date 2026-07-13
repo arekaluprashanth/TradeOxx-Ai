@@ -453,3 +453,18 @@
     @apply outline-none ring-2 ring-accent-cyan/40 ring-offset-2 ring-offset-dark-900;
   }
 }
+
+/* ── Marquee Animation ──────────────────────────────── */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  animation: marquee 30s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
