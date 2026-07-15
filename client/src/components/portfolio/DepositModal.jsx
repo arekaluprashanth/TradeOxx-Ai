@@ -13,14 +13,20 @@ export default function DepositModal({ isOpen, onClose }) {
   const [cardExpiry, setCardExpiry] = useState('');
   const [cardCvv, setCardCvv] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [inputCurrency, setInputCurrency] = useState('USD');
 
   const { portfolio } = usePortfolioStore();
 
   const handleDeposit = async () => {
-    const val = parseFloat(amount);
+    let val = parseFloat(amount);
     if (isNaN(val) || val <= 0) {
       toast.error('Please enter a valid amount.');
       return;
+    }
+
+    // Convert INR to USD base for internal portfolio store value calculations
+    if (inputCurrency === 'INR') {
+      val = val / 83.0;
     }
 
     setIsProcessing(true);
@@ -82,14 +88,35 @@ export default function DepositModal({ isOpen, onClose }) {
           </div>
 
           <div className="p-6 overflow-y-auto space-y-6">
-            {/* Amount Input */}
+            {/* Currency Selector & Amount Input */}
             <div className="space-y-2">
+              <div className="flex justify-between items-center">
+                <label className="text-[10px] text-dark-400 font-bold uppercase tracking-wider block">Select Currency</label>
+                <div className="flex gap-1.5 p-0.5 bg-dark-950 rounded-lg border border-white/5">
+                  <button
+                    onClick={() => { setInputCurrency('USD'); }}
+                    className={`px-2.5 py-0.5 rounded text-[10px] font-bold ${inputCurrency === 'USD' ? 'bg-accent-cyan text-dark-955' : 'text-dark-400'}`}
+                  >
+                    USD ($)
+                  </button>
+                  <button
+                    onClick={() => { setInputCurrency('INR'); }}
+                    className={`px-2.5 py-0.5 rounded text-[10px] font-bold ${inputCurrency === 'INR' ? 'bg-accent-cyan text-dark-955' : 'text-dark-400'}`}
+                  >
+                    INR (₹)
+                  </button>
+                </div>
+              </div>
+
               <div className="flex justify-between items-center">
                 <label className="text-[10px] text-dark-400 font-bold uppercase tracking-wider block">Amount to Deposit</label>
                 <span className="text-[10px] text-dark-400">Current: {formatCurrency(portfolio?.balance || 0)}</span>
               </div>
+
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg font-mono font-bold text-dark-300">$</span>
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg font-mono font-bold text-dark-300">
+                  {inputCurrency === 'USD' ? '$' : '₹'}
+                </span>
                 <input
                   type="number"
                   value={amount}
@@ -98,6 +125,18 @@ export default function DepositModal({ isOpen, onClose }) {
                   placeholder="0.00"
                 />
               </div>
+
+              {/* Live Conversion Display helper */}
+              <div className="flex justify-between items-center text-[10px] text-dark-400">
+                <span>Exchange rate: 1 USD = 83.00 INR</span>
+                <span className="font-mono text-accent-cyan">
+                  {inputCurrency === 'USD' 
+                    ? `Equivalent: ₹${(parseFloat(amount || '0') * 83.0).toLocaleString(undefined, {minimumFractionDigits: 2})}` 
+                    : `Equivalent: $${(parseFloat(amount || '0') / 83.0).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`
+                  }
+                </span>
+              </div>
+
               <div className="flex gap-2">
                 {['1000', '5000', '10000', '25000'].map((val) => (
                   <button
@@ -105,7 +144,7 @@ export default function DepositModal({ isOpen, onClose }) {
                     onClick={() => setAmount(val)}
                     className="flex-1 py-1 rounded-lg text-[10px] font-bold bg-dark-950 border border-white/5 text-dark-300 hover:text-white hover:border-white/10"
                   >
-                    +${parseInt(val).toLocaleString()}
+                    +{inputCurrency === 'USD' ? '$' : '₹'}{parseInt(val).toLocaleString()}
                   </button>
                 ))}
               </div>

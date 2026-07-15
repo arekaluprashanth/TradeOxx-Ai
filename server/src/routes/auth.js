@@ -32,7 +32,7 @@ router.post('/register', async (req, res) => {
     store.create('portfolios', {
       id: `portfolio-${id}`,
       userId: id,
-      balance: 100_000,
+      balance: 0,
       holdings: [],
     });
 

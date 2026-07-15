@@ -10,11 +10,16 @@ export default function WithdrawModal({ isOpen, onClose }) {
   const [payoutDest, setPayoutDest] = useState('bank');
   const [destDetails, setDestDetails] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [inputCurrency, setInputCurrency] = useState('USD');
 
   const { portfolio } = usePortfolioStore();
 
   const balance = portfolio?.balance || 0;
-  const withdrawVal = parseFloat(amount) || 0;
+  
+  const withdrawVal = useMemo(() => {
+    const rawVal = parseFloat(amount) || 0;
+    return inputCurrency === 'INR' ? rawVal / 83.0 : rawVal;
+  }, [amount, inputCurrency]);
 
   // Perfect calculations
   const transactionFee = useMemo(() => {
@@ -97,14 +102,35 @@ export default function WithdrawModal({ isOpen, onClose }) {
           </div>
 
           <div className="p-6 overflow-y-auto space-y-6">
-            {/* Amount Input */}
+            {/* Currency Selector & Amount Input */}
             <div className="space-y-2">
+              <div className="flex justify-between items-center">
+                <label className="text-[10px] text-dark-400 font-bold uppercase tracking-wider block">Select Currency</label>
+                <div className="flex gap-1.5 p-0.5 bg-dark-950 rounded-lg border border-white/5">
+                  <button
+                    onClick={() => { setInputCurrency('USD'); }}
+                    className={`px-2.5 py-0.5 rounded text-[10px] font-bold ${inputCurrency === 'USD' ? 'bg-accent-cyan text-dark-955' : 'text-dark-400'}`}
+                  >
+                    USD ($)
+                  </button>
+                  <button
+                    onClick={() => { setInputCurrency('INR'); }}
+                    className={`px-2.5 py-0.5 rounded text-[10px] font-bold ${inputCurrency === 'INR' ? 'bg-accent-cyan text-dark-955' : 'text-dark-400'}`}
+                  >
+                    INR (₹)
+                  </button>
+                </div>
+              </div>
+
               <div className="flex justify-between items-center">
                 <label className="text-[10px] text-dark-400 font-bold uppercase tracking-wider block">Amount to Withdraw</label>
                 <span className="text-[10px] text-dark-400">Available: {formatCurrency(balance)}</span>
               </div>
+
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg font-mono font-bold text-dark-300">$</span>
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg font-mono font-bold text-dark-300">
+                  {inputCurrency === 'USD' ? '$' : '₹'}
+                </span>
                 <input
                   type="number"
                   value={amount}
@@ -112,6 +138,17 @@ export default function WithdrawModal({ isOpen, onClose }) {
                   className="w-full bg-dark-950 border border-white/5 focus:border-accent-cyan/40 outline-none rounded-xl py-3 pl-8 pr-4 text-lg font-mono font-bold text-white transition-all"
                   placeholder="0.00"
                 />
+              </div>
+
+              {/* Live Conversion Display helper */}
+              <div className="flex justify-between items-center text-[10px] text-dark-400">
+                <span>Exchange rate: 1 USD = 83.00 INR</span>
+                <span className="font-mono text-accent-cyan">
+                  {inputCurrency === 'USD' 
+                    ? `Equivalent: ₹${(parseFloat(amount || '0') * 83.0).toLocaleString(undefined, {minimumFractionDigits: 2})}` 
+                    : `Equivalent: $${(parseFloat(amount || '0') / 83.0).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`
+                  }
+                </span>
               </div>
             </div>
 

@@ -3,12 +3,22 @@ import { format } from 'date-fns';
 // ── Currency ───────────────────────────────────────────
 
 export function formatCurrency(value) {
-  return new Intl.NumberFormat('en-US', {
+  const usd = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   }).format(value);
+
+  const inrValue = value * 83.0;
+  const inr = new Intl.NumberFormat('en-IN', {
+    style: 'currency',
+    currency: 'INR',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(inrValue);
+
+  return `${usd} (${inr})`;
 }
 
 // ── Percent ────────────────────────────────────────────
