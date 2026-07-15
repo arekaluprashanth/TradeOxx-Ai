@@ -11,7 +11,11 @@ export default function SettingsPage() {
 
   // Interactive profile state
   const [profileName, setProfileName] = useState(user?.name || 'Forex Trader');
-  const [profileEmail] = useState(user?.email || 'trader@tradeoxx.ai');
+  const [profileEmail, setProfileEmail] = useState(user?.email || 'trader@tradeoxx.ai');
+  const [phoneNumber, setPhoneNumber] = useState('+1 (555) 019-2834');
+  const [selectedAvatar, setSelectedAvatar] = useState('🐂');
+  const [showAvatarPicker, setShowAvatarPicker] = useState(false);
+  const avatarsList = ['🐂', '🐻', '🚀', '🐋', '🧠', '🤖', '👑', '⚡'];
 
   // Preferences toggles
   const [emailAlerts, setEmailAlerts] = useState(true);
@@ -126,13 +130,31 @@ export default function SettingsPage() {
                 <h2 className="text-lg font-bold text-white mb-4">Profile Information</h2>
                 
                 <div className="flex items-center gap-4 mb-6">
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent-cyan to-accent-purple flex items-center justify-center text-white text-xl font-bold shadow-glow-cyan">
-                    {profileName.substring(0, 2).toUpperCase()}
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent-cyan to-accent-purple flex items-center justify-center text-white text-3xl font-bold shadow-glow-cyan">
+                    {selectedAvatar}
                   </div>
                   <div>
-                    <Button variant="outline" size="sm" onClick={handleAvatarChange}>Change Avatar</Button>
+                    <Button variant="outline" size="sm" onClick={() => setShowAvatarPicker(!showAvatarPicker)}>
+                      {showAvatarPicker ? 'Hide Options' : 'Change Avatar'}
+                    </Button>
                   </div>
                 </div>
+
+                {showAvatarPicker && (
+                  <div className="mb-6 p-4 rounded-2xl bg-dark-950/60 border border-white/5 grid grid-cols-4 gap-3">
+                    {avatarsList.map((av) => (
+                      <button
+                        key={av}
+                        onClick={() => { setSelectedAvatar(av); setShowAvatarPicker(false); toast.success('Avatar selected!'); }}
+                        className={`text-2xl p-2 rounded-xl hover:bg-white/5 transition-all ${
+                          selectedAvatar === av ? 'bg-accent-cyan/15 border border-accent-cyan/30' : ''
+                        }`}
+                      >
+                        {av}
+                      </button>
+                    ))}
+                  </div>
+                )}
 
                 <div className="space-y-4">
                   <div>
@@ -146,12 +168,27 @@ export default function SettingsPage() {
                   </div>
                   <div>
                     <label className="block text-xs font-bold text-dark-400 mb-1.5 uppercase tracking-wider">Email Address</label>
-                    <input 
-                      type="email" 
-                      value={profileEmail}
-                      disabled
-                      className="w-full px-4 py-2.5 bg-dark-950/50 border border-white/5 rounded-xl text-dark-400 cursor-not-allowed"
-                    />
+                    <div className="flex gap-2">
+                      <input 
+                        type="email" 
+                        value={profileEmail}
+                        onChange={(e) => setProfileEmail(e.target.value)}
+                        className="flex-1 px-4 py-2.5 bg-dark-950 border border-white/10 rounded-xl text-white focus:outline-none focus:border-accent-cyan transition-all"
+                      />
+                      <Button variant="outline" onClick={() => toast.success('Verification link sent to new email!')}>Change Email</Button>
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-dark-400 mb-1.5 uppercase tracking-wider">Phone Number</label>
+                    <div className="flex gap-2">
+                      <input 
+                        type="text" 
+                        value={phoneNumber}
+                        onChange={(e) => setPhoneNumber(e.target.value)}
+                        className="flex-1 px-4 py-2.5 bg-dark-950 border border-white/10 rounded-xl text-white focus:outline-none focus:border-accent-cyan transition-all"
+                      />
+                      <Button variant="outline" onClick={() => toast.success('SMS verification OTP code sent!')}>Change Number</Button>
+                    </div>
                   </div>
                   <div className="pt-2">
                     <Button onClick={handleSaveProfile} className="hover:shadow-[0_0_15px_rgba(0,212,255,0.3)]">Save Changes</Button>

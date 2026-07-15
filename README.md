@@ -46,7 +46,7 @@ TradeOxx Ai/
 │   │   ├── hooks/          # Custom React hooks (e.g., useMarketData)
 │   │   └── lib/            # Utilities and API interceptors
 │   ├── index.html          # Vite entry point
-│   └── vite.config.ts      # Vite configuration
+│   └── vite.config.js      # Vite configuration
 │
 ├── backend/                # Node.js Express Server
 │   ├── src/

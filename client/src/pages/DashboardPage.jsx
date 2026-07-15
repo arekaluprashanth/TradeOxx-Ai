@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import AssetModal from '../components/trading/AssetModal';
 import FuturesDesk from '../components/dashboard/FuturesDesk';
+import DepositWithdrawModal from '../components/portfolio/DepositWithdrawModal';
 
 export default function DashboardPage() {
   const { isConnected } = useMarketData();
@@ -26,6 +27,8 @@ export default function DashboardPage() {
   const quotes = useMarketStore((state) => state.quotes);
 
   const [selectedAsset, setSelectedAsset] = useState(null);
+  const [isDepositOpen, setIsDepositOpen] = useState(false);
+  const [depositTab, setDepositTab] = useState('deposit');
 
   // Derive categories
   const indices = useMemo(() => assets.filter(a => a.category === 'index'), [assets]);
@@ -288,10 +291,16 @@ export default function DashboardPage() {
             </div>
             
             <div className="mt-6 flex gap-3">
-              <button className="flex-1 bg-accent-cyan hover:shadow-[0_0_15px_rgba(0,212,255,0.4)] text-dark-950 font-bold py-3 rounded-full transition-all text-xs uppercase tracking-wider">
+              <button 
+                onClick={() => { setDepositTab('deposit'); setIsDepositOpen(true); }}
+                className="flex-1 bg-accent-cyan hover:shadow-[0_0_15px_rgba(0,212,255,0.4)] text-dark-950 font-bold py-3 rounded-full transition-all text-xs uppercase tracking-wider"
+              >
                 Add Cash
               </button>
-              <button className="flex-1 bg-dark-800 hover:bg-dark-750 text-white font-bold py-3 rounded-full transition-all border border-white/5 text-xs uppercase tracking-wider">
+              <button 
+                onClick={() => { setDepositTab('withdraw'); setIsDepositOpen(true); }}
+                className="flex-1 bg-dark-800 hover:bg-dark-750 text-white font-bold py-3 rounded-full transition-all border border-white/5 text-xs uppercase tracking-wider"
+              >
                 Withdraw
               </button>
             </div>
@@ -339,6 +348,12 @@ export default function DashboardPage() {
         isOpen={!!selectedAsset}
         onClose={() => setSelectedAsset(null)}
         asset={selectedAsset}
+      />
+
+      <DepositWithdrawModal
+        isOpen={isDepositOpen}
+        onClose={() => setIsDepositOpen(false)}
+        initialTab={depositTab}
       />
     </div>
   );

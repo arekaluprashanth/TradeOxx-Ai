@@ -7,11 +7,14 @@ import TradeHistory from '../components/portfolio/TradeHistory';
 import { Button } from '../components/ui/Button';
 import FuturesDesk from '../components/dashboard/FuturesDesk';
 import { Briefcase, ArrowUpRight, TrendingUp, } from 'lucide-react';
+import DepositWithdrawModal from '../components/portfolio/DepositWithdrawModal';
 
 export default function PortfolioPage() {
   const { portfolio, isLoading, error } = usePortfolio();
   const activeSymbol = useMarketStore((state) => state.activeSymbol);
   const [isTradeOpen, setIsTradeOpen] = useState(false);
+  const [isDepositOpen, setIsDepositOpen] = useState(false);
+  const [depositTab, setDepositTab] = useState('deposit');
 
   return (
     <div className="space-y-8 animate-fade-in pb-20">
@@ -27,9 +30,17 @@ export default function PortfolioPage() {
               <h1 className="text-3xl font-black text-white mt-0.5">Asset Holdings</h1>
             </div>
           </div>
-          <Button variant="primary" size="lg" onClick={() => setIsTradeOpen(true)} className="hover:shadow-[0_0_20px_rgba(0,212,255,0.4)]">
-            New Trade Ticket
-          </Button>
+          <div className="flex flex-wrap gap-3">
+            <Button variant="outline" size="lg" onClick={() => { setDepositTab('deposit'); setIsDepositOpen(true); }}>
+              Deposit
+            </Button>
+            <Button variant="outline" size="lg" onClick={() => { setDepositTab('withdraw'); setIsDepositOpen(true); }}>
+              Withdraw
+            </Button>
+            <Button variant="primary" size="lg" onClick={() => setIsTradeOpen(true)} className="hover:shadow-[0_0_20px_rgba(0,212,255,0.4)]">
+              New Trade Ticket
+            </Button>
+          </div>
         </div>
       </div>
 
@@ -95,6 +106,12 @@ export default function PortfolioPage() {
         isOpen={isTradeOpen}
         onClose={() => setIsTradeOpen(false)}
         defaultSymbol={activeSymbol}
+      />
+
+      <DepositWithdrawModal
+        isOpen={isDepositOpen}
+        onClose={() => setIsDepositOpen(false)}
+        initialTab={depositTab}
       />
     </div>
   );
