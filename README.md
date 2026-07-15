@@ -7,10 +7,24 @@
 ## 🌟 Key Features
 
 * **Real-Time Market Simulation**: A sophisticated backend engine simulates live price movements for popular assets (AAPL, TSLA, BTC, ETH) without requiring paid external APIs.
-* **Paper Trading Portfolio**: Users start with $100,000 in virtual currency to buy and sell assets. The platform calculates Realized PnL, Unrealized PnL, and Cost Basis in real-time.
+* **Paper Trading Portfolio**: Users start with $0.00 in virtual currency to practice funding and trading. The platform calculates Realized PnL, Unrealized PnL, and Cost Basis in real-time.
 * **Stateless Cloud Architecture**: Engineered to run entirely on serverless platforms (like Vercel) without needing a dedicated database. User profiles and portfolios are seamlessly auto-synced across cloud instances on the fly.
 * **Interactive Financial Charts**: Beautiful, responsive candlestick charts powered by lightweight charting libraries.
 * **Modern UI/UX**: Designed with a sleek "Dark Mode" aesthetic, glassmorphism elements, and smooth animations reminiscent of premium fintech apps.
+
+---
+
+## 📋 Project Board & Roadmap
+
+| 📝 TO DO | 🔄 IN PROGRESS | ✅ COMPLETED |
+| :--- | :--- | :--- |
+| - [ ] Multi-Indicator support (RSI, MACD) | - [ ] Real-time WebSocket connection tuning | - [x] Restructure codebase folders to `client/` & `server/` |
+| - [ ] Real-time financial news ticker | - [ ] Mobile layout optimizations | - [x] Integrated Apexx Ai (Opus-class chatbot) |
+| - [ ] Custom strategy backtester UI | | - [x] Resolved status code 500 serverless crash |
+| | | - [x] Split Deposit & Withdraw sections |
+| | | - [x] Zeroed out account starting balance to $0.00 |
+| | | - [x] Formatted dual USD ($) & INR (₹) values |
+| | | - [x] Added GPay, Paytm, PhonePe QR scanners |
 
 ---
 
