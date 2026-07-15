@@ -1,0 +1,302 @@
+ function _optionalChain(ops) { let lastAccessLHS = undefined; let value = ops[0]; let i = 1; while (i < ops.length) { const op = ops[i]; const fn = ops[i + 1]; i += 2; if ((op === 'optionalAccess' || op === 'optionalCall') && value == null) { return undefined; } if (op === 'access' || op === 'optionalAccess') { lastAccessLHS = value; value = fn(value); } else if (op === 'call' || op === 'optionalCall') { value = fn((...args) => value.call(lastAccessLHS, ...args)); lastAccessLHS = undefined; } } return value; }import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { Mail, Lock, LogIn, TrendingUp, Shield, Zap, BarChart2, Globe, ChevronRight } from 'lucide-react';
+import { useAuthStore } from '../../stores/authStore';
+import { Button } from '../ui/Button';
+import { Input } from '../ui/Input';
+import ChatBot from '../ui/ChatBot';
+import FloatingCryptoBackground from '../ui/FloatingCryptoBackground';
+
+const LoginPage = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState({});
+
+  const { login, isLoading, error, clearError, isAuthenticated } = useAuthStore();
+  const navigate = useNavigate();
+
+  React.useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/', { replace: true });
+    }
+  }, [isAuthenticated, navigate]);
+
+  const validate = () => {
+    const e = {};
+    if (!email.trim()) e.email = 'Email is required';
+    else if (!/\S+@\S+\.\S+/.test(email)) e.email = 'Invalid email address';
+    if (!password) e.password = 'Password is required';
+    else if (password.length < 4) e.password = 'Password too short';
+    setErrors(e);
+    return Object.keys(e).length === 0;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    clearError();
+    if (!validate()) return;
+
+    try {
+      await login(email, password);
+      navigate('/');
+    } catch (e2) {
+      // Error is already set in store
+    }
+  };
+
+  const features = [
+    {
+      icon: <TrendingUp className="w-6 h-6 text-accent-cyan" />,
+      title: 'Advanced Analytics',
+      description: 'Get deep insights into market trends with our real-time AI-driven analysis tools.',
+    },
+    {
+      icon: <Zap className="w-6 h-6 text-accent-purple" />,
+      title: 'Lightning Fast',
+      description: 'Execute trades in milliseconds. Our 165Hz optimized engine ensures a lag-free experience.',
+    },
+    {
+      icon: <Shield className="w-6 h-6 text-accent-green" />,
+      title: 'Zero Risk Trading',
+      description: 'Practice your strategies with our paper trading simulator without risking real capital.',
+    },
+    {
+      icon: <Globe className="w-6 h-6 text-accent-blue" />,
+      title: 'Global Markets',
+      description: 'Access thousands of assets from global markets, all from one unified dashboard.',
+    },
+  ];
+
+  return (
+    <div className="relative min-h-screen bg-dark-950 overflow-y-auto overflow-x-hidden text-white">
+      {/* Background Elements */}
+      <FloatingCryptoBackground />
+
+      <div className="relative z-10">
+        <nav className="container mx-auto px-6 py-6 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <motion.img 
+              src={`${import.meta.env.BASE_URL}logo.png`} 
+              alt="Logo" 
+              className="w-8 h-8 rounded-full object-cover drop-shadow-lg ring-1 ring-white/10" 
+              animate={{ 
+                y: [0, -3, 0],
+                scale: [1, 1.03, 1],
+                filter: [
+                  'drop-shadow(0px 0px 0px rgba(0,208,156,0))',
+                  'drop-shadow(0px 4px 8px rgba(0,208,156,0.3))',
+                  'drop-shadow(0px 0px 0px rgba(0,208,156,0))'
+                ]
+              }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <span className="text-xl font-bold text-gradient">TradeOxx Ai</span>
+          </div>
+          <div className="flex items-center gap-4">
+            <div className="hidden md:flex gap-6 text-sm font-medium text-dark-300 mr-2">
+              <a href="#features" className="hover:text-white transition-colors">Features</a>
+              <a href="#platform" className="hover:text-white transition-colors">Platform</a>
+            </div>
+            <ChatBot />
+          </div>
+        </nav>
+
+        {/* Hero Section */}
+        <div className="container mx-auto px-6 pt-10 pb-20 lg:pt-20 lg:pb-32">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+            
+            {/* Left Column: Hero Text */}
+            <motion.div 
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-center lg:text-left"
+            >
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-purple/10 border border-accent-purple/20 text-accent-purple text-xs font-semibold uppercase tracking-wider mb-6">
+                <span className="w-2 h-2 rounded-full bg-accent-purple animate-pulse"></span>
+                Next-Gen Trading
+              </div>
+              <h1 className="text-5xl lg:text-7xl font-bold leading-tight mb-6">
+                Master the Markets with <span className="text-gradient">TradeOxx Ai</span>
+              </h1>
+              <p className="text-dark-300 text-lg mb-8 max-w-xl mx-auto lg:mx-0">
+                Experience the future of algorithmic paper trading. Professional-grade tools, lightning-fast execution, and zero financial risk.
+              </p>
+              <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
+                <Button size="lg" className="w-full sm:w-auto text-base px-8 py-4 shadow-glass shadow-accent-cyan/20" onClick={() => _optionalChain([document, 'access', _ => _.getElementById, 'call', _2 => _2('login-form'), 'optionalAccess', _3 => _3.scrollIntoView, 'call', _4 => _4({ behavior: 'smooth' })])}>
+                  Start Trading Now
+                </Button>
+                <a href="#features" className="text-sm font-semibold text-dark-200 hover:text-white transition-colors flex items-center gap-1">
+                  Explore Features <ChevronRight size={16} />
+                </a>
+              </div>
+            </motion.div>
+
+            {/* Right Column: Login Card */}
+            <motion.div
+              id="login-form"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="w-full max-w-md mx-auto lg:ml-auto"
+            >
+              <div className="bg-dark-800/60 backdrop-blur-2xl border border-white/10 rounded-3xl p-8 shadow-glass relative overflow-hidden">
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent-cyan to-accent-purple" />
+                
+                <div className="text-center mb-8">
+                  <h2 className="text-2xl font-bold text-white mb-2">Welcome Back</h2>
+                  <p className="text-sm text-dark-400">Sign in to your dashboard</p>
+                </div>
+
+                {error && (
+                  <div className="mb-4 p-3 rounded-xl bg-accent-red/10 border border-accent-red/20 text-accent-red text-xs text-center">
+                    {error}
+                  </div>
+                )}
+
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <Input
+                    label="Email"
+                    type="email"
+                    placeholder="you@example.com"
+                    icon={<Mail className="w-4 h-4" />}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    error={errors.email}
+                  />
+                  <Input
+                    label="Password"
+                    type="password"
+                    placeholder="••••••••"
+                    icon={<Lock className="w-4 h-4" />}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    error={errors.password}
+                  />
+
+                  <div className="flex items-center justify-end">
+                    <Link to="/forgot-password" className="text-xs text-dark-400 hover:text-accent-cyan transition-colors">
+                      Forgot Password?
+                    </Link>
+                  </div>
+
+                  <Button type="submit" fullWidth size="lg" loading={isLoading} icon={<LogIn className="w-4 h-4" />}>
+                    Sign In
+                  </Button>
+                </form>
+
+                <p className="mt-6 text-center text-xs text-dark-400">
+                  Don't have an account?{' '}
+                  <Link to="/signup" className="text-accent-cyan hover:text-accent-cyan/80 font-medium transition-colors">
+                    Create Account
+                  </Link>
+                </p>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+
+        {/* Features Section */}
+        <section id="features" className="py-20 border-y border-white/5 bg-dark-900/50">
+          <div className="container mx-auto px-6">
+            <div className="text-center max-w-2xl mx-auto mb-16">
+              <h2 className="text-3xl lg:text-4xl font-bold mb-4">Why Choose TradeOxx Ai?</h2>
+              <p className="text-dark-300">We provide the most realistic, high-performance paper trading experience available on the market.</p>
+            </div>
+            
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {features.map((feature, idx) => (
+                <div key={idx} className="bg-dark-800/30 border border-white/5 rounded-2xl p-6  hover:border-white/10 transition-colors">
+                  <div className="w-12 h-12 rounded-xl bg-dark-900 border border-white/5 flex items-center justify-center mb-4">
+                    {feature.icon}
+                  </div>
+                  <h3 className="text-lg font-semibold text-white mb-2">{feature.title}</h3>
+                  <p className="text-sm text-dark-400 leading-relaxed">{feature.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Platform Preview Section */}
+        <section id="platform" className="py-20 overflow-hidden">
+          <div className="container mx-auto px-6">
+            <div className="flex flex-col lg:flex-row items-center gap-12">
+              <div className="lg:w-1/2">
+                <h2 className="text-3xl lg:text-4xl font-bold mb-6">Designed for Professionals, Built for You</h2>
+                <ul className="space-y-6 mb-8">
+                  <li className="flex gap-4">
+                    <div className="mt-1 w-8 h-8 rounded-full bg-accent-cyan/10 flex items-center justify-center text-accent-cyan shrink-0">
+                      <BarChart2 size={16} />
+                    </div>
+                    <div>
+                      <h4 className="text-white font-semibold mb-1">Live Trading View</h4>
+                      <p className="text-sm text-dark-400">Interact with robust charts featuring technical indicators, volume analysis, and historical data.</p>
+                    </div>
+                  </li>
+                  <li className="flex gap-4">
+                    <div className="mt-1 w-8 h-8 rounded-full bg-accent-green/10 flex items-center justify-center text-accent-green shrink-0">
+                      <Shield size={16} />
+                    </div>
+                    <div>
+                      <h4 className="text-white font-semibold mb-1">Bank-Grade Security</h4>
+                      <p className="text-sm text-dark-400">Your data is protected with industry-leading encryption protocols and secure infrastructure.</p>
+                    </div>
+                  </li>
+                </ul>
+                <Button variant="outline" size="lg" onClick={() => _optionalChain([document, 'access', _5 => _5.getElementById, 'call', _6 => _6('login-form'), 'optionalAccess', _7 => _7.scrollIntoView, 'call', _8 => _8({ behavior: 'smooth' })])}>
+                  Access Platform
+                </Button>
+              </div>
+              <div className="lg:w-1/2 relative">
+                <div className="absolute inset-0 bg-gradient-to-tr from-accent-purple/20 to-accent-cyan/20 blur-3xl rounded-full" />
+                <div className="relative bg-dark-800/50 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl">
+                  <h3 className="text-2xl font-bold mb-4 text-white">Empowering Traders Worldwide</h3>
+                  <p className="text-dark-300 leading-relaxed mb-6">
+                    TradeOxx Ai is built to bridge the gap between institutional-grade algorithmic trading and retail investors. Our platform offers a seamless ecosystem for discovering assets, analyzing trends, and executing paper trades in real-time.
+                  </p>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-dark-900/50 p-4 rounded-2xl border border-white/5">
+                      <div className="text-2xl font-bold text-accent-cyan mb-1">50K+</div>
+                      <div className="text-xs text-dark-400">Active Paper Traders</div>
+                    </div>
+                    <div className="bg-dark-900/50 p-4 rounded-2xl border border-white/5">
+                      <div className="text-2xl font-bold text-accent-purple mb-1">Zero</div>
+                      <div className="text-xs text-dark-400">Financial Risk</div>
+                    </div>
+                    <div className="bg-dark-900/50 p-4 rounded-2xl border border-white/5">
+                      <div className="text-2xl font-bold text-accent-green mb-1">24/7</div>
+                      <div className="text-xs text-dark-400">Market Access</div>
+                    </div>
+                    <div className="bg-dark-900/50 p-4 rounded-2xl border border-white/5">
+                      <div className="text-2xl font-bold text-accent-blue mb-1">AI</div>
+                      <div className="text-xs text-dark-400">Powered Analytics</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Footer */}
+        <footer className="border-t border-white/5 py-12 bg-dark-950">
+          <div className="container mx-auto px-6 flex flex-col items-center justify-center gap-6">
+            <div className="flex gap-6 text-sm font-medium text-dark-400">
+              <Link to="#" className="hover:text-white transition-colors">Terms & Conditions</Link>
+              <Link to="#" className="hover:text-white transition-colors">Privacy Policy</Link>
+              <Link to="#" className="hover:text-white transition-colors">Cookie Policy</Link>
+            </div>
+            <p className="text-xs text-dark-500 text-center max-w-md mx-auto leading-relaxed">
+              © 2026 TradeOxx Ai. All rights reserved.<br/>
+              Educational Paper Trading Simulator. Not real financial advice.
+            </p>
+          </div>
+        </footer>
+      </div>
+    </div>
+  );
+};
+
+export default LoginPage;
