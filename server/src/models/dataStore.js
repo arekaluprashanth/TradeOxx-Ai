@@ -156,7 +156,7 @@ class DataStore {
       p = this.create('portfolios', {
         id: `portfolio-${userId}`,
         userId,
-        balance: 100_000,
+        balance: 0,
         holdings: [],
       });
     }
