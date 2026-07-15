@@ -1,0 +1,22 @@
+name: Setup GitHub Project
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  projects: write
+
+jobs:
+  create-project:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Classic Project Board
+        run: |
+          curl -X POST \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/arekaluprashanth/TradeOxx-Ai/projects \
+            -d '{"name":"TradeOxx AI Project Board","body":"Automated Kanban board tracking features, updates, and releases for TradeOxx AI."}'
