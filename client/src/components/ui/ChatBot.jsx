@@ -1,12 +1,9 @@
- function _optionalChain(ops) { let lastAccessLHS = undefined; let value = ops[0]; let i = 1; while (i < ops.length) { const op = ops[i]; const fn = ops[i + 1]; i += 2; if ((op === 'optionalAccess' || op === 'optionalCall') && value == null) { return undefined; } if (op === 'access' || op === 'optionalAccess') { lastAccessLHS = value; value = fn(value); } else if (op === 'call' || op === 'optionalCall') { value = fn((...args) => value.call(lastAccessLHS, ...args)); lastAccessLHS = undefined; } } return value; }import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Bot, X, Send, User, Sparkles } from 'lucide-react';
-
-
-
-
-
-
+import { formatCurrency } from '../../services/utils';
+import { useMarketStore } from '../../stores/marketStore';
+import { usePortfolioStore } from '../../stores/portfolioStore';
 
 export default function ChatBot() {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,11 +13,14 @@ export default function ChatBot() {
     {
       id: '1',
       sender: 'bot',
-      text: 'Hello! I am TradeOxx Ai. I am connected to live market data and advanced LLM logic. Ask me anything about trading, crypto, or stocks!',
+      text: 'Hello! I am Apexx Ai, your dedicated trading assistant. I am linked to live market quotes, your portfolio, and advanced financial LLM logic. Ask me anything about your balance, holdings, crypto, or stocks!',
     },
   ]);
   const messagesEndRef = useRef(null);
   const containerRef = useRef(null);
+
+  const quotes = useMarketStore((state) => state.quotes);
+  const { portfolio } = usePortfolioStore();
 
   const scrollToBottom = () => {
     if (containerRef.current) {
@@ -35,83 +35,103 @@ export default function ChatBot() {
   const generateSmartResponse = async (query) => {
     const lowerQ = query.toLowerCase();
     
-    // Simulate API delay for realism
-    await new Promise((r) => setTimeout(r, 1200 + Math.random() * 1000));
+    // Simulate API thinking latency for realism
+    await new Promise((r) => setTimeout(r, 1000 + Math.random() * 800));
 
+    // 1. Identity Queries
+    if (lowerQ.includes('who are you') || lowerQ.includes('your name') || lowerQ.includes('what are you') || lowerQ.includes('apexx')) {
+      return "I am Apexx Ai, the advanced financial intelligence agent embedded inside TradeOxx AI. I operate on Claude 3.5 Sonnet / Opus level reasoning capabilities, specifically fine-tuned for high-speed technical analysis, risk management, and quantitative trade execution.";
+    }
+
+    if (lowerQ.includes('hello') || lowerQ.includes('hi ') || lowerQ.includes('hey') || lowerQ.includes('greetings')) {
+      return "Hello! I'm Apexx Ai, your digital trading co-pilot. I can check your live portfolio, pull real-time asset quotes, or explain quantitative trading theories. What would you like to analyze today?";
+    }
+
+    // 2. Portfolio Queries (Live data integration)
+    if (lowerQ.includes('balance') || lowerQ.includes('my portfolio') || lowerQ.includes('my money') || lowerQ.includes('holdings') || lowerQ.includes('total value')) {
+      const cash = portfolio?.balance || 0;
+      const total = portfolio?.totalValue || 0;
+      const holdingsCount = portfolio?.holdings?.length || 0;
+      
+      let holdingDetails = "";
+      if (holdingsCount > 0) {
+        holdingDetails = "\n\nActive Positions:\n" + portfolio.holdings.map(h => 
+          `• ${h.symbol}: ${h.quantity} units @ average cost ${formatCurrency(h.avgPrice || h.avgCost)}`
+        ).join('\n');
+      } else {
+        holdingDetails = "\n\nYou currently hold no active positions in your portfolio.";
+      }
+
+      return `Apexx Ai Portfolio Audit:\n\n• Available Cash Balance: ${formatCurrency(cash)}\n• Total Portfolio Value: ${formatCurrency(total)}\n• Open Positions: ${holdingsCount}${holdingDetails}\n\nYou can fund your account using the "Deposit" section, or withdraw using the "Withdraw" section on your dashboard.`;
+    }
+
+    // 3. Market Quotes Queries (Live price lookup)
+    const symbols = ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'NVDA', 'BTC', 'ETH', 'SOL', 'USDT', 'SPY', 'QQQ', 'IWM'];
+    let matchedSymbol = null;
+    for (const sym of symbols) {
+      if (lowerQ.includes(sym.toLowerCase())) {
+        matchedSymbol = sym;
+        break;
+      }
+    }
+
+    if (matchedSymbol && (lowerQ.includes('price') || lowerQ.includes('quote') || lowerQ.includes('rate') || lowerQ.includes('how much') || lowerQ.includes('value of'))) {
+      const quote = quotes[matchedSymbol];
+      if (quote) {
+        const sign = quote.changePercent >= 0 ? '+' : '';
+        const colorText = quote.changePercent >= 0 ? '🟢 Bullish' : '🔴 Bearish';
+        return `Apexx Ai Market Report for ${matchedSymbol}:\n\n• Current Quote: ${formatCurrency(quote.price)}\n• 24h Change: ${sign}${quote.changePercent.toFixed(2)}%\n• Volume Activity: High\n• Market Outlook: ${colorText} momentum\n\nWould you like me to draft a trade recommendation or check indicators for ${matchedSymbol}?`;
+      }
+    }
+
+    // 4. General Stock/Crypto queries
     if (lowerQ.includes('bitcoin') || lowerQ.includes('btc')) {
-      return "Bitcoin (BTC) is currently showing strong support at the $60k level. On-chain data suggests accumulation by whales. I'd recommend a dollar-cost averaging (DCA) approach here rather than a lump sum.";
+      const quote = quotes['BTC'];
+      const priceStr = quote ? `trading at ${formatCurrency(quote.price)}` : 'trading in a consolidation range';
+      return `Bitcoin (BTC) is currently ${priceStr}. On-chain data indicates massive institutional accumulation. From a technical standpoint, a breakout above the 50-day EMA could trigger strong upward continuation.`;
     }
     if (lowerQ.includes('ethereum') || lowerQ.includes('eth')) {
-      return "Ethereum (ETH) gas fees have stabilized, and DeFi TVL is climbing. The recent network upgrades make it a solid long-term hold in any crypto portfolio.";
+      const quote = quotes['ETH'];
+      const priceStr = quote ? `trading at ${formatCurrency(quote.price)}` : 'exhibiting relative strength';
+      return `Ethereum (ETH) is currently ${priceStr}. Sizable smart contract volumes and layer-2 adoption continue to support network valuation. Support ranges remain firm.`;
     }
-    if (lowerQ.includes('stock') || lowerQ.includes('market')) {
-      return "The broader equity markets are currently experiencing a slight rotation out of mega-cap tech into small caps. Keep an eye on the Russell 2000 (IWM) for breakout opportunities.";
-    }
-    // First check custom intelligent persona responses
-    if (lowerQ.includes('hello') || lowerQ.includes('hi') || lowerQ.includes('hey')) {
-      return "Hello there! I'm TradeOxx Ai, your personal financial quant. I'm here to analyze market data, explain complex trading concepts, or help you execute paper trades. What's on your mind today?";
-    }
-    if (lowerQ.includes('who are you') || lowerQ.includes('what are you')) {
-      return "I am TradeOxx Ai, an advanced language model trained specifically for financial markets, quantitative analysis, and high-frequency trading simulation. How can I assist you?";
-    }
-    if (lowerQ.includes('how to trade') || lowerQ.includes('how do i trade') || lowerQ.includes('start trading')) {
-      return "To start trading on TradeOxx Ai, simply navigate to your Dashboard, click on any asset in your Watchlist (or search for one), and click 'Buy' or 'Sell'. The order will be executed against real-time simulated liquidity!";
-    }
-    if (lowerQ.includes('what is the best') && (lowerQ.includes('coin') || lowerQ.includes('stock') || lowerQ.includes('crypto'))) {
-      return "As an AI, I cannot provide guaranteed financial advice. However, currently Bitcoin (BTC) and Ethereum (ETH) show the highest institutional adoption, while large-cap tech stocks like AAPL and TSLA provide strong liquidity for active trading strategies.";
-    }
-    if (lowerQ.includes('explain') && lowerQ.includes('leverage')) {
-      return "Leverage in trading is like borrowing money to increase your position size. For example, with 10x leverage, a $100 investment lets you trade $1,000 worth of assets. It amplifies both your profits AND your losses, so risk management is critical.";
-    }
-    if (lowerQ.includes('is it a good time') || lowerQ.includes('should i buy')) {
-      return "Market timing is famously difficult! Instead of trying to find the 'perfect' time, many professionals use Dollar Cost Averaging (DCA) or wait for confirmation of a trend breakout on the charts before entering. Always analyze the risk-to-reward ratio first.";
-    }
-    if (lowerQ.includes('good') || lowerQ.includes('fantastic') || lowerQ.includes('awesome')) {
-      return "I'm glad you're enjoying the experience! My goal is to be the fastest, most advanced paper trading assistant in the world. Let me know if you want to dive into some chart analysis or backtesting.";
-    }
-    if (lowerQ.includes('fast') || lowerQ.includes('165hz') || lowerQ.includes('speed')) {
-      return "Absolutely! TradeOxx Ai is built on an ultra-optimized architecture designed to run at up to 165Hz. It's built to be fast, furious, and completely lag-free to give you the ultimate trading edge!";
+    if (lowerQ.includes('tesla') || lowerQ.includes('tsla')) {
+      const quote = quotes['TSLA'];
+      const priceStr = quote ? `trading at ${formatCurrency(quote.price)}` : 'showing high volatility';
+      return `Tesla (TSLA) is ${priceStr}. Option volumes are heavily skewed toward call contracts. Resistance remains at the short-term swing high.`;
     }
 
-    // Attempt to fetch definition from Wikipedia API for highly intelligent answers
-    try {
-      // Get the last noun or main word
-      const words = lowerQ.replace(/[^\w\s]/g, '').split(' ').filter(w => w.length > 3);
-      if (words.length > 0) {
-        // use the most significant sounding word (often the last one)
-        const searchWord = words[words.length - 1];
-        
-        // 1. Search for the best matching article title
-        const searchRes = await fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${searchWord}&utf8=&format=json&origin=*`);
-        if (searchRes.ok) {
-          const searchData = await searchRes.json();
-          if (_optionalChain([searchData, 'access', _ => _.query, 'optionalAccess', _2 => _2.search, 'optionalAccess', _3 => _3.length]) > 0) {
-            const title = searchData.query.search[0].title;
-            
-            // 2. Fetch the summary for that title
-            const summaryRes = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`);
-            if (summaryRes.ok) {
-              const summaryData = await summaryRes.json();
-              if (summaryData.extract) {
-                return `Here is what my global database says about ${title}:\n\n"${summaryData.extract}"\n\nHow does this fit into your current trading or investment goals?`;
-              }
-            }
-          }
-        }
-      }
-    } catch (e) {
-      // ignore and fallback
+    // 5. How to Trade / Interface Help
+    if (lowerQ.includes('how to trade') || lowerQ.includes('how to buy') || lowerQ.includes('how to sell') || lowerQ.includes('start trading')) {
+      return "To place a trade, select any asset from your Watchlist on the Dashboard, click on it to open the chart panel, specify your trade type (Buy or Sell), enter the quantity, and confirm. Trades are processed instantly with real-time slippage metrics.";
     }
 
-    // Default sophisticated fallback
-    const fallbacks = [
-      "I'm continuously analyzing real-time market data. Could you rephrase your question so I can provide a more accurate technical breakdown?",
-      "That's an interesting perspective. Based on my quantitative models, the market tends to be highly volatile around those parameters. What specific asset are you looking at?",
-      "I can certainly help with that. Are you approaching this from a day-trading perspective, or are you looking for a long-term investment analysis?",
-      "To give you the best answer, I need to know your risk tolerance. Do you prefer high-risk crypto assets or more stable blue-chip equities?",
-      "Interesting question. While my neural networks process that, you might want to check the Analytics tab on your Dashboard to see the latest momentum indicators."
+    if (lowerQ.includes('deposit') || lowerQ.includes('add cash') || lowerQ.includes('payment')) {
+      return "To deposit funds, click 'Add Cash' on your dashboard. You can select your currency (USD or INR) and choose your preferred payment option: UPI QR Code scan (Paytm, GPay, PhonePe), Visa, Rupay card input, or PayPal.";
+    }
+
+    if (lowerQ.includes('withdraw') || lowerQ.includes('payout')) {
+      return "To withdraw funds, click 'Withdraw' on the dashboard. Enter the amount in either USD or INR, select your payout method (Direct Bank Wire, PayPal, or UPI), and verify the withdrawal. Payout calculations include a flat 0.5% brokerage fee.";
+    }
+
+    // 6. Quantitative Terms
+    if (lowerQ.includes('leverage')) {
+      return "Leverage allows you to amplify your trading capital. In our Futures Desk, you can trade up to 100x leverage. Keep in mind: while leverage increases potential profits, it also heightens liquidation risk. Proper stop-losses are highly recommended.";
+    }
+
+    if (lowerQ.includes('refresh') || lowerQ.includes('hz') || lowerQ.includes('lag') || lowerQ.includes('speed')) {
+      return "TradeOxx AI is built with an ultra-responsive layout running at up to 165Hz refresh rates. This allows charts, orders, and Apexx Ai response times to process dynamically with zero lag.";
+    }
+
+    // 7. General Financial Fallback (Opus style intelligent reasoning)
+    const sophisticatedAnswers = [
+      "Analyzing the macro parameters: global indices are currently showing consolidation. This volatility presents excellent entry opportunities for scalp-trading strategies. Which specific ticker are we auditing?",
+      "From a risk-management perspective, it is critical to size your positions at no more than 2% of your available portfolio balance. Would you like to review risk parameters or backtest an active strategy?",
+      "Looking at the technical indicators, the Relative Strength Index (RSI) is signaling a neutral condition. This suggests a continuation of the current range-bound channel before the next major breakout.",
+      "That is a sophisticated question. Most algorithmic frameworks approach this by combining MACD momentum crossovers with volume profile distribution. Let me know if you would like me to explain this formula in detail!"
     ];
-    return fallbacks[Math.floor(Math.random() * fallbacks.length)];
+
+    return sophisticatedAnswers[Math.floor(Math.random() * sophisticatedAnswers.length)];
   };
 
   const handleSend = async () => {
@@ -150,7 +170,7 @@ export default function ChatBot() {
     <div className="relative">
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className="p-2 rounded-xl  text-accent-cyan hover:text-accent-cyan/80 transition-colors relative"
+        className="p-2 rounded-xl text-accent-cyan hover:text-accent-cyan/80 transition-colors relative"
         title="Ask Apexx AI"
       >
         <Sparkles size={20} className="absolute top-1 right-1 w-3 h-3 text-accent-purple animate-pulse" />
@@ -177,14 +197,14 @@ export default function ChatBot() {
                   </div>
                   <div>
                     <h3 className="text-white font-bold text-sm flex items-center gap-1">
-                      TradeOxx Ai <Sparkles size={12} className="text-accent-purple" />
+                      Apexx Ai <Sparkles size={12} className="text-accent-purple" />
                     </h3>
-                    <p className="text-accent-cyan text-[10px] font-mono tracking-wider uppercase">GPT-4 Turbo Equivalent</p>
+                    <p className="text-accent-cyan text-[10px] font-mono tracking-wider uppercase">Opus intelligence engine</p>
                   </div>
                 </div>
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="text-dark-400 hover:text-white p-1 rounded-lg  transition-colors"
+                  className="text-dark-400 hover:text-white p-1 rounded-lg transition-colors"
                 >
                   <X size={20} />
                 </button>
@@ -209,7 +229,7 @@ export default function ChatBot() {
                       {msg.sender === 'user' ? <User size={14} /> : <Bot size={14} />}
                     </div>
                     <div
-                      className={`max-w-[80%] p-3 text-sm leading-relaxed ${
+                      className={`max-w-[80%] p-3 text-sm leading-relaxed whitespace-pre-line ${
                         msg.sender === 'user'
                           ? 'bg-gradient-to-br from-accent-purple to-accent-cyan text-white rounded-2xl rounded-br-none shadow-glow-cyan/20'
                           : 'bg-dark-800 text-dark-100 rounded-2xl rounded-bl-none border border-white/5 shadow-inner'
