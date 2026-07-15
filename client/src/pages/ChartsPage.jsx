@@ -5,6 +5,7 @@ import ChartToolbar from '../components/charts/ChartToolbar';
 import ChartContainer from '../components/charts/ChartContainer';
 import { formatCurrency } from '../lib/utils';
 import { AreaChart, } from 'lucide-react';
+import FuturesDesk from '../components/dashboard/FuturesDesk';
 
 export default function ChartsPage() {
   const { isConnected, lastUpdate } = useMarketData();
@@ -74,6 +75,10 @@ export default function ChartsPage() {
         <div className="rounded-2xl overflow-hidden border border-white/5">
           <ChartContainer chartType={chartType} />
         </div>
+      </div>
+
+      <div className="mt-8">
+        <FuturesDesk defaultSymbol={activeSymbol} />
       </div>
     </div>
   );

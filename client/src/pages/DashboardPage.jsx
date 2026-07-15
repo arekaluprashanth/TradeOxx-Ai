@@ -17,6 +17,7 @@ import {
 
 } from 'lucide-react';
 import AssetModal from '../components/trading/AssetModal';
+import FuturesDesk from '../components/dashboard/FuturesDesk';
 
 export default function DashboardPage() {
   const { isConnected } = useMarketData();
@@ -328,6 +329,10 @@ export default function DashboardPage() {
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="mt-8">
+        <FuturesDesk />
       </div>
 
       <AssetModal

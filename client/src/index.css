@@ -483,3 +483,18 @@
 .animate-marquee:hover {
   animation-play-state: paused;
 }
+
+/* ── 165Hz Hardware Acceleration & Fluidity ───────────────── */
+.high-refresh-smooth {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Optimize transitions for 165Hz high-refresh displays (tighter response curves) */
+.transition-high-refresh {
+  transition-property: transform, opacity, background-color, border-color, box-shadow;
+  transition-duration: 120ms;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1); /* Ultra premium easeOutExpo */
+}

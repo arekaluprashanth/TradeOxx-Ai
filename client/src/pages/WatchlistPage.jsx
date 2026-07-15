@@ -8,6 +8,7 @@ import { Input } from '../components/ui/Input';
 import { Plus, Trash2, RefreshCcw, Star, TrendingUp, TrendingDown, } from 'lucide-react';
 import toast from 'react-hot-toast';
 import AssetModal from '../components/trading/AssetModal';
+import FuturesDesk from '../components/dashboard/FuturesDesk';
 
 export default function WatchlistPage() {
   const { isConnected } = useMarketData();
@@ -173,6 +174,10 @@ export default function WatchlistPage() {
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="mt-8">
+        <FuturesDesk />
       </div>
 
       <AssetModal

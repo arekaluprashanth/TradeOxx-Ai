@@ -5,6 +5,7 @@ import PortfolioPanel from '../components/portfolio/PortfolioPanel';
 import TradeForm from '../components/portfolio/TradeForm';
 import TradeHistory from '../components/portfolio/TradeHistory';
 import { Button } from '../components/ui/Button';
+import FuturesDesk from '../components/dashboard/FuturesDesk';
 import { Briefcase, ArrowUpRight, TrendingUp, } from 'lucide-react';
 
 export default function PortfolioPage() {
@@ -84,6 +85,10 @@ export default function PortfolioPage() {
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="mt-8">
+        <FuturesDesk />
       </div>
 
       <TradeForm

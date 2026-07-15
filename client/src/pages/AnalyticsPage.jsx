@@ -1,4 +1,5 @@
 import AnalyticsDashboard from '../components/analytics/AnalyticsDashboard';
+import FuturesDesk from '../components/dashboard/FuturesDesk';
 import { BarChart3, } from 'lucide-react';
 
 export default function AnalyticsPage() {
@@ -32,6 +33,10 @@ export default function AnalyticsPage() {
 
       <div className="bg-dark-850/80 rounded-3xl border border-white/5 p-1 shadow-2xl">
         <AnalyticsDashboard />
+      </div>
+
+      <div className="mt-8">
+        <FuturesDesk />
       </div>
     </div>
   );

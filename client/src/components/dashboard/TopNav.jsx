@@ -12,9 +12,12 @@ import ChatBot from '../ui/ChatBot';
 
 const NAV_LINKS = [
   { path: '/', label: 'Explore' },
+  { path: '/charts', label: 'Charts' },
   { path: '/portfolio', label: 'Investments' },
+  { path: '/strategy', label: 'Strategy' },
   { path: '/watchlist', label: 'Watchlist' },
   { path: '/analytics', label: 'Analytics' },
+  { path: '/settings', label: 'Settings' }
 ];
 
 export default function TopNav({ onMenuClick }) {

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import StrategyBuilder from '../components/strategy/StrategyBuilder';
 import BacktestResults from '../components/strategy/BacktestResults';
 import { Button } from '../components/ui/Button';
+import FuturesDesk from '../components/dashboard/FuturesDesk';
 
 export default function StrategyPage() {
   const [results, setResults] = useState(null);
@@ -51,6 +52,10 @@ export default function StrategyPage() {
           <h2 className="text-xl font-semibold text-white mb-4">Backtest summary</h2>
           <BacktestResults results={results} isLoading={isRunning} />
         </div>
+      </div>
+
+      <div className="mt-8">
+        <FuturesDesk />
       </div>
     </div>
   );
