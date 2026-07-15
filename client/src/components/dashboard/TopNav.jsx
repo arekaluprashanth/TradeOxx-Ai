@@ -57,7 +57,7 @@ export default function TopNav({ onMenuClick }) {
   return (
     <header className="sticky top-0 z-40 bg-dark-900 border-b border-white/5 flex flex-col">
       {/* Top Row: Logo, Search, User Icons */}
-      <div className="flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8 max-w-[1440px] mx-auto w-full gap-4 lg:gap-8">
+      <div className="flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8 w-full gap-4 lg:gap-8">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2 group shrink-0">
           <motion.img 
@@ -257,7 +257,7 @@ export default function TopNav({ onMenuClick }) {
       </div>
 
       {/* Bottom Row: Navigation Tabs */}
-      <div className="px-4 sm:px-6 lg:px-8 max-w-[1440px] mx-auto w-full">
+      <div className="px-4 sm:px-6 lg:px-8 w-full">
         <nav className="flex gap-6 overflow-x-auto no-scrollbar py-2">
           {NAV_LINKS.map((link) => {
             const isActive = location.pathname === link.path;
@@ -283,7 +283,7 @@ export default function TopNav({ onMenuClick }) {
 
       {/* Page-Specific Custom UI Sub-Bars */}
       <div className="border-t border-white/5 bg-dark-900/60 backdrop-blur-md">
-        <div className="px-4 sm:px-6 lg:px-8 max-w-[1440px] mx-auto w-full py-3">
+        <div className="px-4 sm:px-6 lg:px-8 w-full py-3">
           <AnimatePresence mode="wait">
             {location.pathname === '/' && (
               <motion.div

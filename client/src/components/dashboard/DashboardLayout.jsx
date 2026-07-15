@@ -24,7 +24,7 @@ export default function DashboardLayout() {
     <div className="min-h-screen bg-dark-950 flex flex-col">
       <TopNav onMenuClick={() => setMobileMenuOpen(true)} />
 
-      <main className="flex-1 w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-6 overflow-x-hidden">
+      <main className="flex-1 w-full px-4 sm:px-6 lg:px-8 py-6 overflow-x-hidden">
         <AnimatePresence mode="wait">
           <motion.div
             key={location.pathname}
