@@ -68,12 +68,17 @@ function generateDemoCandles(basePrice, count = 100) {
 
 
 
+const initialQuotes = {};
+DEMO_ASSETS.forEach((asset) => {
+  initialQuotes[asset.symbol] = asset;
+});
+
 export const useMarketStore = create((set, get) => ({
   // ── State ────────────────────────────────────────────
-  assets: [],
+  assets: DEMO_ASSETS,
   activeSymbol: 'AAPL',
   candles: {},
-  quotes: {},
+  quotes: initialQuotes,
   chartType: 'candlestick',
   timeFrame: '1D',
   activeIndicators: [],

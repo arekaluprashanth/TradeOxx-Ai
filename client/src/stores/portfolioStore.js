@@ -48,8 +48,8 @@ const DEMO_TRADES = [
 
 export const usePortfolioStore = create((set, get) => ({
   // ── State ────────────────────────────────────────────
-  portfolio: null,
-  trades: [],
+  portfolio: DEMO_PORTFOLIO,
+  trades: DEMO_TRADES,
   isLoading: false,
   error: null,
 
