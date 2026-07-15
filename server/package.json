@@ -4,8 +4,8 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "node --watch src/index.js",
-    "start": "node src/index.js",
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js",
     "test": "jest --runInBand"
   },
   "dependencies": {

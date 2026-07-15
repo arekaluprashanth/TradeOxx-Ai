@@ -9,7 +9,7 @@ import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import ChatBot from '../ui/ChatBot';
 import FloatingCryptoBackground from '../ui/FloatingCryptoBackground';
-import { EMAILJS_CONFIG, isEmailJSConfigured } from '../../lib/emailjs';
+import { EMAILJS_CONFIG, isEmailJSConfigured } from '../../services/emailjs';
 
 // ── OTP Code Input ─────────────────────────────────────
 

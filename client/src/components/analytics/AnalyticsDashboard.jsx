@@ -19,7 +19,7 @@ import {
   Zap,
 } from 'lucide-react';
 import MetricCard from './MetricCard';
-import { formatCurrency } from '../../lib/utils';
+import { formatCurrency } from '../../services/utils';
 
 // Generate sample sparkline data
 const generateSparkline = (base, variance, points = 20) =>

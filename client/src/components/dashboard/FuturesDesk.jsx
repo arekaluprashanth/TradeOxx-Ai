@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { ShieldCheck, HelpCircle, Activity, Award, TrendingUp, Cpu, Info, Settings, AlertTriangle } from 'lucide-react';
-import { formatCurrency } from '../../lib/utils';
+import { formatCurrency } from '../../services/utils';
 import toast from 'react-hot-toast';
 
 export default function FuturesDesk({ defaultSymbol = 'EURUSD' }) {

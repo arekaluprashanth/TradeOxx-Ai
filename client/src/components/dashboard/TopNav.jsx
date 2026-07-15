@@ -6,7 +6,7 @@ import { useAuthStore } from '../../stores/authStore';
 import { useUiStore } from '../../stores/uiStore';
 import { useMarketStore } from '../../stores/marketStore';
 import { usePortfolio } from '../../hooks/usePortfolio';
-import { formatCurrency } from '../../lib/utils';
+import { formatCurrency } from '../../services/utils';
 import AssetModal from '../trading/AssetModal';
 import ChatBot from '../ui/ChatBot';
 

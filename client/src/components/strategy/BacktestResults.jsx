@@ -10,7 +10,7 @@ import {
   AreaChart,
 } from 'recharts';
 import { TrendingUp, Target, ArrowDownRight, Activity, BarChart3, Loader2 } from 'lucide-react';
-import { formatCurrency, } from '../../lib/utils';
+import { formatCurrency, } from '../../services/utils';
 
 
 

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, QrCode, CreditCard, Wallet, Landmark, CheckCircle, ArrowDownLeft, ArrowUpRight, ShieldCheck } from 'lucide-react';
-import { formatCurrency } from '../../lib/utils';
+import { formatCurrency } from '../../services/utils';
 import { usePortfolioStore } from '../../stores/portfolioStore';
 import toast from 'react-hot-toast';
 

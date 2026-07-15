@@ -2,7 +2,7 @@
 import { motion } from 'framer-motion';
 import { ArrowUpDown, Download, Filter, ChevronLeft, ChevronRight } from 'lucide-react';
 import { usePortfolioStore } from '../../stores/portfolioStore';
-import { formatCurrency } from '../../lib/utils';
+import { formatCurrency } from '../../services/utils';
 import { format } from 'date-fns';
 
 

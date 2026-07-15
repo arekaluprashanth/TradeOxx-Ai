@@ -11,7 +11,7 @@ import morgan from 'morgan';
 
 // ── Engine & Store ─────────────────────────────────────────
 import { MarketEngine } from './engine/marketEngine.js';
-import store from './store/dataStore.js';
+import store from './models/dataStore.js';
 
 // ── Routes ─────────────────────────────────────────────────
 import authRoutes from './routes/auth.js';

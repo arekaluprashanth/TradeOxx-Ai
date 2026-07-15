@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import store from '../store/dataStore.js';
+import store from '../models/dataStore.js';
 import { generateToken } from '../middleware/auth.js';
 import { generateId } from '../utils/helpers.js';
 import { authMiddleware } from '../middleware/auth.js';

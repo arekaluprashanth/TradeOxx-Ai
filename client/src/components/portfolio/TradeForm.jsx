@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Minus, Plus, ArrowUpRight, ArrowDownRight, Loader2 } from 'lucide-react';
 import { useMarketStore } from '../../stores/marketStore';
 import { usePortfolioStore } from '../../stores/portfolioStore';
-import { formatCurrency } from '../../lib/utils';
+import { formatCurrency } from '../../services/utils';
 import toast from 'react-hot-toast';
 
 

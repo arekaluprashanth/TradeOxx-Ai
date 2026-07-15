@@ -2,7 +2,7 @@
 import { motion } from 'framer-motion';
 import { Wallet, TrendingUp, TrendingDown, DollarSign, ArrowUpRight, ArrowDownRight } from 'lucide-react';
 import { usePortfolioStore } from '../../stores/portfolioStore';
-import { formatCurrency, } from '../../lib/utils';
+import { formatCurrency, } from '../../services/utils';
 import AssetModal from '../trading/AssetModal';
 
 export default function PortfolioPanel() {

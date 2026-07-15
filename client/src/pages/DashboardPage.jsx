@@ -2,7 +2,7 @@
 import { useMarketData } from '../hooks/useMarketData';
 import { usePortfolio } from '../hooks/usePortfolio';
 import { useMarketStore } from '../stores/marketStore';
-import { formatCurrency } from '../lib/utils';
+import { formatCurrency } from '../services/utils';
 import {
 
  

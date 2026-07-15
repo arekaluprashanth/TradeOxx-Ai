@@ -7,7 +7,7 @@ import emailjs from '@emailjs/browser';
 import { useAuthStore } from '../../stores/authStore';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
-import { EMAILJS_CONFIG, isEmailJSConfigured } from '../../lib/emailjs';
+import { EMAILJS_CONFIG, isEmailJSConfigured } from '../../services/emailjs';
 
 // ── Floating Particle ──────────────────────────────────
 

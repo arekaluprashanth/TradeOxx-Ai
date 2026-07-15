@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import store from '../store/dataStore.js';
+import store from '../models/dataStore.js';
 import { authMiddleware } from '../middleware/auth.js';
 
 const router = Router();

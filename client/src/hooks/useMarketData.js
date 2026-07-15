@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { connectSocket, onSocketEvent, disconnectSocket } from '../lib/socket';
+import { connectSocket, onSocketEvent, disconnectSocket } from '../services/socket';
 import { useMarketStore } from '../stores/marketStore';
 
 

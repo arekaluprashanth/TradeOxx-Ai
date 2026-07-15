@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ArrowUpRight, ArrowDownRight, TrendingUp } from 'lucide-react';
-import { formatCurrency } from '../../lib/utils';
+import { formatCurrency } from '../../services/utils';
 import { usePortfolio } from '../../hooks/usePortfolio';
 
 

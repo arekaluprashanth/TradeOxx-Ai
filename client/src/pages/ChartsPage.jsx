@@ -3,7 +3,7 @@ import { useMarketData } from '../hooks/useMarketData';
 import { useMarketStore } from '../stores/marketStore';
 import ChartToolbar from '../components/charts/ChartToolbar';
 import ChartContainer from '../components/charts/ChartContainer';
-import { formatCurrency } from '../lib/utils';
+import { formatCurrency } from '../services/utils';
 import { AreaChart, } from 'lucide-react';
 import FuturesDesk from '../components/dashboard/FuturesDesk';
 
