@@ -3,9 +3,8 @@
 const defaultApiUrl = '/api';
 const host = window.location.hostname;
 const port = window.location.port;
-const viteEnv = (import.meta ).env ;
 const baseURL =
-  viteEnv.VITE_API_URL ||
+  import.meta.env.VITE_API_URL ||
   ((host === 'localhost' || host === '127.0.0.1') && port && port !== '3001'
     ? 'http://localhost:3001/api'
     : defaultApiUrl);
