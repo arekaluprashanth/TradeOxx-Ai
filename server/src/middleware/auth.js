@@ -1,4 +1,4 @@
-import store from '../store/dataStore.js';
+import store from '../models/dataStore.js';
 import jwt from 'jsonwebtoken';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret-change-me';

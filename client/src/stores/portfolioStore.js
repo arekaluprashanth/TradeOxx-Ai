@@ -4,18 +4,13 @@ import api from '../services/api';
 
 // ── Demo data for static deployments (no backend) ──────
 const DEMO_PORTFOLIO = {
-  balance: 87432.50,
-  totalValue: 124890.75,
-  totalPnl: 24890.75,
-  totalPnlPercent: 24.89,
-  dailyPnl: 1245.30,
-  holdings: [
-    { symbol: 'AAPL', name: 'Apple Inc.', quantity: 50, avgPrice: 185.20, currentPrice: 198.45, value: 9922.50, pnl: 662.50, pnlPercent: 7.15 },
-    { symbol: 'NVDA', name: 'NVIDIA Corp.', quantity: 100, avgPrice: 118.50, currentPrice: 135.40, value: 13540.00, pnl: 1690.00, pnlPercent: 14.26 },
-    { symbol: 'MSFT', name: 'Microsoft Corp.', quantity: 20, avgPrice: 420.00, currentPrice: 442.58, value: 8851.60, pnl: 451.60, pnlPercent: 5.37 },
-    { symbol: 'BTC', name: 'Bitcoin', quantity: 0.05, avgPrice: 64000.00, currentPrice: 71245.00, value: 3562.25, pnl: 362.25, pnlPercent: 11.32 },
-    { symbol: 'ETH', name: 'Ethereum', quantity: 0.5, avgPrice: 3500.00, currentPrice: 3892.45, value: 1946.23, pnl: 196.23, pnlPercent: 11.21 },
-  ],
+  balance: 0.00,
+  totalValue: 0.00,
+  totalPnl: 0.00,
+  totalPnlPercent: 0.00,
+  dailyPnl: 0.00,
+  holdings: [],
+  transactions: []
 };
 
 const DEMO_TRADES = [

@@ -7,14 +7,15 @@ import TradeHistory from '../components/portfolio/TradeHistory';
 import { Button } from '../components/ui/Button';
 import FuturesDesk from '../components/dashboard/FuturesDesk';
 import { Briefcase, ArrowUpRight, TrendingUp, } from 'lucide-react';
-import DepositWithdrawModal from '../components/portfolio/DepositWithdrawModal';
+import DepositModal from '../components/portfolio/DepositModal';
+import WithdrawModal from '../components/portfolio/WithdrawModal';
 
 export default function PortfolioPage() {
   const { portfolio, isLoading, error } = usePortfolio();
   const activeSymbol = useMarketStore((state) => state.activeSymbol);
   const [isTradeOpen, setIsTradeOpen] = useState(false);
   const [isDepositOpen, setIsDepositOpen] = useState(false);
-  const [depositTab, setDepositTab] = useState('deposit');
+  const [isWithdrawOpen, setIsWithdrawOpen] = useState(false);
 
   return (
     <div className="space-y-8 animate-fade-in pb-20">
@@ -31,10 +32,10 @@ export default function PortfolioPage() {
             </div>
           </div>
           <div className="flex flex-wrap gap-3">
-            <Button variant="outline" size="lg" onClick={() => { setDepositTab('deposit'); setIsDepositOpen(true); }}>
+            <Button variant="outline" size="lg" onClick={() => setIsDepositOpen(true)}>
               Deposit
             </Button>
-            <Button variant="outline" size="lg" onClick={() => { setDepositTab('withdraw'); setIsDepositOpen(true); }}>
+            <Button variant="outline" size="lg" onClick={() => setIsWithdrawOpen(true)}>
               Withdraw
             </Button>
             <Button variant="primary" size="lg" onClick={() => setIsTradeOpen(true)} className="hover:shadow-[0_0_20px_rgba(0,212,255,0.4)]">
@@ -108,10 +109,14 @@ export default function PortfolioPage() {
         defaultSymbol={activeSymbol}
       />
 
-      <DepositWithdrawModal
+      <DepositModal
         isOpen={isDepositOpen}
         onClose={() => setIsDepositOpen(false)}
-        initialTab={depositTab}
+      />
+
+      <WithdrawModal
+        isOpen={isWithdrawOpen}
+        onClose={() => setIsWithdrawOpen(false)}
       />
     </div>
   );
