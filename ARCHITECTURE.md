@@ -1,101 +1,123 @@
-# TradeOxx AI — Full-Stack Project Architecture
+# TradeOxx AI — Technical System Architecture
 
-Welcome to **TradeOxx AI**, a modern, full-stack trading simulation platform that allows users to practice stock and crypto trading. This document maps out the entire directory structure, explaining the role of every key file and folder to help clients, developers, and project maintainers easily understand and work with the codebase.
-
----
-
-## 📁 Project Overview & Layout
-
-The project is structured as a monorepo consisting of a decoupled frontend client, a backend simulation engine, Docker configurations, and a native Android project wrap.
-
-```
-TradeOxx Ai/
-├── .github/                # Automation and CI/CD pipelines
-├── android/                # Capacitor-generated native Android app wrapping the web build
-├── api/                    # Serverless routing proxy for Vercel deployment
-├── backend/                # Node.js + Express API server simulating financial markets
-├── client/                 # React + Vite + Tailwind CSS frontend interface
-├── docker/                 # Container files for local and cloud Docker deployments
-└── configs & workflows     # CI/CD workflows and deployment configurations
-```
+This document outlines the system architecture of **TradeOxx AI**, a high-performance full-stack simulated trading platform, mapped across the 13 foundational system design areas.
 
 ---
 
-## 📂 Detailed File & Directory Map
+## 1. Frontend
+The frontend is a single-page application (SPA) optimized for ultra-smooth responsiveness and high-frequency UI updates.
 
-### 1. Root Configuration & Dependencies
-These files manage dependencies, scripts, build workflows, and deployment targets.
-
-- [package.json](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/package.json): Defines root scripts for the monorepo workspace to concurrently install, develop, build, and deploy both backend and client (e.g., `npm run dev`, `npm run build`, `npm run install:all`).
-- [vercel.json](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/vercel.json): Configures routes, output directory, and serverless path rewrites for serverless Vercel cloud deployment.
-- [.vercelignore](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/.vercelignore): Specifies files and directories (like `android/` and `docker/`) that Vercel should skip uploading to optimize build speeds.
-- [.gitignore](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/.gitignore): Prevents build folders (`client/dist`), dependencies (`node_modules`), keys, and environment overrides from being committed to version control.
-
----
-
-### 2. Frontend Client (`/client`)
-Built using **React (TypeScript)**, **Vite** (bundler), and **Tailwind CSS** (for styling).
-
-- **`/src/pages/`**: Represents individual view layouts loaded by React Router:
-  - [DashboardPage.tsx](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/client/src/pages/DashboardPage.tsx): Main hub containing user portfolio stats, recent trades, and account summary.
-  - [PortfolioPage.tsx](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/client/src/pages/PortfolioPage.tsx): Displays asset allocations, detailed holdings, and net asset value (NAV) progress.
-  - [WatchlistPage.tsx](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/client/src/pages/WatchlistPage.tsx): Allows users to add, monitor, and remove assets from their custom dashboard lists.
-  - [ChartsPage.tsx](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/client/src/pages/ChartsPage.tsx): Interactive charting interface supporting multiple assets.
-  - [StrategyPage.tsx](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/client/src/pages/StrategyPage.tsx): View for creating, testing, and applying customized algorithmic trading parameters.
-  - [SettingsPage.tsx](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/client/src/pages/SettingsPage.tsx): Settings for simulation resets, trading limits, and profile edits.
-- **`/src/components/`**: Reusable modular widgets:
-  - `/auth/`: Modal elements and forms for handling Login, Signup, and Password changes.
-  - `/charts/`: Contains Recharts wrappers rendering interactive candlestick charts, order books, and depth charts.
-  - `/dashboard/`: Layout widgets like `Sidebar`, `TopNav`, `BottomNav`, and notifications.
-  - `/portfolio/`: Interactive graphs showing holdings, asset breakdowns, and trade histories.
-  - `/trading/`: The trading widget supporting Buy/Sell market orders and order validation checks.
-  - `/ui/`: Generic style tokens (e.g., custom glassmorphism containers, modal overlay templates, buttons).
-- **`/src/stores/`**: Managed by **Zustand** for global, lightweight React state tracking:
-  - `authStore.ts`: Global state tracking logged-in user profiles and JSON Web Tokens.
-  - `marketStore.ts`: Feeds live asset quotes and updates lists across all active views.
-  - `portfolioStore.ts`: Handles virtual balances, current holdings, and PnL calculation states.
-- **`/src/hooks/`**: Custom React Hooks:
-  - `useMarketData.ts`: Handles interval polling of backend pricing simulation APIs.
+*   **Core Framework**: React 18 powered by **Vite** for rapid hot-module reloading (HMR) and optimized minified production builds.
+*   **Design & Styling**: Tailored vanilla CSS styled with a sleek, premium dark-mode fintech aesthetic. Responsive layouts are fluidly adjusted to support full-screen ratios on both mobile devices and desktop screens.
+*   **State Management**: **Zustand** stores handle lightweight, reactive client-side state:
+    *   [authStore.js](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/client/src/stores/authStore.js): Manages active session context and token storage.
+    *   [marketStore.js](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/client/src/stores/marketStore.js): Receives interval price quotes and triggers fast UI updates.
+    *   [portfolioStore.js](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/client/src/stores/portfolioStore.js): Computes real-time PnL, holdings, and transaction history locally.
+*   **Interactive Graphics**: Recharts engine generates clean, real-time candlestick charts and portfolio asset allocations.
+*   **Apexx AI Integration**: The [ChatBot.jsx](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/client/src/components/ui/ChatBot.jsx) interface is built directly into the client, wired to the global market state and portfolio indicators for live, context-aware financial audit replies.
+*   **Smooth Display Refresh**: Native settings are tuned to render up to **165Hz refresh rates**, minimizing frame latency for active chart scaling and slider interactions.
 
 ---
 
-### 3. Backend Service (`/backend`)
-A lightweight, fast **Express.js API server** running on Node.js.
+## 2. APIs & Backend Logic
+The backend is an event-driven service built on **Node.js** and **Express.js** that simulates real-world market operations.
 
-- [index.js](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/backend/src/index.js): Express app entry point. Sets up CORS policies, helmet security headers, rate limiting, request routing, and starts the market tick simulation loop.
-- **`/src/engine/`**:
-  - [marketEngine.js](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/backend/src/engine/marketEngine.js): The heart of the simulator. Uses mathematical drift algorithms to simulate real-time price ticks for assets like Apple (AAPL), Tesla (TSLA), Bitcoin (BTC), and Ethereum (ETH) every 2 seconds without external api costs.
-- **`/src/store/`**:
-  - [dataStore.js](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/backend/src/store/dataStore.js): Custom stateless database persistence file. In serverless environments (like Vercel), it safely persists registered accounts, cash balances, and holdings inside `/tmp/tradeoxx-data` on the fly.
-- **`/src/routes/`**: Handles HTTP API routes:
-  - [auth.js](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/backend/src/routes/auth.js): Resolves user registration, password hashing (bcrypt), and login token generation (JWT).
-  - [market.js](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/backend/src/routes/market.js): Serves current simulated prices, order book levels, and asset metadata.
-  - [portfolio.js](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/backend/src/routes/portfolio.js): Handles order execution (Buy/Sell) and checks user balance restrictions before validating trades.
-  - [watchlist.js](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/backend/src/routes/watchlist.js): Persists assets added to user watchlists.
-  - [strategies.js](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/backend/src/routes/strategies.js): Processes algorithm simulations and parameters.
-- **`/src/middleware/`**:
-  - `auth.js`: Verifies bearer JWT header tokens before allowing clients access to private trading and profile endpoints.
+*   **API Routes**: Separate modular endpoint controllers process trading requests:
+    *   [auth.js](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/server/src/routes/auth.js): Handles user sign-up, sign-in, and credentials.
+    *   [market.js](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/server/src/routes/market.js): Serves simulated asset details, historic quotes, and metrics.
+    *   [portfolio.js](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/server/src/routes/portfolio.js): Processes simulated order executions and checks balance limits.
+*   **Simulation Engine**: The [marketEngine.js](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/server/src/engine/marketEngine.js) runs an interval loop every 2 seconds. It uses mathematical drift models to simulate realistic fluctuations for 16 major financial assets (stocks/crypto) without external API dependencies.
 
 ---
 
-### 4. Docker Infrastructure (`/docker`)
-Standardized containers to build and run the entire stack locally or in the cloud.
+## 3. Database & Storage
+The application utilizes an ephemeral data system designed for low-latency writes and serverless compatibility.
 
-- [docker-compose.yml](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/docker/docker-compose.yml): Coordinates and runs the server container (exposed privately) and the client container (exposed on port 80) inside a bridge network.
-- [compose-traefik.yml](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/docker/compose-traefik.yml): Alternate compose file supporting Traefik reverse proxy headers, TLS termination, and Let's Encrypt certificates.
-- [Dockerfile.client](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/docker/Dockerfile.client): Multi-stage Docker build file that compiles the React application and serves the bundle statically using an optimized Nginx container.
-- [Dockerfile.server](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/docker/Dockerfile.server): Builds the Node.js production runtime for running the backend simulated API.
-
----
-
-### 5. Native Android Wrap (`/android`)
-Generates the compilation wrapper for deployment on Android devices.
-
-- [build.gradle](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/android/app/build.gradle): Specifies compilation target SDK configurations, the namespace (`com.tradeoxx.ai`), and the package ID (`com.tradeoxx.ai`).
-- [strings.xml](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/android/app/src/main/res/values/strings.xml): Defines app metadata resources including string displays, schemas, and native activity names.
-- [MainActivity.java](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/android/app/src/main/java/com/tradeoxx/ai/MainActivity.java): Main entry point extending BridgeActivity, pre-configured with refresh-rate modifiers for 90Hz/120Hz/165Hz Android screens.
+*   **In-Memory Database**: [dataStore.js](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/server/src/models/dataStore.js) operates a fast in-memory document store.
+*   **Local File Persistence**: Periodically serializes updates to a JSON database at [store.json](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/server/data/store.json).
+*   **Serverless Temp Storage**: When deployed to serverless providers (like Vercel), data operations are automatically rerouted to write files directly to `/tmp/tradeoxx-data` to conform with read-only root directory limitations.
 
 ---
 
-### 6. GitHub Actions Workflows (`/.github/workflows`)
-- [deploy.yml](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/.github/workflows/deploy.yml): Automatic CI/CD pipeline triggered on code pushes to building Docker images and deploying them to production hosting.
+## 4. Auth & Permission
+Access control is implemented via secure, standard JWT token validation mechanisms.
+
+*   **Password Hashing**: User passwords are encrypted on register and verified on login using **bcryptjs** (10 salt rounds).
+*   **Session Token**: The server generates JSON Web Tokens (JWT) signed using a secure secret key.
+*   **Route Protection**: The [auth.js](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/server/src/middleware/auth.js) middleware validates authorization header tokens (`Bearer <token>`) on all protected client requests (e.g., executing trades or fetching portfolio parameters).
+
+---
+
+## 5. Hosting & Deployment
+The repository is optimized for quick, automated deployments.
+
+*   **Configuration**: [vercel.json](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/vercel.json) orchestrates output build directories and sets path rewrites:
+    *   Statically serves the built React client (`/client/dist`).
+    *   Proxies all `/api/*` endpoints to the serverless function handler located in `/api/index.js`.
+*   **Vercel Build Target**: Built automatically by installing workspace dependencies and running client compiling steps.
+
+---
+
+## 6. Cloud & Compute
+The platform is built to run across standard cloud environments.
+
+*   **Serverless Compute**: Functions run statelessly on demand inside Vercel's compute nodes, optimizing server resources.
+*   **Docker Compute Options**: Custom configurations are provided in [Dockerfile.server](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/docker/Dockerfile.server) and [Dockerfile.client](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/docker/Dockerfile.client) to bundle compile steps for standard cloud container platforms (AWS ECS, Google Cloud Run).
+
+---
+
+## 7. CI/CD & Version Control
+Version control and pipeline tasks are managed directly in GitHub.
+
+*   **Source Sync**: Git coordinates code changes under `main` branch versioning.
+*   **Automation Pipelines**: [create-project.yml](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/.github/workflows/create-project.yml) automates project settings:
+    *   Triggers on `push` event workflows to setup, link, and refresh repository projects.
+
+---
+
+## 8. Security & RLS
+Multiple security layers protect the interface and connection routes.
+
+*   **CORS (Cross-Origin Resource Sharing)**: Configured inside the server to restrict requests to allowed origins or handle sessions credentials safely.
+*   **Helmet Headers**: Automatically integrates standard HTTP security headers to protect from cross-site scripting (XSS), clickjacking, and injection vectors.
+*   **Client Validation**: Inputs (like payment details, quantities, and email changes) are sanitized and validated on the client side before hitting the API.
+
+---
+
+## 9. Rate Limiting
+Protects endpoints against brute force attempts and denial of service attacks.
+
+*   **Rate Limiter**: Configured with `express-rate-limit` middleware.
+*   **Rule Set**: Limits each unique IP address to a maximum of 200 requests within a 15-minute window on all `/api/` paths, returning HTTP 429 Too Many Requests if exceeded.
+
+---
+
+## 10. Caching & CDN
+Accelerates page loads and asset delivery globally.
+
+*   **Static Asset CDN**: Minified CSS, JSX, and icons are deployed to Vercel's global Edge Network, serving content from nodes nearest to the user.
+*   **Client Cache**: Assets build files use unique hash identifiers (`index-B8lNnwWY.css`), allowing browsers to cache files permanently until subsequent updates are released.
+
+---
+
+## 11. Load Balancing & Scaling
+Designed to manage traffic growth through decoupling.
+
+*   **Separation of Concerns**: Decoupling the client code (served statically via CDN) and API logic (processed via serverless backend instances) ensures that sudden traffic spikes on the landing page do not exhaust backend compute resources.
+*   **Reverse Proxy Options**: The [compose-traefik.yml](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/docker/compose-traefik.yml) container config provides Traefik rule settings to run multiple scaled containers behind a local load balancer.
+
+---
+
+## 12. Error Tracking & Logs
+Provides logs to audit operations and trace errors.
+
+*   **Request Logs**: Morgan middleware formats and prints detailed HTTP request/response stats (`morgan('combined')`) to standard logs.
+*   **Diagnostic Warnings**: DataStore loading processes include catch blocks to capture and output filesystem errors (`[DataStore] Failed to load store file`).
+
+---
+
+## 13. Availability & Recovery
+Ensures high availability and recovery from instance recycles.
+
+*   **Stateless Recovery**: Since serverless nodes are ephemeral, if a user profile is missing in the current memory segment, [dataStore.js](file:///c:/Users/prash/Downloads/TradeOxx%20Ai/server/src/models/dataStore.js#L137-L148) queries and auto-creates a recovery user/portfolio record using context parameters from their authenticated JWT token in under 2 milliseconds.
+*   **Data Seeding Fallback**: If the local file storage fails or is deleted, seed fallbacks initialize empty arrays to prevent server crash loops.
