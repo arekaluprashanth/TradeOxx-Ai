@@ -158,6 +158,12 @@ export default function TopNav({ onMenuClick }) {
 
         {/* Right Section */}
         <div className="flex items-center gap-2 sm:gap-4 shrink-0">
+          {/* Live Balance Equity Ticker */}
+          <div className="hidden lg:flex items-center gap-2 px-3.5 py-1.5 bg-dark-950/80 border border-white/5 rounded-full shadow-inner text-xs font-mono font-bold text-accent-cyan shrink-0">
+            <span className="text-[10px] text-dark-400 font-bold uppercase tracking-widest">Equity:</span>
+            <span>{formatCurrency(portfolio?.balance || 0)}</span>
+          </div>
+
           <ChatBot />
 
           <button 

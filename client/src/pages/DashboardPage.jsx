@@ -95,77 +95,6 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Performers Split Section */}
-      <div className="grid grid-cols-2 gap-4 sm:gap-6">
-        {/* Top Gainers */}
-        <section>
-          <h2 className="text-sm font-bold text-dark-400 uppercase tracking-widest mb-3 flex items-center gap-2">
-            <span className="w-1.5 h-1.5 bg-accent-green rounded-full" />
-            Top Gainers
-          </h2>
-          <div className="bg-dark-850 rounded-2xl border border-white/5 overflow-hidden shadow-lg">
-            {topGainers.map((asset, i) => {
-              const quote = quotes[asset.symbol] || asset;
-              return (
-                <div 
-                  key={asset.symbol}
-                  onClick={() => setSelectedAsset(quote)}
-                  className={`flex justify-between items-center p-4 cursor-pointer hover:bg-white/2 transition-colors ${i !== topGainers.length - 1 ? 'border-b border-white/5' : ''}`}
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-accent-green/5 border border-accent-green/10 flex items-center justify-center text-accent-green text-[10px] font-bold">
-                      {quote.symbol.slice(0, 2)}
-                    </div>
-                    <div>
-                      <p className="text-sm font-bold text-white">{quote.symbol}</p>
-                      <p className="text-xs font-mono text-dark-400">{formatCurrency(quote.price)}</p>
-                    </div>
-                  </div>
-                  <p className="text-xs font-bold text-accent-green flex items-center gap-0.5">
-                    <ArrowUpRight size={12} />
-                    +{quote.changePercent.toFixed(2)}%
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        </section>
-
-        {/* Top Losers */}
-        <section>
-          <h2 className="text-sm font-bold text-dark-400 uppercase tracking-widest mb-3 flex items-center gap-2">
-            <span className="w-1.5 h-1.5 bg-accent-red rounded-full" />
-            Top Losers
-          </h2>
-          <div className="bg-dark-850 rounded-2xl border border-white/5 overflow-hidden shadow-lg">
-            {topLosers.map((asset, i) => {
-              const quote = quotes[asset.symbol] || asset;
-              return (
-                <div 
-                  key={asset.symbol}
-                  onClick={() => setSelectedAsset(quote)}
-                  className={`flex justify-between items-center p-4 cursor-pointer hover:bg-white/2 transition-colors ${i !== topLosers.length - 1 ? 'border-b border-white/5' : ''}`}
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-accent-red/5 border border-accent-red/10 flex items-center justify-center text-accent-red text-[10px] font-bold">
-                      {quote.symbol.slice(0, 2)}
-                    </div>
-                    <div>
-                      <p className="text-sm font-bold text-white">{quote.symbol}</p>
-                      <p className="text-xs font-mono text-dark-400">{formatCurrency(quote.price)}</p>
-                    </div>
-                  </div>
-                  <p className="text-xs font-bold text-accent-red flex items-center gap-0.5">
-                    <ArrowDownRight size={12} />
-                    {quote.changePercent.toFixed(2)}%
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        </section>
-      </div>
-
       <div className="grid gap-8 lg:grid-cols-[1fr_340px] xl:grid-cols-[1fr_400px]">
         {/* Left Column: Explore */}
         <div className="space-y-8">
@@ -272,7 +201,76 @@ export default function DashboardPage() {
             </div>
           </section>
 
+          {/* Performers Split Section */}
+          <div className="grid grid-cols-2 gap-4 sm:gap-6">
+            {/* Top Gainers */}
+            <section>
+              <h2 className="text-sm font-bold text-dark-400 uppercase tracking-widest mb-3 flex items-center gap-2">
+                <span className="w-1.5 h-1.5 bg-accent-green rounded-full" />
+                Top Gainers
+              </h2>
+              <div className="bg-dark-850 rounded-2xl border border-white/5 overflow-hidden shadow-lg">
+                {topGainers.map((asset, i) => {
+                  const quote = quotes[asset.symbol] || asset;
+                  return (
+                    <div 
+                      key={asset.symbol}
+                      onClick={() => setSelectedAsset(quote)}
+                      className={`flex justify-between items-center p-4 cursor-pointer hover:bg-white/2 transition-colors ${i !== topGainers.length - 1 ? 'border-b border-white/5' : ''}`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-lg bg-accent-green/5 border border-accent-green/10 flex items-center justify-center text-accent-green text-[10px] font-bold">
+                          {quote.symbol.slice(0, 2)}
+                        </div>
+                        <div>
+                          <p className="text-sm font-bold text-white">{quote.symbol}</p>
+                          <p className="text-xs font-mono text-dark-400">{formatCurrency(quote.price)}</p>
+                        </div>
+                      </div>
+                      <p className="text-xs font-bold text-accent-green flex items-center gap-0.5">
+                        <ArrowUpRight size={12} />
+                        +{quote.changePercent.toFixed(2)}%
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+            </section>
 
+            {/* Top Losers */}
+            <section>
+              <h2 className="text-sm font-bold text-dark-400 uppercase tracking-widest mb-3 flex items-center gap-2">
+                <span className="w-1.5 h-1.5 bg-accent-red rounded-full" />
+                Top Losers
+              </h2>
+              <div className="bg-dark-850 rounded-2xl border border-white/5 overflow-hidden shadow-lg">
+                {topLosers.map((asset, i) => {
+                  const quote = quotes[asset.symbol] || asset;
+                  return (
+                    <div 
+                      key={asset.symbol}
+                      onClick={() => setSelectedAsset(quote)}
+                      className={`flex justify-between items-center p-4 cursor-pointer hover:bg-white/2 transition-colors ${i !== topLosers.length - 1 ? 'border-b border-white/5' : ''}`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-lg bg-accent-red/5 border border-accent-red/10 flex items-center justify-center text-accent-red text-[10px] font-bold">
+                          {quote.symbol.slice(0, 2)}
+                        </div>
+                        <div>
+                          <p className="text-sm font-bold text-white">{quote.symbol}</p>
+                          <p className="text-xs font-mono text-dark-400">{formatCurrency(quote.price)}</p>
+                        </div>
+                      </div>
+                      <p className="text-xs font-bold text-accent-red flex items-center gap-0.5">
+                        <ArrowDownRight size={12} />
+                        {quote.changePercent.toFixed(2)}%
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+            </section>
+          </div>
 
           {/* Market News Section */}
           <section className="bg-dark-850 rounded-2xl p-5 border border-white/5 shadow-xl relative overflow-hidden">
