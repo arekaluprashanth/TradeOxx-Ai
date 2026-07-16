@@ -134,38 +134,70 @@ export default function DashboardPage() {
             </div>
           </section>
 
-          {/* Most Bought Section */}
-          <section>
+
+          {/* Most Bought Section - Continuous Marquee Ticker */}
+          <section className="relative overflow-hidden">
+            <style>{`
+              @keyframes marquee {
+                0% { transform: translateX(0); }
+                100% { transform: translateX(-33.33%); }
+              }
+              .ticker-container {
+                display: flex;
+                overflow: hidden;
+                width: 100%;
+                position: relative;
+                mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+                -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+              }
+              .ticker-track {
+                display: flex;
+                gap: 16px;
+                animation: marquee 25s linear infinite;
+                width: max-content;
+              }
+              .ticker-track:hover {
+                animation-play-state: paused;
+              }
+            `}</style>
+            
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-bold text-white uppercase tracking-wider flex items-center gap-2">
                 <span className="w-1.5 h-3 bg-accent-purple rounded-full" />
                 Trending on TradeOxx
               </h2>
-              <span className="text-xs text-dark-400 font-medium">High volume movers</span>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent-green/10 border border-accent-green/20 text-accent-green text-[10px] font-black uppercase tracking-wider animate-pulse">
+                <span className="w-1.5 h-1.5 rounded-full bg-accent-green inline-block" />
+                LIVE SIMULATOR
+              </span>
             </div>
-            <div className="flex gap-4 overflow-x-auto pb-4 no-scrollbar">
-              {mostBought.map(asset => {
-                const quote = quotes[asset.symbol] || asset;
-                const isPositive = quote.changePercent >= 0;
-                return (
-                  <div 
-                    key={asset.symbol}
-                    onClick={() => setSelectedAsset(quote)}
-                    className="min-w-[160px] bg-dark-850 rounded-2xl p-5 border border-white/5 hover:border-accent-purple/30 cursor-pointer transition-all duration-300 shrink-0 group relative overflow-hidden"
-                  >
-                    <div className="absolute top-0 right-0 w-16 h-16 bg-accent-purple/5 rounded-full filter blur-xl pointer-events-none" />
-                    <div className="w-10 h-10 rounded-full bg-dark-900 border border-white/5 flex items-center justify-center text-xs font-bold text-accent-cyan mb-4 group-hover:scale-110 transition-transform">
-                      {asset.symbol.slice(0, 2)}
+            
+            <div className="ticker-container py-2">
+              <div className="ticker-track">
+                {/* Loop 3 times to make the scroll seamless */}
+                {[...mostBought, ...mostBought, ...mostBought].map((asset, index) => {
+                  const quote = quotes[asset.symbol] || asset;
+                  const isPositive = quote.changePercent >= 0;
+                  return (
+                    <div 
+                      key={`${asset.symbol}-${index}`}
+                      onClick={() => setSelectedAsset(quote)}
+                      className="w-[160px] bg-dark-850 rounded-2xl p-5 border border-white/5 hover:border-accent-purple/30 cursor-pointer transition-all duration-300 shrink-0 group relative overflow-hidden"
+                    >
+                      <div className="absolute top-0 right-0 w-16 h-16 bg-accent-purple/5 rounded-full filter blur-xl pointer-events-none" />
+                      <div className="w-10 h-10 rounded-full bg-dark-900 border border-white/5 flex items-center justify-center text-xs font-bold text-accent-cyan mb-4 group-hover:scale-110 transition-transform">
+                        {asset.symbol.slice(0, 2)}
+                      </div>
+                      <p className="text-sm font-bold text-white truncate">{quote.symbol}</p>
+                      <p className="text-xs text-dark-400 truncate mt-0.5">{quote.name}</p>
+                      <p className="text-base font-mono font-bold text-white mt-3">{formatCurrency(quote.price)}</p>
+                      <p className={`text-xs font-semibold mt-1 ${isPositive ? 'text-accent-green' : 'text-accent-red'}`}>
+                        {isPositive ? '+' : ''}{quote.changePercent.toFixed(2)}%
+                      </p>
                     </div>
-                    <p className="text-sm font-bold text-white truncate">{quote.symbol}</p>
-                    <p className="text-xs text-dark-400 truncate mt-0.5">{quote.name}</p>
-                    <p className="text-base font-mono font-bold text-white mt-3">{formatCurrency(quote.price)}</p>
-                    <p className={`text-xs font-semibold mt-1 ${isPositive ? 'text-accent-green' : 'text-accent-red'}`}>
-                      {isPositive ? '+' : ''}{quote.changePercent.toFixed(2)}%
-                    </p>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
           </section>
 

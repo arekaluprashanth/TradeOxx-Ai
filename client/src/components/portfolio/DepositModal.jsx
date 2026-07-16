@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, QrCode, CreditCard, Wallet, ShieldCheck, Loader2 } from 'lucide-react';
+import { X, QrCode, CreditCard, Wallet, ShieldCheck, Loader2, ArrowLeft, ShieldAlert } from 'lucide-react';
 import { formatCurrency } from '../../services/utils';
 import { usePortfolioStore } from '../../stores/portfolioStore';
 import OtpModal from './OtpModal';
 import toast from 'react-hot-toast';
 
 export default function DepositModal({ isOpen, onClose }) {
+  const [step, setStep] = useState(1); // 1 = Amount Entry, 2 = Payment Channel Selector & QR
   const [amount, setAmount] = useState('5000');
   const [paymentMethod, setPaymentMethod] = useState('gpay');
   const [cardName, setCardName] = useState('');
@@ -20,11 +21,21 @@ export default function DepositModal({ isOpen, onClose }) {
 
   const { portfolio } = usePortfolioStore();
 
-  const handleDepositInitiate = () => {
+  const handleProceedToPayment = () => {
     const val = parseFloat(amount);
     if (isNaN(val) || val <= 0) {
-      toast.error('Please enter a valid amount.');
+      toast.error('Please enter a valid deposit amount.');
       return;
+    }
+    setStep(2); // Go to step 2 selection screen
+  };
+
+  const handleDepositInitiate = () => {
+    if (['visa', 'rupay'].includes(paymentMethod)) {
+      if (!cardName || !cardNumber || !cardExpiry || !cardCvv) {
+        toast.error('Please fill in your credit card credentials.');
+        return;
+      }
     }
     // Fire OTP modal first for payment approval
     setIsOtpOpen(true);
@@ -40,7 +51,7 @@ export default function DepositModal({ isOpen, onClose }) {
     setShowPaymentGate(true);
 
     // Simulate payment platform redirection
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 2200));
 
     const currentBalance = portfolio?.balance || 0;
     const currentTotalValue = portfolio?.totalValue || 0;
@@ -65,6 +76,7 @@ export default function DepositModal({ isOpen, onClose }) {
     toast.success(`Successfully deposited ${formatCurrency(val)}!`);
     setIsProcessing(false);
     setShowPaymentGate(false);
+    setStep(1); // Reset
     onClose();
   };
 
@@ -99,9 +111,21 @@ export default function DepositModal({ isOpen, onClose }) {
           >
             {/* Header */}
             <div className="p-5 border-b border-white/5 flex justify-between items-center bg-dark-850">
-              <div>
-                <span className="text-[10px] text-accent-cyan font-black uppercase tracking-widest block">Secure Funding</span>
-                <h2 className="text-lg font-bold text-white mt-0.5">Deposit Funds</h2>
+              <div className="flex items-center gap-3">
+                {step === 2 && (
+                  <button 
+                    onClick={() => setStep(1)} 
+                    className="p-1.5 rounded-lg bg-dark-950 border border-white/5 text-dark-300 hover:text-white transition-all"
+                  >
+                    <ArrowLeft size={14} />
+                  </button>
+                )}
+                <div>
+                  <span className="text-[10px] text-accent-cyan font-black uppercase tracking-widest block">Secure Funding</span>
+                  <h2 className="text-lg font-bold text-white mt-0.5">
+                    {step === 1 ? "Enter Deposit Amount" : "Select Payment Channel"}
+                  </h2>
+                </div>
               </div>
               <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-white/5 text-dark-300 hover:text-white transition-colors">
                 <X size={18} />
@@ -109,196 +133,236 @@ export default function DepositModal({ isOpen, onClose }) {
             </div>
 
             <div className="p-6 overflow-y-auto space-y-6">
-              {/* Currency Selector */}
-              <div className="space-y-2">
-                <div className="flex justify-between items-center">
-                  <label className="text-[10px] text-dark-400 font-bold uppercase tracking-wider block">Select Currency</label>
-                  <div className="flex gap-1.5 p-0.5 bg-dark-950 rounded-lg border border-white/5">
-                    <button
-                      onClick={() => { setInputCurrency('USD'); }}
-                      className={`px-2.5 py-0.5 rounded text-[10px] font-bold ${inputCurrency === 'USD' ? 'bg-accent-cyan text-dark-955' : 'text-dark-400'}`}
-                    >
-                      USD ($)
-                    </button>
-                    <button
-                      onClick={() => { setInputCurrency('INR'); }}
-                      className={`px-2.5 py-0.5 rounded text-[10px] font-bold ${inputCurrency === 'INR' ? 'bg-accent-cyan text-dark-955' : 'text-dark-400'}`}
-                    >
-                      INR (₹)
-                    </button>
+              
+              {/* STEP 1: AMOUNT SELECTION */}
+              {step === 1 && (
+                <div className="space-y-6">
+                  {/* Currency Selector */}
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center">
+                      <label className="text-[10px] text-dark-400 font-bold uppercase tracking-wider block">Select Currency</label>
+                      <div className="flex gap-1.5 p-0.5 bg-dark-950 rounded-lg border border-white/5">
+                        <button
+                          onClick={() => { setInputCurrency('USD'); }}
+                          className={`px-2.5 py-0.5 rounded text-[10px] font-bold ${inputCurrency === 'USD' ? 'bg-accent-cyan text-dark-955' : 'text-dark-400'}`}
+                        >
+                          USD ($)
+                        </button>
+                        <button
+                          onClick={() => { setInputCurrency('INR'); }}
+                          className={`px-2.5 py-0.5 rounded text-[10px] font-bold ${inputCurrency === 'INR' ? 'bg-accent-cyan text-dark-955' : 'text-dark-400'}`}
+                        >
+                          INR (₹)
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="flex justify-between items-center">
+                      <label className="text-[10px] text-dark-400 font-bold uppercase tracking-wider block">Amount to Deposit</label>
+                      <span className="text-[10px] text-dark-400">Current: {formatCurrency(portfolio?.balance || 0)}</span>
+                    </div>
+
+                    <div className="relative">
+                      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg font-mono font-bold text-dark-300">
+                        {inputCurrency === 'USD' ? '$' : '₹'}
+                      </span>
+                      <input
+                        type="number"
+                        value={amount}
+                        onChange={(e) => setAmount(e.target.value)}
+                        className="w-full bg-dark-950 border border-white/5 focus:border-accent-cyan/40 outline-none rounded-xl py-3 pl-8 pr-4 text-lg font-mono font-bold text-white transition-all"
+                        placeholder="0.00"
+                      />
+                    </div>
+
+                    {/* Conversion displays */}
+                    <div className="flex justify-between items-center text-[10px] text-dark-400">
+                      <span>Exchange rate: 1 USD = 83.00 INR</span>
+                      <span className="font-mono text-accent-cyan">
+                        {inputCurrency === 'USD' 
+                          ? `Equivalent: ₹${inrEq.toLocaleString(undefined, {minimumFractionDigits: 2})}` 
+                          : `Equivalent: $${usdEq.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`
+                        }
+                      </span>
+                    </div>
+
+                    <div className="flex gap-2 pt-2">
+                      {['1000', '5000', '10000', '25000'].map((val) => (
+                        <button
+                          key={val}
+                          onClick={() => setAmount(val)}
+                          className="flex-1 py-2 rounded-lg text-[10px] font-bold bg-dark-950 border border-white/5 text-dark-300 hover:text-white hover:border-white/10 transition-all"
+                        >
+                          +{inputCurrency === 'USD' ? '$' : '₹'}{parseInt(val).toLocaleString()}
+                        </button>
+                      ))}
+                    </div>
                   </div>
-                </div>
 
-                <div className="flex justify-between items-center">
-                  <label className="text-[10px] text-dark-400 font-bold uppercase tracking-wider block">Amount to Deposit</label>
-                  <span className="text-[10px] text-dark-400">Current: {formatCurrency(portfolio?.balance || 0)}</span>
+                  <button
+                    onClick={handleProceedToPayment}
+                    className="w-full bg-accent-cyan text-dark-955 py-3.5 rounded-xl text-xs font-black uppercase tracking-wider hover:shadow-[0_0_20px_rgba(0,212,255,0.4)] transition-all flex items-center justify-center gap-2 mt-4"
+                  >
+                    Proceed to Payment Options
+                  </button>
                 </div>
+              )}
 
-                <div className="relative">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg font-mono font-bold text-dark-300">
-                    {inputCurrency === 'USD' ? '$' : '₹'}
-                  </span>
-                  <input
-                    type="number"
-                    value={amount}
-                    onChange={(e) => setAmount(e.target.value)}
-                    className="w-full bg-dark-950 border border-white/5 focus:border-accent-cyan/40 outline-none rounded-xl py-3 pl-8 pr-4 text-lg font-mono font-bold text-white transition-all"
-                    placeholder="0.00"
-                  />
-                </div>
-
-                {/* Conversion displays */}
-                <div className="flex justify-between items-center text-[10px] text-dark-400">
-                  <span>Exchange rate: 1 USD = 83.00 INR</span>
-                  <span className="font-mono text-accent-cyan">
-                    {inputCurrency === 'USD' 
-                      ? `Equivalent: ₹${inrEq.toLocaleString(undefined, {minimumFractionDigits: 2})}` 
-                      : `Equivalent: $${usdEq.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`
-                    }
-                  </span>
-                </div>
-
-                <div className="flex gap-2">
-                  {['1000', '5000', '10000', '25000'].map((val) => (
-                    <button
-                      key={val}
-                      onClick={() => setAmount(val)}
-                      className="flex-1 py-1 rounded-lg text-[10px] font-bold bg-dark-950 border border-white/5 text-dark-300 hover:text-white hover:border-white/10"
-                    >
-                      +{inputCurrency === 'USD' ? '$' : '₹'}{parseInt(val).toLocaleString()}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Payment Option Toggles */}
-              <div className="space-y-2">
-                <label className="text-[10px] text-dark-400 font-bold uppercase tracking-wider block">Choose Channel</label>
-                <div className="grid grid-cols-3 gap-2">
-                  {[
-                    { id: 'gpay', label: 'Google Pay', icon: Wallet },
-                    { id: 'phonepay', label: 'PhonePe', icon: QrCode },
-                    { id: 'paytem', label: 'Paytm', icon: QrCode },
-                    { id: 'paypal', label: 'PayPal', icon: Wallet },
-                    { id: 'visa', label: 'Visa Card', icon: CreditCard },
-                    { id: 'rupay', label: 'Rupay Card', icon: CreditCard }
-                  ].map((method) => (
-                    <button
-                      key={method.id}
-                      onClick={() => setPaymentMethod(method.id)}
-                      className={`p-3 rounded-xl border flex flex-col items-center justify-center gap-1.5 transition-all bg-dark-950 ${
-                        paymentMethod === method.id
-                          ? 'border-accent-cyan text-accent-cyan shadow-[0_0_10px_rgba(0,212,255,0.15)]'
-                          : 'border-white/5 text-dark-300 hover:text-white hover:border-white/10'
-                      }`}
-                    >
-                      <method.icon size={16} />
-                      <span className="text-[10px] font-bold">{method.label}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Dynamic QR Code Section (shows amount in payload) */}
-              {['gpay', 'phonepay', 'paytem'].includes(paymentMethod) && enteredVal > 0 && (
-                <div className="bg-dark-950/60 border border-white/5 rounded-2xl p-4 flex flex-col items-center justify-center space-y-4">
-                  <p className="text-[10px] text-dark-400 uppercase font-black tracking-wider text-center">Dynamic UPI QR Code</p>
-                  <div className="w-36 h-36 bg-white p-2.5 rounded-2xl relative shadow-glow-cyan flex items-center justify-center">
-                    <div className="absolute inset-0 bg-accent-cyan/10 rounded-2xl animate-pulse pointer-events-none" />
-                    {/* Simulated vector QR Code representing UPI string payload */}
-                    <svg className="w-full h-full text-dark-955" viewBox="0 0 100 100" fill="currentColor">
-                      <path d="M5 5h25v25H5zm5 5h15v15H5zm5 5h5v5h-5zM70 5h25v25H70zm5 5h15v15H70zm5 5h5v5h-5zM5 70h25v25H5zm5 5h15v15H5zm5 5h5v5h-5z" />
-                      <rect x="40" y="10" width="5" height="15" />
-                      <rect x="50" y="5" width="10" height="5" />
-                      <rect x="45" y="25" width="15" height="10" />
-                      <rect x="10" y="40" width="20" height="5" />
-                      <rect x="5" y="50" width="10" height="10" />
-                      <rect x="25" y="45" width="5" height="15" />
-                      <rect x="75" y="40" width="15" height="5" />
-                      <rect x="70" y="50" width="10" height="15" />
-                      <rect x="90" y="45" width="5" height="10" />
-                      <rect x="40" y="70" width="15" height="5" />
-                      <rect x="50" y="80" width="10" height="15" />
-                      <rect x="45" y="75" width="15" height="5" />
-                      <rect x="75" y="70" width="5" height="15" />
-                      <rect x="85" y="75" width="10" height="15" />
-                    </svg>
+              {/* STEP 2: PAYMENT METHOD & DYNAMIC QR */}
+              {step === 2 && (
+                <div className="space-y-6">
+                  {/* Selected Amount Summary banner */}
+                  <div className="bg-dark-950/60 border border-white/5 rounded-2xl p-4 flex justify-between items-center">
+                    <div>
+                      <span className="text-[9px] text-dark-400 uppercase font-black tracking-wider">Deposit Balance</span>
+                      <p className="text-sm font-bold text-white mt-0.5">
+                        {inputCurrency === 'USD' 
+                          ? `$${enteredVal.toLocaleString(undefined, {minimumFractionDigits: 2})}`
+                          : `₹${enteredVal.toLocaleString(undefined, {minimumFractionDigits: 2})}`
+                        }
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-[9px] text-dark-400 uppercase font-black tracking-wider">Converted Equivalent</span>
+                      <p className="text-xs font-mono font-bold text-accent-cyan mt-0.5">
+                        {inputCurrency === 'USD' 
+                          ? `₹${inrEq.toLocaleString(undefined, {minimumFractionDigits: 2})}`
+                          : `$${usdEq.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`
+                        }
+                      </p>
+                    </div>
                   </div>
-                  <div className="text-center font-mono text-[9px] text-dark-300 max-w-[250px] break-all bg-dark-900 p-2 rounded-lg border border-white/5">
-                    <strong>UPI URL: </strong> {upiPayload}
+
+                  {/* Payment Options Grid */}
+                  <div className="space-y-2">
+                    <label className="text-[10px] text-dark-400 font-bold uppercase tracking-wider block">Choose Channel</label>
+                    <div className="grid grid-cols-3 gap-2">
+                      {[
+                        { id: 'gpay', label: 'Google Pay', icon: Wallet },
+                        { id: 'phonepay', label: 'PhonePe', icon: QrCode },
+                        { id: 'paytem', label: 'Paytm', icon: QrCode },
+                        { id: 'paypal', label: 'PayPal', icon: Wallet },
+                        { id: 'visa', label: 'Visa Card', icon: CreditCard },
+                        { id: 'rupay', label: 'Rupay Card', icon: CreditCard }
+                      ].map((method) => (
+                        <button
+                          key={method.id}
+                          onClick={() => setPaymentMethod(method.id)}
+                          className={`p-3 rounded-xl border flex flex-col items-center justify-center gap-1.5 transition-all bg-dark-950 ${
+                            paymentMethod === method.id
+                              ? 'border-accent-cyan text-accent-cyan shadow-[0_0_10px_rgba(0,212,255,0.15)]'
+                              : 'border-white/5 text-dark-300 hover:text-white hover:border-white/10'
+                          }`}
+                        >
+                          <method.icon size={16} />
+                          <span className="text-[10px] font-bold">{method.label}</span>
+                        </button>
+                      ))}
+                    </div>
                   </div>
-                  <div className="text-center">
-                    <span className="text-xs text-white font-bold block">TradeOxx UPI Gateway</span>
-                    <span className="text-[10px] text-accent-cyan font-bold mt-0.5 block">
-                      Payable: ₹{upiAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}
-                    </span>
+
+                  {/* Dynamic QR Code based on exact amount */}
+                  {['gpay', 'phonepay', 'paytem'].includes(paymentMethod) && (
+                    <div className="bg-dark-950/60 border border-white/5 rounded-2xl p-4 flex flex-col items-center justify-center space-y-4">
+                      <p className="text-[10px] text-dark-400 uppercase font-black tracking-wider text-center">Dynamic UPI QR Code</p>
+                      <div className="w-36 h-36 bg-white p-2.5 rounded-2xl relative shadow-glow-cyan flex items-center justify-center">
+                        <div className="absolute inset-0 bg-accent-cyan/10 rounded-2xl animate-pulse pointer-events-none" />
+                        <svg className="w-full h-full text-dark-955" viewBox="0 0 100 100" fill="currentColor">
+                          <path d="M5 5h25v25H5zm5 5h15v15H5zm5 5h5v5h-5zM70 5h25v25H70zm5 5h15v15H70zm5 5h5v5h-5zM5 70h25v25H5zm5 5h15v15H5zm5 5h5v5h-5z" />
+                          <rect x="40" y="10" width="5" height="15" />
+                          <rect x="50" y="5" width="10" height="5" />
+                          <rect x="45" y="25" width="15" height="10" />
+                          <rect x="10" y="40" width="20" height="5" />
+                          <rect x="5" y="50" width="10" height="10" />
+                          <rect x="25" y="45" width="5" height="15" />
+                          <rect x="75" y="40" width="15" height="5" />
+                          <rect x="70" y="50" width="10" height="15" />
+                          <rect x="90" y="45" width="5" height="10" />
+                          <rect x="40" y="70" width="15" height="5" />
+                          <rect x="50" y="80" width="10" height="15" />
+                          <rect x="45" y="75" width="15" height="5" />
+                          <rect x="75" y="70" width="5" height="15" />
+                          <rect x="85" y="75" width="10" height="15" />
+                        </svg>
+                      </div>
+                      <div className="text-center font-mono text-[9px] text-dark-300 max-w-[280px] break-all bg-dark-900 p-2.5 rounded-lg border border-white/5">
+                        <strong>UPI URI: </strong> {upiPayload}
+                      </div>
+                      <div className="text-center">
+                        <span className="text-xs text-white font-bold block">TradeOxx UPI Gateway</span>
+                        <span className="text-[10px] text-accent-cyan font-bold mt-0.5 block">
+                          Payable Amount: ₹{upiAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Card Credentials Fields */}
+                  {['visa', 'rupay'].includes(paymentMethod) && (
+                    <div className="bg-dark-950/40 border border-white/5 rounded-2xl p-4 space-y-3">
+                      <p className="text-[10px] text-dark-400 uppercase font-black tracking-wider mb-1">Enter card details</p>
+                      <input
+                        type="text"
+                        placeholder="Cardholder Name"
+                        value={cardName}
+                        onChange={(e) => setCardName(e.target.value)}
+                        className="w-full bg-dark-950 border border-white/5 text-xs text-white rounded-xl px-3.5 py-2.5 outline-none focus:border-accent-cyan/35"
+                      />
+                      <input
+                        type="text"
+                        placeholder="16-Digit Card Number"
+                        value={cardNumber}
+                        onChange={(e) => setCardNumber(e.target.value)}
+                        className="w-full bg-dark-950 border border-white/5 text-xs text-white rounded-xl px-3.5 py-2.5 outline-none focus:border-accent-cyan/35"
+                      />
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          placeholder="MM/YY"
+                          value={cardExpiry}
+                          onChange={(e) => setCardExpiry(e.target.value)}
+                          className="flex-1 bg-dark-950 border border-white/5 text-xs text-white rounded-xl px-3.5 py-2.5 outline-none focus:border-accent-cyan/35"
+                        />
+                        <input
+                          type="password"
+                          placeholder="CVV"
+                          value={cardCvv}
+                          onChange={(e) => setCardCvv(e.target.value)}
+                          className="w-1/3 bg-dark-950 border border-white/5 text-xs text-white rounded-xl px-3.5 py-2.5 outline-none focus:border-accent-cyan/35"
+                        />
+                      </div>
+                    </div>
+                  )}
+
+                  {/* PayPal parameters */}
+                  {paymentMethod === 'paypal' && (
+                    <div className="bg-dark-950/50 border border-white/5 rounded-2xl p-4 text-center">
+                      <p className="text-xs text-dark-300">On confirmation, you will be redirected to PayPal sandbox checkout portal.</p>
+                    </div>
+                  )}
+
+                  {/* Confirmation trigger */}
+                  <div className="space-y-3 pt-2">
+                    <button
+                      onClick={handleDepositInitiate}
+                      className="w-full bg-accent-cyan text-dark-955 py-3 rounded-xl text-xs font-black uppercase tracking-wider hover:shadow-[0_0_20px_rgba(0,212,255,0.4)] transition-all flex items-center justify-center gap-2"
+                    >
+                      Authorize Payment & Request OTP
+                    </button>
+                    <div className="flex items-center justify-center gap-1.5 text-[10px] text-dark-400">
+                      <ShieldCheck size={12} className="text-accent-green" />
+                      <span>Encrypted standard 256-bit bank tunnel active</span>
+                    </div>
                   </div>
                 </div>
               )}
 
-              {/* Secure Card input parameters */}
-              {['visa', 'rupay'].includes(paymentMethod) && (
-                <div className="bg-dark-950/40 border border-white/5 rounded-2xl p-4 space-y-3">
-                  <p className="text-[10px] text-dark-400 uppercase font-black tracking-wider mb-1">Enter card credentials</p>
-                  <input
-                    type="text"
-                    placeholder="Cardholder Name"
-                    value={cardName}
-                    onChange={(e) => setCardName(e.target.value)}
-                    className="w-full bg-dark-950 border border-white/5 text-xs text-white rounded-xl px-3.5 py-2.5 outline-none focus:border-accent-cyan/35"
-                  />
-                  <input
-                    type="text"
-                    placeholder="16-Digit Card Number"
-                    value={cardNumber}
-                    onChange={(e) => setCardNumber(e.target.value)}
-                    className="w-full bg-dark-950 border border-white/5 text-xs text-white rounded-xl px-3.5 py-2.5 outline-none focus:border-accent-cyan/35"
-                  />
-                  <div className="flex gap-2">
-                    <input
-                      type="text"
-                      placeholder="MM/YY"
-                      value={cardExpiry}
-                      onChange={(e) => setCardExpiry(e.target.value)}
-                      className="flex-1 bg-dark-950 border border-white/5 text-xs text-white rounded-xl px-3.5 py-2.5 outline-none focus:border-accent-cyan/35"
-                    />
-                    <input
-                      type="password"
-                      placeholder="CVV"
-                      value={cardCvv}
-                      onChange={(e) => setCardCvv(e.target.value)}
-                      className="w-1/3 bg-dark-950 border border-white/5 text-xs text-white rounded-xl px-3.5 py-2.5 outline-none focus:border-accent-cyan/35"
-                    />
-                  </div>
-                </div>
-              )}
-
-              {/* PayPal details */}
-              {paymentMethod === 'paypal' && (
-                <div className="bg-dark-950/50 border border-white/5 rounded-2xl p-4 text-center">
-                  <p className="text-xs text-dark-300">You will be redirected to PayPal sandbox account login page on confirm.</p>
-                </div>
-              )}
-
-              {/* Confirmation trigger */}
-              <div className="space-y-3 pt-2">
-                <button
-                  onClick={handleDepositInitiate}
-                  className="w-full bg-accent-cyan text-dark-955 py-3 rounded-xl text-xs font-black uppercase tracking-wider hover:shadow-[0_0_20px_rgba(0,212,255,0.4)] transition-all flex items-center justify-center gap-2"
-                >
-                  Confirm Deposit & Request OTP
-                </button>
-                <div className="flex items-center justify-center gap-1.5 text-[10px] text-dark-400">
-                  <ShieldCheck size={12} className="text-accent-green" />
-                  <span>Secure 256-bit encrypted gateway tunnel</span>
-                </div>
-              </div>
             </div>
           </motion.div>
         </div>
       </AnimatePresence>
 
-      {/* Redirection Overlay */}
+      {/* Redirection overlay */}
       <AnimatePresence>
         {showPaymentGate && (
           <div className="fixed inset-0 z-[110] flex items-center justify-center bg-black/90 backdrop-blur-lg text-center p-6">
