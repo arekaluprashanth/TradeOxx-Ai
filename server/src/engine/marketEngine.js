@@ -69,25 +69,30 @@ export class MarketEngine {
   // ─── Initialisation ─────────────────────────────────────
 
   /**
-   * Generate `count` historical candles for every asset.
+   * Generate history on-demand for a single asset.
+   */
+  generateHistoryForAsset(symbol, count = 200) {
+    if (!this.assets[symbol]) return;
+    this.history[symbol] = [];
+    let price = this.assets[symbol].basePrice * (1 + randomNormal() * 0.02);
+    const now = Date.now();
+    const interval = 60_000; // 1-minute candles
+
+    for (let i = count; i > 0; i--) {
+      const candle = this._buildCandle(symbol, price, now - i * interval);
+      this.history[symbol].push(candle);
+      price = candle.close;
+    }
+
+    this.currentPrices[symbol] = price;
+    console.log(`[MarketEngine] Lazily generated ${count} candles for ${symbol}`);
+  }
+
+  /**
+   * Empty implementation on boot to eliminate Vercel serverless latency bottlenecks.
    */
   generateHistory(count = 200) {
-    for (const symbol of Object.keys(this.assets)) {
-      this.history[symbol] = [];
-      // Start from a slightly randomised position
-      let price = this.assets[symbol].basePrice * (1 + randomNormal() * 0.02);
-      const now = Date.now();
-      const interval = 60_000; // 1-minute candles
-
-      for (let i = count; i > 0; i--) {
-        const candle = this._buildCandle(symbol, price, now - i * interval);
-        this.history[symbol].push(candle);
-        price = candle.close; // walk forward from close
-      }
-
-      this.currentPrices[symbol] = price;
-    }
-    console.log(`[MarketEngine] Generated ${count} historical candles for ${Object.keys(this.assets).length} assets`);
+    // Left empty intentionally to prevent cold start latency
   }
 
   // ─── Candle Generation ──────────────────────────────────
@@ -191,6 +196,9 @@ export class MarketEngine {
    * Supports timeframe aggregation: '1m', '5m', '15m', '1h', '4h', '1d'
    */
   getHistory(symbol, timeframe = '1m', count = 200) {
+    if (!this.history[symbol] || this.history[symbol].length === 0) {
+      this.generateHistoryForAsset(symbol, 200);
+    }
     const raw = this.history[symbol];
     if (!raw || raw.length === 0) return [];
 
@@ -228,7 +236,32 @@ export class MarketEngine {
     const asset = this.assets[symbol];
     if (!asset) return null;
 
+    if (!this.history[symbol] || this.history[symbol].length === 0) {
+      this.generateHistoryForAsset(symbol, 200);
+    }
+
     const price = this.currentPrices[symbol];
+    
+    if (!this.previousTick[symbol] && this.history[symbol].length >= 2) {
+      const hist = this.history[symbol];
+      const lastCandle = hist[hist.length - 1];
+      const prevCandle = hist[hist.length - 2];
+      const dec = priceDecimals(prevCandle.close);
+      const change = roundTo(lastCandle.close - prevCandle.close, dec);
+      const changePercent = roundTo((change / prevCandle.close) * 100, 2);
+      this.previousTick[symbol] = {
+        symbol,
+        price: lastCandle.close,
+        change,
+        changePercent,
+        volume: lastCandle.volume,
+        high: lastCandle.high,
+        low: lastCandle.low,
+        open: lastCandle.open,
+        time: lastCandle.time,
+      };
+    }
+
     const prev = this.previousTick[symbol];
     const change = prev ? prev.change : 0;
     const changePercent = prev ? prev.changePercent : 0;
