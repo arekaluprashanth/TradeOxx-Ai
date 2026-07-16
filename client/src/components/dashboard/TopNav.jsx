@@ -17,7 +17,8 @@ const NAV_LINKS = [
   { path: '/strategy', label: 'Strategy' },
   { path: '/watchlist', label: 'Watchlist' },
   { path: '/analytics', label: 'Analytics' },
-  { path: '/settings', label: 'Settings' }
+  { path: '/settings', label: 'Settings' },
+  { path: '/specs', label: 'Architecture Specs' }
 ];
 
 export default function TopNav({ onMenuClick }) {
