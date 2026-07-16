@@ -202,7 +202,7 @@ export default function DashboardPage() {
           </section>
 
           {/* Performers Split Section */}
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-2 gap-4 sm:gap-6">
             {/* Top Gainers */}
             <section>
               <h2 className="text-sm font-bold text-dark-400 uppercase tracking-widest mb-3 flex items-center gap-2">
