@@ -13,7 +13,8 @@ import StrategyPage from './pages/StrategyPage';
 import AnalyticsPage from './pages/AnalyticsPage';
 import WatchlistPage from './pages/WatchlistPage';
 import SettingsPage from './pages/SettingsPage';
-import ArchitectureSpecsPage from './pages/ArchitectureSpecsPage';
+import DepositPage from './pages/DepositPage';
+import WithdrawPage from './pages/WithdrawPage';
 import GlobalRipple from './components/ui/GlobalRipple';
 import GlobalTooltip from './components/ui/GlobalTooltip';
 import { useAuthStore } from './stores/authStore';
@@ -60,7 +61,8 @@ function App() {
             <Route path="analytics" element={<AnalyticsPage />} />
             <Route path="watchlist" element={<WatchlistPage />} />
             <Route path="settings" element={<SettingsPage />} />
-            <Route path="specs" element={<ArchitectureSpecsPage />} />
+            <Route path="deposit" element={<DepositPage />} />
+            <Route path="withdraw" element={<WithdrawPage />} />
           </Route>
         </Routes>
       </HashRouter>
