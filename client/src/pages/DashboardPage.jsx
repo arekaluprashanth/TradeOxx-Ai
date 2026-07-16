@@ -95,7 +95,7 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      <div className="grid gap-8 lg:grid-cols-[1fr_340px] xl:grid-cols-[1fr_400px]">
+      <div className="grid gap-8 lg:grid-cols-2">
         {/* Left Column: Explore */}
         <div className="space-y-8">
           
