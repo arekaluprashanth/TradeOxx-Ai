@@ -32,6 +32,7 @@ import WatchlistPage from './WatchlistPage';
 import HeroSection from '../components/dashboard/HeroSection';
 import AiFeaturesSection from '../components/dashboard/AiFeaturesSection';
 import LiveDashboardPreview from '../components/dashboard/LiveDashboardPreview';
+import TrustAndPricingSection from '../components/dashboard/TrustAndPricingSection';
 import { Button } from '../components/ui/Button';
 
 export default function DashboardPage() {
@@ -123,6 +124,9 @@ export default function DashboardPage() {
 
         {/* Volume 3.3 Live Dashboard & Market Intelligence Station */}
         <LiveDashboardPreview />
+
+        {/* Volume 3.4 Trust, Social Proof & Pricing Station */}
+        <TrustAndPricingSection />
 
         <div className="grid gap-8 lg:grid-cols-2">
           {/* Left Column: Explore */}
