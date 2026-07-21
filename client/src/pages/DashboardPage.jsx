@@ -21,12 +21,13 @@ import DepositModal from '../components/portfolio/DepositModal';
 import WithdrawModal from '../components/portfolio/WithdrawModal';
 import ChartToolbar from '../components/charts/ChartToolbar';
 import ChartContainer from '../components/charts/ChartContainer';
-import PortfolioPanel from '../components/portfolio/PortfolioPanel';
+import AiPortfolioIntelligence from '../components/portfolio/AiPortfolioIntelligence';
 import TradeHistory from '../components/portfolio/TradeHistory';
 import TradeForm from '../components/portfolio/TradeForm';
 import StrategyBuilder from '../components/strategy/StrategyBuilder';
 import BacktestResults from '../components/strategy/BacktestResults';
 import AnalyticsDashboard from '../components/analytics/AnalyticsDashboard';
+import AiReportingCenter from '../components/dashboard/AiReportingCenter';
 import WatchlistPage from './WatchlistPage';
 
 // Volume Stations
@@ -191,7 +192,7 @@ export default function DashboardPage() {
 
         <div className="grid gap-8 xl:grid-cols-[1.3fr_0.7fr]">
           <div className="space-y-8">
-            <PortfolioPanel />
+            <AiPortfolioIntelligence />
             <div className="bg-brand-surface/90 rounded-[28px] p-6 border border-white/10 shadow-2xl backdrop-blur-xl">
               <TradeHistory />
             </div>
@@ -231,7 +232,12 @@ export default function DashboardPage() {
         <WatchlistPage />
       </section>
 
-      {/* ── 6. ANALYTICS SECTION (VOLUME 1 DESIGN SYSTEM) ────────── */}
+      {/* ── 6. INTELLIGENCE REPORTS (VOLUME 4.3.5) ──────────────── */}
+      <section id="reports" className="space-y-6 pt-10 border-t border-white/10 scroll-mt-24">
+        <AiReportingCenter />
+      </section>
+
+      {/* ── 7. ANALYTICS SECTION (VOLUME 1 DESIGN SYSTEM) ────────── */}
       <section id="analytics" className="space-y-6 pt-10 border-t border-white/10 scroll-mt-24">
         <div className="relative overflow-hidden rounded-[28px] bg-gradient-to-r from-brand-success/20 via-brand-surfaceElevated to-brand-surface border border-white/10 p-6 sm:p-8 backdrop-blur-xl shadow-2xl">
           <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
