@@ -33,6 +33,7 @@ import HeroSection from '../components/dashboard/HeroSection';
 import AiFeaturesSection from '../components/dashboard/AiFeaturesSection';
 import LiveDashboardPreview from '../components/dashboard/LiveDashboardPreview';
 import TrustAndPricingSection from '../components/dashboard/TrustAndPricingSection';
+import FaqAndFooterSection from '../components/dashboard/FaqAndFooterSection';
 import { Button } from '../components/ui/Button';
 
 export default function DashboardPage() {
@@ -127,6 +128,9 @@ export default function DashboardPage() {
 
         {/* Volume 3.4 Trust, Social Proof & Pricing Station */}
         <TrustAndPricingSection />
+
+        {/* Volume 3.5 FAQ, Final CTA & Footer Station */}
+        <FaqAndFooterSection />
 
         <div className="grid gap-8 lg:grid-cols-2">
           {/* Left Column: Explore */}
