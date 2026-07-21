@@ -210,7 +210,7 @@ export default function AiNewsfeed({ onSelectAsset }) {
 
   // Real-time market volatility monitor (Triggers live breaking alerts)
   useEffect(() => {
-    if (Object.keys(quotes).length === 0) return;
+    if (!quotes || Object.keys(quotes).length === 0) return;
 
     if (initialLoadRef.current) {
       Object.keys(quotes).forEach(sym => {
