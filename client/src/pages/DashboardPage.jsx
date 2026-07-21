@@ -20,6 +20,7 @@ import AssetModal from '../components/trading/AssetModal';
 import FuturesDesk from '../components/dashboard/FuturesDesk';
 import DepositModal from '../components/portfolio/DepositModal';
 import WithdrawModal from '../components/portfolio/WithdrawModal';
+import AiNewsfeed from '../components/dashboard/AiNewsfeed';
 
 export default function DashboardPage() {
   const { isConnected } = useMarketData();
@@ -59,12 +60,7 @@ export default function DashboardPage() {
   const totalPnl = _nullishCoalesce(_optionalChain([portfolio, 'optionalAccess', _2 => _2.totalPnl]), () => ( 0));
   const pnlClass = totalPnl >= 0 ? 'text-accent-green' : 'text-accent-red';
 
-  // Live Simulated Market News
-  const newsFeed = [
-    { id: 1, source: 'Bloomberg', time: '10m ago', title: 'Tech Stocks Rally as Core Inflation Data Cools Down', sentiment: 'bullish' },
-    { id: 2, source: 'Reuters', time: '45m ago', title: 'Federal Reserve Hints at Interest Rate Cuts in Q3 Meeting', sentiment: 'bullish' },
-    { id: 3, source: 'CNBC', time: '2h ago', title: 'Bitcoin Hashrate Reaches All-Time High Amid Institutional Inflow', sentiment: 'neutral' }
-  ];
+
 
   return (
     <div className="pb-20 space-y-8 animate-fade-in">
@@ -273,34 +269,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Market News Section */}
-          <section className="bg-dark-850 rounded-2xl p-5 border border-white/5 shadow-xl relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-accent-cyan/5 rounded-full filter blur-2xl pointer-events-none" />
-            <div className="flex items-center justify-between border-b border-white/5 pb-3 mb-4">
-              <h3 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
-                <Newspaper size={16} className="text-accent-cyan" />
-                AI Sentiment Newsfeed
-              </h3>
-              <span className="text-xs text-dark-400 font-mono">Dynamic feeds</span>
-            </div>
-            <div className="space-y-4">
-              {newsFeed.map((news) => (
-                <div key={news.id} className="group cursor-pointer">
-                  <div className="flex items-center gap-2 text-[10px] text-dark-400 font-bold uppercase tracking-wider">
-                    <span>{news.source}</span>
-                    <span>•</span>
-                    <span>{news.time}</span>
-                    <span>•</span>
-                    <span className={news.sentiment === 'bullish' ? 'text-accent-green' : 'text-dark-300'}>
-                      {news.sentiment}
-                    </span>
-                  </div>
-                  <h4 className="text-sm text-dark-100 group-hover:text-white transition-colors mt-1 font-medium leading-snug">
-                    {news.title}
-                  </h4>
-                </div>
-              ))}
-            </div>
-          </section>
+          <AiNewsfeed onSelectAsset={setSelectedAsset} />
 
         </div>
 
