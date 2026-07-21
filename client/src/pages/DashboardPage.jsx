@@ -30,6 +30,7 @@ import BacktestResults from '../components/strategy/BacktestResults';
 import AnalyticsDashboard from '../components/analytics/AnalyticsDashboard';
 import WatchlistPage from './WatchlistPage';
 import HeroSection from '../components/dashboard/HeroSection';
+import AiFeaturesSection from '../components/dashboard/AiFeaturesSection';
 import { Button } from '../components/ui/Button';
 
 export default function DashboardPage() {
@@ -115,6 +116,9 @@ export default function DashboardPage() {
       <section id="explore" className="space-y-8 scroll-mt-24">
         {/* Top Banner Area — TradeOXX AI Volume 3.1 Hero Section */}
         <HeroSection />
+
+        {/* Volume 3.2 AI Features & Neural Core Station */}
+        <AiFeaturesSection />
 
         <div className="grid gap-8 lg:grid-cols-2">
           {/* Left Column: Explore */}
