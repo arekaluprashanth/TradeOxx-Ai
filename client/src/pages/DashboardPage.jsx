@@ -33,6 +33,7 @@ import HeroSection from '../components/dashboard/HeroSection';
 import GlobalMarketOverview from '../components/dashboard/GlobalMarketOverview';
 import DashboardWidgetSystem from '../components/dashboard/DashboardWidgetSystem';
 import AiFeaturesSection from '../components/dashboard/AiFeaturesSection';
+import AiMarketAnalysisEngine from '../components/dashboard/AiMarketAnalysisEngine';
 import LiveDashboardPreview from '../components/dashboard/LiveDashboardPreview';
 import TrustAndPricingSection from '../components/dashboard/TrustAndPricingSection';
 import FaqAndFooterSection from '../components/dashboard/FaqAndFooterSection';
@@ -130,6 +131,9 @@ export default function DashboardPage() {
 
         {/* Volume 3.2 AI Features & Neural Core Station */}
         <AiFeaturesSection />
+
+        {/* Volume 4.3.2 AI Market Analysis Engine Station */}
+        <AiMarketAnalysisEngine />
 
         {/* Volume 3.3 Live Dashboard & Market Intelligence Station */}
         <LiveDashboardPreview />
