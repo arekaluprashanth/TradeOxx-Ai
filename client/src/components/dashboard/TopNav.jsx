@@ -11,12 +11,12 @@ import AssetModal from '../trading/AssetModal';
 import ChatBot from '../ui/ChatBot';
 
 const NAV_LINKS = [
-  { path: '/', label: 'Explore' },
-  { path: '/charts', label: 'Charts' },
-  { path: '/portfolio', label: 'Investments' },
-  { path: '/strategy', label: 'Strategy' },
-  { path: '/watchlist', label: 'Watchlist' },
-  { path: '/analytics', label: 'Analytics' },
+  { path: '/', label: 'Explore', sectionId: 'explore' },
+  { path: '/#charts', label: 'Charts', sectionId: 'charts' },
+  { path: '/#portfolio', label: 'Investments', sectionId: 'portfolio' },
+  { path: '/#strategy', label: 'Strategy', sectionId: 'strategy' },
+  { path: '/#watchlist', label: 'Watchlist', sectionId: 'watchlist' },
+  { path: '/#analytics', label: 'Analytics', sectionId: 'analytics' },
   { path: '/deposit', label: 'Deposit' },
   { path: '/withdraw', label: 'Withdraw' },
   { path: '/settings', label: 'Settings' }
@@ -271,21 +271,36 @@ export default function TopNav({ onMenuClick }) {
       <div className="px-4 sm:px-6 lg:px-8 w-full">
         <nav className="flex gap-6 overflow-x-auto no-scrollbar py-2">
           {NAV_LINKS.map((link) => {
-            const isActive = location.pathname === link.path;
+            const isActive = location.pathname === link.path || (location.pathname === '/' && link.sectionId && (location.hash === `#${link.sectionId}` || (link.sectionId === 'explore' && !location.hash)));
             return (
               <motion.div
-                key={link.path}
+                key={link.label}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <Link
-                  to={link.path}
-                  className={`relative py-2 px-2 text-sm font-medium transition-all whitespace-nowrap outline-none ${
+                <a
+                  href={link.path}
+                  onClick={(e) => {
+                    if (link.sectionId) {
+                      if (location.pathname === '/') {
+                        e.preventDefault();
+                        const element = document.getElementById(link.sectionId);
+                        if (element) {
+                          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                          window.history.pushState(null, '', `#${link.sectionId}`);
+                        }
+                      } else {
+                        e.preventDefault();
+                        navigate(`/#${link.sectionId}`);
+                      }
+                    }
+                  }}
+                  className={`relative py-2 px-2 text-sm font-medium transition-all whitespace-nowrap outline-none cursor-pointer ${
                     isActive ? 'text-accent-cyan font-bold drop-shadow-[0_0_8px_rgba(0,208,156,0.8)]' : 'text-dark-300 hover:text-accent-cyan hover:drop-shadow-[0_0_8px_rgba(0,208,156,0.6)]'
                   }`}
                 >
                   {link.label}
-                </Link>
+                </a>
               </motion.div>
             );
           })}
