@@ -9,6 +9,7 @@ import { usePortfolio } from '../../hooks/usePortfolio';
 import { formatCurrency } from '../../services/utils';
 import AssetModal from '../trading/AssetModal';
 import ChatBot from '../ui/ChatBot';
+import ApexxAiWorkspace from './ApexxAiWorkspace';
 
 const NAV_LINKS = [
   { path: '/', label: 'Explore', sectionId: 'explore' },
@@ -34,6 +35,7 @@ export default function TopNav({ onMenuClick }) {
   const [showNotifications, setShowNotifications] = useState(false);
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [selectedAsset, setSelectedAsset] = useState(null);
+  const [isAiWorkspaceOpen, setIsAiWorkspaceOpen] = useState(false);
 
   const assets = useMarketStore((state) => state.assets);
   const quotes = useMarketStore((state) => state.quotes);
@@ -427,6 +429,11 @@ export default function TopNav({ onMenuClick }) {
         isOpen={!!selectedAsset}
         onClose={() => setSelectedAsset(null)}
         asset={selectedAsset}
+      />
+
+      <ApexxAiWorkspace
+        isOpen={isAiWorkspaceOpen}
+        onClose={() => setIsAiWorkspaceOpen(false)}
       />
     </header>
   );
