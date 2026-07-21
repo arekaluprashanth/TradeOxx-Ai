@@ -31,6 +31,7 @@ import AnalyticsDashboard from '../components/analytics/AnalyticsDashboard';
 import WatchlistPage from './WatchlistPage';
 import HeroSection from '../components/dashboard/HeroSection';
 import AiFeaturesSection from '../components/dashboard/AiFeaturesSection';
+import LiveDashboardPreview from '../components/dashboard/LiveDashboardPreview';
 import { Button } from '../components/ui/Button';
 
 export default function DashboardPage() {
@@ -119,6 +120,9 @@ export default function DashboardPage() {
 
         {/* Volume 3.2 AI Features & Neural Core Station */}
         <AiFeaturesSection />
+
+        {/* Volume 3.3 Live Dashboard & Market Intelligence Station */}
+        <LiveDashboardPreview />
 
         <div className="grid gap-8 lg:grid-cols-2">
           {/* Left Column: Explore */}
