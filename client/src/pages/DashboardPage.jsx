@@ -112,28 +112,30 @@ export default function DashboardPage() {
       
       {/* ── 1. EXPLORE SECTION ───────────────────────────────────── */}
       <section id="explore" className="space-y-8 scroll-mt-24">
-        {/* Top Banner Area */}
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-accent-cyan/15 via-accent-purple/10 to-transparent border border-white/10 p-6 sm:p-8 backdrop-blur-md">
-          <div className="absolute right-0 bottom-0 w-64 h-64 bg-accent-cyan/5 rounded-full filter blur-3xl pointer-events-none" />
+        {/* Top Banner Area — TradeOXX AI 2.0 Command Center */}
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-accent-cyan/20 via-accent-purple/15 to-transparent border border-white/10 p-6 sm:p-8 backdrop-blur-xl shadow-2xl">
+          <div className="absolute right-0 bottom-0 w-80 h-80 bg-accent-cyan/10 rounded-full filter blur-3xl pointer-events-none" />
           <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent-cyan/15 text-accent-cyan text-xs font-bold uppercase tracking-wider mb-3">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-accent-cyan/15 border border-accent-cyan/30 text-accent-cyan text-xs font-black uppercase tracking-widest mb-3 shadow-glow">
                 <Activity size={12} className="animate-pulse" />
-                Live Trading Sim
+                TradeOXX AI 2.0 • Enterprise Command Platform
               </div>
-              <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Market Overview</h1>
-              <p className="mt-2 text-sm text-dark-300">
-                Welcome back to your quantitative dashboard. Live network feed is <span className={isConnected ? "text-accent-green font-semibold" : "text-accent-red font-semibold"}>{isConnected ? "Connected" : "Disconnected"}</span>.
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight">
+                The Future of Intelligent Trading.
+              </h1>
+              <p className="mt-2.5 text-xs sm:text-sm text-dark-300 max-w-xl font-medium leading-relaxed">
+                Autonomous quantitative neural model, high-frequency order flow analytics & real-time market simulation. Live network feed is <span className={isConnected ? "text-accent-green font-bold" : "text-accent-red font-bold"}>{isConnected ? "Connected • Low Latency" : "Disconnected"}</span>.
               </p>
             </div>
-            <div className="flex gap-4">
-              <div className="bg-dark-900/60 border border-white/5 rounded-2xl p-4 min-w-[120px]">
-                <span className="text-xs text-dark-400 block uppercase font-bold tracking-wider">Tick Rate</span>
-                <span className="text-lg font-mono font-bold text-white mt-1 block">1.0s / update</span>
+            <div className="flex gap-3 sm:gap-4 shrink-0">
+              <div className="bg-dark-900/80 border border-white/10 rounded-2xl p-4 min-w-[125px] shadow-lg">
+                <span className="text-[10px] text-dark-400 block uppercase font-black tracking-widest">Neural Engine</span>
+                <span className="text-base font-mono font-bold text-accent-cyan mt-1 block">1.0s / Tick</span>
               </div>
-              <div className="bg-dark-900/60 border border-white/5 rounded-2xl p-4 min-w-[120px]">
-                <span className="text-xs text-dark-400 block uppercase font-bold tracking-wider">Active Assets</span>
-                <span className="text-lg font-mono font-bold text-white mt-1 block">{assets.length}</span>
+              <div className="bg-dark-900/80 border border-white/10 rounded-2xl p-4 min-w-[125px] shadow-lg">
+                <span className="text-[10px] text-dark-400 block uppercase font-black tracking-widest">Active Assets</span>
+                <span className="text-base font-mono font-bold text-white mt-1 block">{assets.length} Markets</span>
               </div>
             </div>
           </div>
