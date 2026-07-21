@@ -30,6 +30,7 @@ import BacktestResults from '../components/strategy/BacktestResults';
 import AnalyticsDashboard from '../components/analytics/AnalyticsDashboard';
 import WatchlistPage from './WatchlistPage';
 import HeroSection from '../components/dashboard/HeroSection';
+import GlobalMarketOverview from '../components/dashboard/GlobalMarketOverview';
 import AiFeaturesSection from '../components/dashboard/AiFeaturesSection';
 import LiveDashboardPreview from '../components/dashboard/LiveDashboardPreview';
 import TrustAndPricingSection from '../components/dashboard/TrustAndPricingSection';
@@ -119,6 +120,9 @@ export default function DashboardPage() {
       <section id="explore" className="space-y-8 scroll-mt-24">
         {/* Top Banner Area — TradeOXX AI Volume 3.1 Hero Section */}
         <HeroSection />
+
+        {/* Volume 4.2.3 Global Market Intelligence Radar Station */}
+        <GlobalMarketOverview />
 
         {/* Volume 3.2 AI Features & Neural Core Station */}
         <AiFeaturesSection />
