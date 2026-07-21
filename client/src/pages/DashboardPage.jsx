@@ -31,6 +31,7 @@ import AnalyticsDashboard from '../components/analytics/AnalyticsDashboard';
 import WatchlistPage from './WatchlistPage';
 import HeroSection from '../components/dashboard/HeroSection';
 import GlobalMarketOverview from '../components/dashboard/GlobalMarketOverview';
+import DashboardWidgetSystem from '../components/dashboard/DashboardWidgetSystem';
 import AiFeaturesSection from '../components/dashboard/AiFeaturesSection';
 import LiveDashboardPreview from '../components/dashboard/LiveDashboardPreview';
 import TrustAndPricingSection from '../components/dashboard/TrustAndPricingSection';
@@ -123,6 +124,9 @@ export default function DashboardPage() {
 
         {/* Volume 4.2.3 Global Market Intelligence Radar Station */}
         <GlobalMarketOverview />
+
+        {/* Volume 4.2.5 Modular Responsive Dashboard Widget Station */}
+        <DashboardWidgetSystem />
 
         {/* Volume 3.2 AI Features & Neural Core Station */}
         <AiFeaturesSection />
