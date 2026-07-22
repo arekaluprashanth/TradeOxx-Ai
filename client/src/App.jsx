@@ -11,6 +11,8 @@ import AuthPage from './pages/AuthPage';
 import UserSettingsPage from './pages/UserSettingsPage';
 import PersonalizationWorkspace from './pages/PersonalizationWorkspace';
 import AdminDashboardPage from './pages/AdminDashboardPage';
+import BrandIdentityPage from './pages/BrandIdentityPage';
+import DeveloperConsolePage from './pages/DeveloperConsolePage';
 import ChartsPage from './pages/ChartsPage';
 import PortfolioPage from './pages/PortfolioPage';
 import StrategyPage from './pages/StrategyPage';
@@ -59,6 +61,8 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/auth" element={<AuthPage />} />
           <Route path="/admin" element={<AdminDashboardPage />} />
+          <Route path="/brand" element={<BrandIdentityPage />} />
+          <Route path="/developer" element={<DeveloperConsolePage />} />
           <Route path="/" element={<DashboardLayout />}>
             <Route index element={<DashboardPage />} />
             <Route path="charts" element={<ChartsPage />} />
