@@ -7,6 +7,8 @@ import SignupPage from './components/auth/SignupPage';
 import ForgotPasswordPage from './components/auth/ForgotPasswordPage';
 import DashboardLayout from './components/dashboard/DashboardLayout';
 import DashboardPage from './pages/DashboardPage';
+import AuthPage from './pages/AuthPage';
+import UserSettingsPage from './pages/UserSettingsPage';
 import ChartsPage from './pages/ChartsPage';
 import PortfolioPage from './pages/PortfolioPage';
 import StrategyPage from './pages/StrategyPage';
@@ -53,6 +55,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/auth" element={<AuthPage />} />
           <Route path="/" element={<DashboardLayout />}>
             <Route index element={<DashboardPage />} />
             <Route path="charts" element={<ChartsPage />} />
@@ -60,7 +63,7 @@ function App() {
             <Route path="strategy" element={<StrategyPage />} />
             <Route path="analytics" element={<AnalyticsPage />} />
             <Route path="watchlist" element={<WatchlistPage />} />
-            <Route path="settings" element={<SettingsPage />} />
+            <Route path="settings" element={<UserSettingsPage />} />
             <Route path="deposit" element={<DepositPage />} />
             <Route path="withdraw" element={<WithdrawPage />} />
           </Route>
