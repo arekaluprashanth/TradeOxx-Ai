@@ -9,6 +9,8 @@ import DashboardLayout from './components/dashboard/DashboardLayout';
 import DashboardPage from './pages/DashboardPage';
 import AuthPage from './pages/AuthPage';
 import UserSettingsPage from './pages/UserSettingsPage';
+import PersonalizationWorkspace from './pages/PersonalizationWorkspace';
+import AdminDashboardPage from './pages/AdminDashboardPage';
 import ChartsPage from './pages/ChartsPage';
 import PortfolioPage from './pages/PortfolioPage';
 import StrategyPage from './pages/StrategyPage';
@@ -56,6 +58,7 @@ function App() {
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/auth" element={<AuthPage />} />
+          <Route path="/admin" element={<AdminDashboardPage />} />
           <Route path="/" element={<DashboardLayout />}>
             <Route index element={<DashboardPage />} />
             <Route path="charts" element={<ChartsPage />} />
@@ -64,6 +67,7 @@ function App() {
             <Route path="analytics" element={<AnalyticsPage />} />
             <Route path="watchlist" element={<WatchlistPage />} />
             <Route path="settings" element={<UserSettingsPage />} />
+            <Route path="personalization" element={<PersonalizationWorkspace />} />
             <Route path="deposit" element={<DepositPage />} />
             <Route path="withdraw" element={<WithdrawPage />} />
           </Route>
