@@ -19,14 +19,14 @@ import {
 import AssetModal from '../components/trading/AssetModal';
 import DepositModal from '../components/portfolio/DepositModal';
 import WithdrawModal from '../components/portfolio/WithdrawModal';
-import ChartToolbar from '../components/charts/ChartToolbar';
-import ChartContainer from '../components/charts/ChartContainer';
+import TechnicalAnalysisWorkspace from '../components/charts/TechnicalAnalysisWorkspace';
+import MultiChartWorkspace from '../components/charts/MultiChartWorkspace';
 import AiPortfolioIntelligence from '../components/portfolio/AiPortfolioIntelligence';
 import TradeHistory from '../components/portfolio/TradeHistory';
 import TradeForm from '../components/portfolio/TradeForm';
 import StrategyBuilder from '../components/strategy/StrategyBuilder';
 import BacktestResults from '../components/strategy/BacktestResults';
-import AnalyticsDashboard from '../components/analytics/AnalyticsDashboard';
+import AiAnalyticsDashboard from '../components/analytics/AiAnalyticsDashboard';
 import AiReportingCenter from '../components/dashboard/AiReportingCenter';
 import WatchlistPage from './WatchlistPage';
 
@@ -157,9 +157,13 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        <div className="bg-brand-surface/90 rounded-[28px] p-4 sm:p-6 border border-white/10 shadow-2xl backdrop-blur-xl space-y-4">
-          <ChartToolbar />
-          <ChartContainer />
+        <div className="bg-brand-surface/90 rounded-[32px] p-4 sm:p-6 border border-white/10 shadow-2xl backdrop-blur-xl">
+          <TechnicalAnalysisWorkspace symbol={activeSymbol} />
+        </div>
+        
+        <div className="pt-8">
+          <h2 className="text-2xl font-heading font-black text-white mb-6">Multi-Chart Research Grid</h2>
+          <MultiChartWorkspace />
         </div>
       </section>
 
