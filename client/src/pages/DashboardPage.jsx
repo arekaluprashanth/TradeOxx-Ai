@@ -4,7 +4,7 @@ import { usePortfolio } from '../hooks/usePortfolio';
 import { useMarketStore } from '../stores/marketStore';
 import { formatCurrency } from '../services/utils';
 import {
-  AreaChart,
+  LineChart,
   Briefcase,
   Sliders,
   Star,
@@ -139,7 +139,7 @@ export default function DashboardPage() {
           <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-6">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-2xl bg-brand-cyan/20 border border-brand-cyan/30 flex items-center justify-center text-brand-cyan shadow-glow-cyan">
-                <AreaChart size={22} />
+                <LineChart size={22} />
               </div>
               <div>
                 <p className="text-xs text-brand-textMuted uppercase tracking-widest font-heading font-bold">Volume 1 Design • Real-Time Charting Station</p>
@@ -275,7 +275,7 @@ export default function DashboardPage() {
         </div>
 
         <div className="bg-brand-surface/90 rounded-[28px] border border-white/10 p-4 shadow-2xl backdrop-blur-xl">
-          <AnalyticsDashboard />
+          <AiAnalyticsDashboard />
         </div>
       </section>
 
