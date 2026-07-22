@@ -28,7 +28,10 @@ import StrategyBuilder from '../components/strategy/StrategyBuilder';
 import BacktestResults from '../components/strategy/BacktestResults';
 import AiAnalyticsDashboard from '../components/analytics/AiAnalyticsDashboard';
 import AiReportingCenter from '../components/dashboard/AiReportingCenter';
+import AiAlertEngine from '../components/dashboard/AiAlertEngine';
+import PersonalAiAssistant from '../components/dashboard/PersonalAiAssistant';
 import WatchlistPage from './WatchlistPage';
+import { Bell, MessageSquare } from 'lucide-react';
 
 // Volume Stations
 import HeroSection from '../components/dashboard/HeroSection';
@@ -58,6 +61,10 @@ export default function DashboardPage() {
   // Strategy Backtest state
   const [backtestResults, setBacktestResults] = useState(null);
   const [isBacktesting, setIsBacktesting] = useState(false);
+
+  // Volume 4.5 state
+  const [isAlertsOpen, setIsAlertsOpen] = useState(false);
+  const [isAssistantOpen, setIsAssistantOpen] = useState(false);
 
   // Handle URL hash auto-scroll on mount
   useEffect(() => {
@@ -288,6 +295,33 @@ export default function DashboardPage() {
         isOpen={isWithdrawOpen}
         onClose={() => setIsWithdrawOpen(false)}
       />
+      {/* ── 8. AI ASSISTANT & ALERT ENGINE (VOLUME 4.5) ────────── */}
+      <AiAlertEngine isOpen={isAlertsOpen} onClose={() => setIsAlertsOpen(false)} />
+      <PersonalAiAssistant isOpen={isAssistantOpen} onClose={() => setIsAssistantOpen(false)} />
+
+      {/* Floating Action Buttons */}
+      <div className="fixed bottom-6 right-6 flex flex-col gap-3 z-40">
+        <button 
+          onClick={() => setIsAlertsOpen(!isAlertsOpen)}
+          className="w-12 h-12 rounded-full bg-brand-surfaceElevated border border-white/10 flex items-center justify-center text-white shadow-xl hover:bg-white/5 transition-all relative group"
+        >
+          <Bell size={20} />
+          <span className="absolute top-0 right-0 w-3 h-3 bg-brand-danger rounded-full border-2 border-brand-surfaceElevated"></span>
+          <span className="absolute right-full mr-4 bg-dark-900 border border-white/10 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+            Notifications
+          </span>
+        </button>
+        <button 
+          onClick={() => setIsAssistantOpen(!isAssistantOpen)}
+          className="w-14 h-14 rounded-full bg-brand-gradient flex items-center justify-center text-white shadow-glow-blue hover:scale-105 transition-all relative group"
+        >
+          <MessageSquare size={24} />
+          <span className="absolute right-full mr-4 bg-dark-900 border border-white/10 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+            TradeOXX AI
+          </span>
+        </button>
+      </div>
+
     </div>
   );
 }
