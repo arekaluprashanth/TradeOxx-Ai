@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { 
   Server, Database, Cloud, Shield, Activity, 
   Terminal, Webhook, Box, Lock, Code2, 
-  GitBranch, Zap
+  GitBranch, Zap, Map, TrendingUp
 } from 'lucide-react';
 
 export default function DeveloperConsolePage() {
@@ -11,6 +11,7 @@ export default function DeveloperConsolePage() {
   const tabs = [
     { id: 'architecture', label: 'Cloud Architecture', icon: Cloud },
     { id: 'blueprint', label: 'Master Blueprint', icon: Box },
+    { id: 'roadmap', label: 'Enterprise Roadmap', icon: Map },
     { id: 'apis', label: 'API Services', icon: Webhook },
     { id: 'security', label: 'Security & DevOps', icon: Shield },
   ];
@@ -151,6 +152,47 @@ export default function DeveloperConsolePage() {
                       {section.items.map((item, j) => (
                         <li key={j} className="flex items-start gap-2 text-sm text-brand-textMuted">
                           <CheckCircle2 size={16} className="text-brand-success shrink-0 mt-0.5" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+
+          {activeTab === 'roadmap' && (
+            <>
+              <div>
+                <h2 className="text-3xl font-heading font-black text-white">Enterprise Roadmap (Phases 12-20)</h2>
+                <p className="text-brand-textMuted text-sm mt-1 max-w-3xl">
+                  The final blueprint for transforming TradeOXX AI into a continuously improving, globally scaled SaaS platform. Covers DevOps, Quality Assurance, Marketing, and AI Intelligence evolution.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {[
+                  { phase: "Phase 12-14", title: "Project Foundation & API", icon: Database, items: ["NestJS REST/GraphQL API Backend", "PostgreSQL + Prisma ORM setup", "Enterprise Authentication (OAuth, 2FA)", "Redis caching layer for sessions/markets"] },
+                  { phase: "Phase 15-16", title: "Cloud Infra & AI Platform", icon: Cloud, items: ["Terraform Infrastructure as Code", "Docker & Kubernetes readiness", "Specialized AI Agents (Research, Portfolio, Learning)", "Prompt orchestration & context memory"] },
+                  { phase: "Phase 17-18", title: "QA & Production Ops", icon: Shield, items: ["E2E testing pyramid (Cypress/Playwright)", "Security scanning (XSS, CSRF, Injection)", "CI/CD Pipeline automation", "Observability (OpenTelemetry, Centralized Logging)"] },
+                  { phase: "Phase 19-20", title: "Marketing & Growth", icon: TrendingUp, items: ["SEO & Content Strategy deployment", "Product Analytics (DAU/MAU, Retention)", "A/B Testing & Feature Flags", "Community & Affiliate ecosystem launch"] },
+                ].map((section, i) => (
+                  <div key={i} className="bg-dark-900 border border-white/10 rounded-2xl p-6 relative overflow-hidden group hover:border-brand-purple/50 transition-colors">
+                    <div className="absolute inset-0 bg-brand-gradient opacity-0 group-hover:opacity-[0.03] transition-opacity"></div>
+                    <div className="flex justify-between items-start mb-4 relative z-10">
+                      <div>
+                        <span className="text-[10px] text-brand-purple uppercase tracking-widest font-bold">{section.phase}</span>
+                        <h3 className="text-lg font-heading font-bold text-white mt-1">{section.title}</h3>
+                      </div>
+                      <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-brand-textMuted group-hover:text-white transition-colors">
+                        <section.icon size={18} />
+                      </div>
+                    </div>
+                    <ul className="space-y-2 relative z-10">
+                      {section.items.map((item, j) => (
+                        <li key={j} className="flex items-center gap-2 text-sm text-brand-textMuted">
+                          <div className="w-1.5 h-1.5 rounded-full bg-brand-cyan/50"></div>
                           <span>{item}</span>
                         </li>
                       ))}
