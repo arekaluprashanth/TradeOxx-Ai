@@ -9,7 +9,7 @@ COPY package.json package-lock.json ./
 COPY apps/frontend/package.json ./apps/frontend/
 COPY apps/backend/package.json ./apps/backend/
 COPY packages/database/package.json ./packages/database/
-RUN npm ci
+RUN npm ci --include=dev
 
 # Rebuild the source code only when needed
 FROM base AS builder
