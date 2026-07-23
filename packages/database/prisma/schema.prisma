@@ -1,0 +1,298 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  passwordHash  String
+  username      String?   @unique
+  role          String    @default("USER")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  isVerified    Boolean   @default(false)
+
+  profile       Profile?
+  sessions      Session[]
+  tokens        Token[]
+  oauthAccounts OAuthAccount[]
+  portfolios      Portfolio[]
+  watchlists      Watchlist[]
+  aiConversations AiConversation[]
+  reports         Report[]
+  lessonProgress  LessonProgress[]
+  bookmarks       Bookmark[]
+  notes           Note[]
+  notifications   Notification[]
+  securityLogs    SecurityLog[]
+  apiKeys         ApiKey[]
+}
+
+model Profile {
+  id               String   @id @default(uuid())
+  userId           String   @unique
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  displayName      String?
+  avatarUrl        String?
+  language         String   @default("en")
+  timezone         String   @default("UTC")
+  theme            String   @default("DARK")
+  density          String   @default("COMFORTABLE")
+  currency         String   @default("USD")
+  aiMemory         String   @default("STANDARD") // STANDARD, MINIMAL, NONE
+  aiLevel          String   @default("INTERMEDIATE") // BEGINNER, INTERMEDIATE, ADVANCED
+  marketingEmails  Boolean  @default(true)
+  securityAlerts   Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model Session {
+  id           String   @id @default(uuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  refreshToken String   @unique
+  userAgent    String?
+  ipAddress    String?
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+}
+
+model Token {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String   @unique
+  type      String   // VERIFY_EMAIL, RESET_PASSWORD
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+model OAuthAccount {
+  id             String   @id @default(uuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  provider       String   // GOOGLE, GITHUB, MICROSOFT
+  providerUserId String
+  accessToken    String?
+  refreshToken   String?
+  createdAt      DateTime @default(now())
+
+  @@unique([provider, providerUserId])
+}
+
+// ==============================================================================
+// PORTFOLIO MODELS
+// ==============================================================================
+
+model Portfolio {
+  id        String    @id @default(uuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name      String
+  currency  String    @default("USD")
+  isArchive Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  holdings  Holding[]
+}
+
+model Holding {
+  id          String        @id @default(uuid())
+  portfolioId String
+  portfolio   Portfolio     @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  symbol      String
+  assetType   String        // e.g., "STOCK", "CRYPTO", "ETF"
+  quantity    Float         @default(0)
+  averageCost Float         @default(0)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  transactions Transaction[]
+
+  @@unique([portfolioId, symbol])
+}
+
+model Transaction {
+  id          String   @id @default(uuid())
+  holdingId   String
+  holding     Holding  @relation(fields: [holdingId], references: [id], onDelete: Cascade)
+  type        String   // e.g., "BUY", "SELL", "DIVIDEND"
+  quantity    Float
+  price       Float
+  date        DateTime @default(now())
+  fees        Float    @default(0)
+  notes       String?
+  createdAt   DateTime @default(now())
+}
+
+// ==============================================================================
+// WATCHLIST MODELS
+// ==============================================================================
+
+model Watchlist {
+  id          String          @id @default(uuid())
+  userId      String
+  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name        String
+  isPinned    Boolean         @default(false)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  items       WatchlistItem[]
+}
+
+model WatchlistItem {
+  id          String    @id @default(uuid())
+  watchlistId String
+  watchlist   Watchlist @relation(fields: [watchlistId], references: [id], onDelete: Cascade)
+  symbol      String
+  assetType   String
+  addedAt     DateTime  @default(now())
+
+  @@unique([watchlistId, symbol])
+}
+
+// ==============================================================================
+// AI WORKSPACE MODELS
+// ==============================================================================
+
+model AiConversation {
+  id        String       @id @default(uuid())
+  userId    String
+  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String       @default("New Conversation")
+  agentType String       @default("GENERAL") // e.g., GENERAL, MARKET_ANALYST, LEARNING_COACH
+  isPinned  Boolean      @default(false)
+  folderId  String?      
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  messages  AiMessage[]
+}
+
+model AiMessage {
+  id             String         @id @default(uuid())
+  conversationId String
+  conversation   AiConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  role           String         // SYSTEM, USER, AI
+  content        String
+  createdAt      DateTime       @default(now())
+}
+
+// ==============================================================================
+// KNOWLEDGE & REPORTING MODELS
+// ==============================================================================
+
+model Report {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  type      String   // MARKET, PORTFOLIO, AI, LEARNING
+  content   String   // Markdown content
+  tags      String?  // Comma separated
+  isPinned  Boolean  @default(false)
+  folderId  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model LessonProgress {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lessonId  String   // Hardcoded reference to our frontend lesson catalog
+  status    String   // IN_PROGRESS, COMPLETED
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, lessonId])
+}
+
+model Bookmark {
+  id         String   @id @default(uuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  entityType String   // LESSON, REPORT, NEWS, GLOSSARY
+  entityId   String   // ID of the specific entity
+  title      String   // Snapshot of the title
+  createdAt  DateTime @default(now())
+}
+
+model Note {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String   @default("Untitled Note")
+  content   String
+  tags      String?
+  folderId  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ==============================================================================
+// SETTINGS & SECURITY MODELS
+// ==============================================================================
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  message   String
+  type      String   // SYSTEM, MARKET, AI, SECURITY
+  isRead    Boolean  @default(false)
+  link      String?  // Optional URL to navigate to
+  createdAt DateTime @default(now())
+}
+
+model SecurityLog {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  event     String   // LOGIN, PASSWORD_CHANGE, 2FA_ENABLED
+  ipAddress String?
+  device    String?
+  location  String?
+  createdAt DateTime @default(now())
+}
+
+// ==============================================================================
+// INFRASTRUCTURE & ADMIN MODELS
+// ==============================================================================
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  userId    String?
+  action    String
+  entity    String
+  entityId  String?
+  details   String?  // JSON string
+  ipAddress String?
+  createdAt DateTime @default(now())
+}
+
+model ApiKey {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name      String
+  keyHash   String   @unique
+  prefix    String   // First 8 chars for display
+  isActive  Boolean  @default(true)
+  lastUsed  DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
