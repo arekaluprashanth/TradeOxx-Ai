@@ -33,6 +33,7 @@ export class UsersService {
       data: {
         email: data.email,
         passwordHash,
+        isVerified: data.isVerified ?? true, // Auto-verify on Render
         profile: {
           create: {
             displayName: data.displayName || data.email.split('@')[0],

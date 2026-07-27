@@ -25,12 +25,6 @@ export class AuthService {
   }
 
   async login(user: any) {
-    if (!user.isVerified) {
-      // If user isn't verified, we generate a new token and ask them to verify
-      await this.generateAndSendVerificationToken(user.id, user.email);
-      return { verificationRequired: true, email: user.email };
-    }
-
     const payload = { email: user.email, sub: user.id, role: user.role };
     return {
       access_token: this.jwtService.sign(payload),
@@ -43,13 +37,11 @@ export class AuthService {
   }
 
   async register(data: any) {
-    const user = await this.usersService.create(data);
-    await this.generateAndSendVerificationToken(user.id, user.email);
+    // Automatically verify users on free tier because Render blocks SMTP outbound ports
+    const user = await this.usersService.create({ ...data, isVerified: true });
     
-    return {
-      verificationRequired: true,
-      email: user.email
-    };
+    // Automatically log them in after registration
+    return this.login(user);
   }
 
   private async generateAndSendVerificationToken(userId: string, email: string) {
