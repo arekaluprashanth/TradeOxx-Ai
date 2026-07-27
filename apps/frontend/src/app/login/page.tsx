@@ -31,7 +31,7 @@ export default function LoginPage() {
       // Redirect to dashboard or onboarding
       window.location.href = "/dashboard";
     } catch (err: any) {
-      setError(err.message);
+      setError(err.response?.data?.message || err.message || "An error occurred during sign in.");
     } finally {
       setLoading(false);
     }

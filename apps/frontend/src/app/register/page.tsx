@@ -32,7 +32,7 @@ export default function RegisterPage() {
       login(data.user, data.access_token);
       window.location.href = "/onboarding";
     } catch (err: any) {
-      setError(err.message);
+      setError(err.response?.data?.message || err.message || "An error occurred during registration.");
     } finally {
       setLoading(false);
     }
