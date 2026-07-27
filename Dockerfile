@@ -5,6 +5,9 @@ WORKDIR /app
 # Copy everything
 COPY . .
 
+# Install build tools for native dependencies (bcrypt, prisma)
+RUN apk add --no-cache python3 make g++ libc6-compat openssl
+
 # Install ALL dependencies
 RUN npm install
 
