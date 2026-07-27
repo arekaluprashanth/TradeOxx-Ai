@@ -14,7 +14,7 @@ RUN npm ci --include=dev
 # Rebuild the source code only when needed
 FROM base AS builder
 WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app ./
 COPY . .
 # Generate Prisma Client
 RUN cd packages/database && npx prisma generate
