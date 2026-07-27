@@ -4,6 +4,10 @@ import helmet from 'helmet';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import * as dns from 'dns';
+
+// Force IPv4 first to prevent ENETUNREACH errors on Render when connecting to Google SMTP via IPv6
+dns.setDefaultResultOrder('ipv4first');
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
