@@ -20,6 +20,22 @@ export class AuthController {
     return this.authService.register(body);
   }
 
+  @Post('verify')
+  async verify(@Body() body: { email: string; code: string }) {
+    if (!body.email || !body.code) {
+      throw new UnauthorizedException('Email and code are required');
+    }
+    return this.authService.verifyEmail(body.email, body.code);
+  }
+
+  @Post('resend-code')
+  async resendCode(@Body() body: { email: string }) {
+    if (!body.email) {
+      throw new UnauthorizedException('Email is required');
+    }
+    return this.authService.resendVerificationCode(body.email);
+  }
+
   @UseGuards(JwtAuthGuard)
   @Get('me')
   getProfile(@Request() req: any) {

@@ -6,6 +6,7 @@ import { AuthLayout } from "@/components/layout/AuthLayout";
 import { PasswordStrengthMeter } from "@/components/ui/PasswordStrengthMeter";
 import { Mail, Lock, User, ArrowRight, Loader2 } from "lucide-react";
 import { useAuthStore } from "@/store/useAuthStore";
+import api from "@/lib/api";
 
 export default function RegisterPage() {
   const [name, setName] = useState("");
@@ -20,14 +21,13 @@ export default function RegisterPage() {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:3001/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ displayName: name, email, password }),
-      });
+      const res = await api.post("/auth/register", { displayName: name, email, password });
+      const data = res.data;
 
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Registration failed");
+      if (data.verificationRequired) {
+        window.location.href = `/verify?email=${encodeURIComponent(data.email)}`;
+        return;
+      }
 
       login(data.user, data.access_token);
       window.location.href = "/onboarding";

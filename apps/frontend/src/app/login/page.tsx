@@ -5,6 +5,7 @@ import Link from "next/link";
 import { AuthLayout } from "@/components/layout/AuthLayout";
 import { Mail, Lock, ArrowRight, Loader2 } from "lucide-react";
 import { useAuthStore } from "@/store/useAuthStore";
+import api from "@/lib/api";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -19,14 +20,12 @@ export default function LoginPage() {
 
     try {
       // TODO: Connect to real backend API once running
-      const res = await fetch("http://localhost:3001/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Login failed");
+      const res = await api.post("/auth/login", { email, password });
+      const data = res.data;
+      if (data.verificationRequired) {
+        window.location.href = `/verify?email=${encodeURIComponent(data.email)}`;
+        return;
+      }
 
       login(data.user, data.access_token);
       // Redirect to dashboard or onboarding
