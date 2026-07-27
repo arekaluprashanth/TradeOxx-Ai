@@ -20,21 +20,8 @@ COPY . .
 RUN cd packages/database && npx prisma generate
 # Build backend
 RUN npm run build --workspace=apps/backend
-# Build frontend
-RUN npm run build --workspace=apps/frontend
 
-# Production image for Frontend
-FROM base AS frontend-runner
-WORKDIR /app
-ENV NODE_ENV production
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/apps/frontend/public ./public
-COPY --from=builder /app/apps/frontend/.next/standalone ./
-COPY --from=builder /app/apps/frontend/.next/static ./.next/static
-EXPOSE 3000
-ENV PORT 3000
-ENV HOSTNAME "0.0.0.0"
-CMD ["node", "server.js"]
+
 
 # Production image for Backend
 FROM base AS backend-runner
