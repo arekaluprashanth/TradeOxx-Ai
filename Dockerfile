@@ -23,17 +23,6 @@ RUN npm run build --workspace=apps/backend
 # Build frontend
 RUN npm run build --workspace=apps/frontend
 
-# Production image for Backend
-FROM base AS backend-runner
-WORKDIR /app
-ENV NODE_ENV production
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/packages/database ./packages/database
-COPY --from=builder /app/apps/backend/dist ./dist
-COPY --from=builder /app/apps/backend/package.json ./
-EXPOSE 3001
-CMD ["npm", "run", "start:prod"]
-
 # Production image for Frontend
 FROM base AS frontend-runner
 WORKDIR /app
@@ -46,3 +35,14 @@ EXPOSE 3000
 ENV PORT 3000
 ENV HOSTNAME "0.0.0.0"
 CMD ["node", "server.js"]
+
+# Production image for Backend
+FROM base AS backend-runner
+WORKDIR /app
+ENV NODE_ENV production
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/packages/database ./packages/database
+COPY --from=builder /app/apps/backend/dist ./dist
+COPY --from=builder /app/apps/backend/package.json ./
+EXPOSE 3001
+CMD ["npm", "run", "start:prod"]
