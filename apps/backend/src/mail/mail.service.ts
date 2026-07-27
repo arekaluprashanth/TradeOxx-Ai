@@ -1,16 +1,16 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
 
 @Injectable()
-export class MailService {
+export class MailService implements OnModuleInit {
   private transporter: nodemailer.Transporter;
   private readonly logger = new Logger(MailService.name);
 
   constructor() {
     this.transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com',
-      port: 465,
-      secure: true, // use SSL
+      host: process.env.SMTP_HOST || 'smtp.gmail.com',
+      port: Number(process.env.SMTP_PORT) || 465,
+      secure: process.env.SMTP_SECURE === 'true' || true, // use SSL
       auth: {
         user: process.env.SMTP_USER || 'prashu2242@gmail.com', // fallback to user for local testing if env is missing
         pass: process.env.SMTP_PASS, 
@@ -18,8 +18,19 @@ export class MailService {
     });
   }
 
+  async onModuleInit() {
+    try {
+      await this.transporter.verify();
+      this.logger.log('SMTP connection verified successfully. Ready to send emails.');
+    } catch (error) {
+      this.logger.error('SMTP connection failed during startup. Check SMTP_USER, SMTP_PASS, and network settings.', error);
+      // We don't crash here so the rest of the backend can still function, 
+      // but emails will fail. The user is warned via log.
+    }
+  }
+
   async sendVerificationEmail(to: string, token: string) {
-    this.logger.log(`[SIMULATED EMAIL] Sending verification token ${token} to ${to}`);
+    this.logger.log(`Sending verification token to ${to}`);
     // Simulated email body
     const mailOptions = {
       from: '"TradeOxx AI" <noreply@tradeoxx.ai>',
@@ -41,6 +52,7 @@ export class MailService {
       this.logger.log(`Email successfully sent to ${to}`);
     } catch (error) {
       this.logger.error(`Error sending email to ${to}:`, error);
+      throw new Error(`Failed to send email to ${to}`);
     }
   }
 
