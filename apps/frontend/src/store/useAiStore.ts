@@ -42,7 +42,7 @@ export const useAiStore = create<AiState>((set, get) => ({
   fetchConversations: async () => {
     set({ isLoading: true });
     try {
-      const res = await fetch('http://localhost:3001/ai/conversations', {
+      const res = await fetch('https://tradeoxx-ai.onrender.com/ai/conversations', {
         headers: { Authorization: `Bearer ${getAuthToken()}` },
       });
       if (!res.ok) throw new Error('Failed to fetch conversations');
@@ -56,7 +56,7 @@ export const useAiStore = create<AiState>((set, get) => ({
   fetchConversation: async (id: string) => {
     set({ isLoading: true });
     try {
-      const res = await fetch(`http://localhost:3001/ai/conversations/${id}`, {
+      const res = await fetch(`https://tradeoxx-ai.onrender.com/ai/conversations/${id}`, {
         headers: { Authorization: `Bearer ${getAuthToken()}` },
       });
       if (!res.ok) throw new Error('Failed to fetch conversation');
@@ -70,7 +70,7 @@ export const useAiStore = create<AiState>((set, get) => ({
   createConversation: async (title: string, agentType: string) => {
     set({ isLoading: true });
     try {
-      const res = await fetch('http://localhost:3001/ai/conversations', {
+      const res = await fetch('https://tradeoxx-ai.onrender.com/ai/conversations', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -114,7 +114,7 @@ export const useAiStore = create<AiState>((set, get) => ({
 
     try {
       // 2. Persist user message to backend
-      await fetch(`http://localhost:3001/ai/conversations/${conversationId}/messages`, {
+      await fetch(`https://tradeoxx-ai.onrender.com/ai/conversations/${conversationId}/messages`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -130,7 +130,7 @@ export const useAiStore = create<AiState>((set, get) => ({
       
       // Wait, NestJS @Sse expects EventSource format. 
       // We will parse the raw stream manually.
-      const url = `http://localhost:3001/ai/conversations/${conversationId}/stream?prompt=${encodeURIComponent(content)}&agentType=${encodeURIComponent(agentType)}`;
+      const url = `https://tradeoxx-ai.onrender.com/ai/conversations/${conversationId}/stream?prompt=${encodeURIComponent(content)}&agentType=${encodeURIComponent(agentType)}`;
       
       const response = await fetch(url, {
         headers: { Authorization: `Bearer ${token}` }
@@ -180,7 +180,7 @@ export const useAiStore = create<AiState>((set, get) => ({
       }
 
       // 4. Persist AI message to backend
-      await fetch(`http://localhost:3001/ai/conversations/${conversationId}/messages`, {
+      await fetch(`https://tradeoxx-ai.onrender.com/ai/conversations/${conversationId}/messages`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
