@@ -1,4 +1,4 @@
-import { Eye } from 'lucide-react';
+import { CalendarDays } from 'lucide-react';
 
 export default function Page() {
   return (
@@ -6,25 +6,25 @@ export default function Page() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
           <h1 className="text-3xl font-heading font-bold text-white flex items-center gap-3">
-            <div className={`p-2.5 rounded-xl bg-brand-${'success'}/10 text-brand-${'success'}`}>
-              <Eye size={24} />
+            <div className={`p-2.5 rounded-xl bg-brand-${'purple'}/10 text-brand-${'purple'}`}>
+              <CalendarDays size={24} />
             </div>
-            Watchlists
+            Economic Calendar
           </h1>
-          <p className="text-brand-textSecondary mt-2">Track specific assets and receive customized AI alerts.</p>
+          <p className="text-brand-textSecondary mt-2">Track upcoming market events, earnings, and economic indicators.</p>
         </div>
-        <button className={`px-5 py-2.5 bg-brand-${'success'} text-brand-bgPrimary font-bold rounded-btn hover:shadow-glow-${'success'} transition-all`}>
-          New Watchlist
+        <button className={`px-5 py-2.5 bg-brand-${'purple'} text-brand-bgPrimary font-bold rounded-btn hover:shadow-glow-${'purple'} transition-all`}>
+          Add Event
         </button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="md:col-span-2 min-h-[500px] bg-brand-surface border border-white/5 rounded-card p-6 flex flex-col items-center justify-center text-center relative overflow-hidden">
-          <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-brand-${'success'} to-transparent opacity-50`}></div>
-          <div className={`w-24 h-24 rounded-full bg-brand-${'success'}/10 flex items-center justify-center mb-6 animate-float`}>
-            <Eye size={48} className={`text-brand-${'success'}`} />
+          <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-brand-${'purple'} to-transparent opacity-50`}></div>
+          <div className={`w-24 h-24 rounded-full bg-brand-${'purple'}/10 flex items-center justify-center mb-6 animate-float`}>
+            <CalendarDays size={48} className={`text-brand-${'purple'}`} />
           </div>
-          <h2 className="text-2xl font-bold text-white mb-3">Watchlists Interface</h2>
+          <h2 className="text-2xl font-bold text-white mb-3">Economic Calendar Interface</h2>
           <p className="text-brand-textMuted max-w-md">This section is currently being initialized. We are aggregating real-time data for your personalized experience.</p>
         </div>
         
@@ -32,13 +32,13 @@ export default function Page() {
           <div className="bg-brand-surfaceElevated border border-white/5 rounded-card p-6 shadow-glass">
             <h3 className="font-bold text-white mb-4 flex items-center justify-between">
               Recent Activity
-              <span className={`w-2 h-2 rounded-full bg-brand-${'success'} animate-pulse`}></span>
+              <span className={`w-2 h-2 rounded-full bg-brand-${'purple'} animate-pulse`}></span>
             </h3>
             <div className="space-y-3">
               {[1,2,3,4].map(i => (
                 <div key={i} className="flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-colors cursor-pointer group">
-                  <div className={`w-10 h-10 rounded-lg bg-brand-bgPrimary flex items-center justify-center border border-white/5 group-hover:border-brand-${'success'}/50 transition-colors`}>
-                    <Eye size={16} className={`text-brand-textMuted group-hover:text-brand-${'success'}`} />
+                  <div className={`w-10 h-10 rounded-lg bg-brand-bgPrimary flex items-center justify-center border border-white/5 group-hover:border-brand-${'purple'}/50 transition-colors`}>
+                    <CalendarDays size={16} className={`text-brand-textMuted group-hover:text-brand-${'purple'}`} />
                   </div>
                   <div>
                     <div className="text-sm font-medium text-white">System Update 0{i}</div>

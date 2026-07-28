@@ -1,163 +1,54 @@
-"use client";
+import { LineChart } from 'lucide-react';
 
-import { useEffect } from 'react';
-import Link from 'next/link';
-import { useMarketStore } from '@/store/useMarketStore';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
-import { Skeleton } from '@/components/ui/Skeleton';
-import { Badge } from '@/components/ui/Badge';
-import { TrendingUp, TrendingDown, ChevronRight, Activity, Globe } from 'lucide-react';
-
-export default function MarketsDashboardPage() {
-  const { overview, isLoading, fetchOverview } = useMarketStore();
-
-  useEffect(() => {
-    fetchOverview();
-  }, [fetchOverview]);
-
-  if (isLoading || !overview) {
-    return (
-      <div className="space-y-6">
-        <Skeleton className="h-8 w-48 mb-8" />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {[1, 2, 3].map(i => <Skeleton key={i} className="h-32 w-full rounded-2xl" />)}
-        </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <Skeleton className="h-[400px] w-full rounded-2xl" />
-          <Skeleton className="h-[400px] w-full rounded-2xl" />
-        </div>
-      </div>
-    );
-  }
-
+export default function Page() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-in fade-in duration-500">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-white">Market Overview</h1>
-          <p className="text-brand-textSecondary text-sm">Global indices, gainers, and market sentiment.</p>
+          <h1 className="text-3xl font-heading font-bold text-white flex items-center gap-3">
+            <div className={`p-2.5 rounded-xl bg-brand-${'cyan'}/10 text-brand-${'cyan'}`}>
+              <LineChart size={24} />
+            </div>
+            Global Markets
+          </h1>
+          <p className="text-brand-textSecondary mt-2">Monitor global indices, forex, and cryptocurrency trends in real-time.</p>
         </div>
-        <div className="flex gap-3">
-          <Link href="/dashboard/markets/screener">
-            <button className="px-4 py-2 bg-brand-cyan/10 hover:bg-brand-cyan/20 text-brand-cyan border border-brand-cyan/20 rounded-lg text-sm font-bold transition-colors">
-              Open Screener
-            </button>
-          </Link>
-        </div>
+        <button className={`px-5 py-2.5 bg-brand-${'cyan'} text-brand-bgPrimary font-bold rounded-btn hover:shadow-glow-${'cyan'} transition-all`}>
+          Create Alert
+        </button>
       </div>
 
-      {/* Major Indices */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {overview.indices.map((idx, i) => {
-          const isUp = idx.change >= 0;
-          return (
-            <Card key={i}>
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-sm font-bold text-brand-textSecondary">{idx.name}</span>
-                  <div className="w-8 h-8 rounded bg-white/5 flex items-center justify-center text-brand-textMuted">
-                    <Globe size={16} />
+        <div className="md:col-span-2 min-h-[500px] bg-brand-surface border border-white/5 rounded-card p-6 flex flex-col items-center justify-center text-center relative overflow-hidden">
+          <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-brand-${'cyan'} to-transparent opacity-50`}></div>
+          <div className={`w-24 h-24 rounded-full bg-brand-${'cyan'}/10 flex items-center justify-center mb-6 animate-float`}>
+            <LineChart size={48} className={`text-brand-${'cyan'}`} />
+          </div>
+          <h2 className="text-2xl font-bold text-white mb-3">Global Markets Interface</h2>
+          <p className="text-brand-textMuted max-w-md">This section is currently being initialized. We are aggregating real-time data for your personalized experience.</p>
+        </div>
+        
+        <div className="space-y-6">
+          <div className="bg-brand-surfaceElevated border border-white/5 rounded-card p-6 shadow-glass">
+            <h3 className="font-bold text-white mb-4 flex items-center justify-between">
+              Recent Activity
+              <span className={`w-2 h-2 rounded-full bg-brand-${'cyan'} animate-pulse`}></span>
+            </h3>
+            <div className="space-y-3">
+              {[1,2,3,4].map(i => (
+                <div key={i} className="flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-colors cursor-pointer group">
+                  <div className={`w-10 h-10 rounded-lg bg-brand-bgPrimary flex items-center justify-center border border-white/5 group-hover:border-brand-${'cyan'}/50 transition-colors`}>
+                    <LineChart size={16} className={`text-brand-textMuted group-hover:text-brand-${'cyan'}`} />
+                  </div>
+                  <div>
+                    <div className="text-sm font-medium text-white">System Update 0{i}</div>
+                    <div className="text-xs text-brand-textSecondary">Just now</div>
                   </div>
                 </div>
-                <div className="text-3xl font-black text-white mb-2 tracking-tight">
-                  {idx.value.toLocaleString(undefined, { minimumFractionDigits: 2 })}
-                </div>
-                <div className={`text-sm font-bold flex items-center gap-1 ${isUp ? 'text-brand-success' : 'text-brand-danger'}`}>
-                  {isUp ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
-                  {isUp ? '+' : ''}{idx.change.toFixed(2)}%
-                </div>
-              </CardContent>
-            </Card>
-          );
-        })}
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Top Gainers */}
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-4">
-            <CardTitle className="flex items-center gap-2">
-              <TrendingUp size={18} className="text-brand-success" />
-              Top Gainers
-            </CardTitle>
-            <Link href="/dashboard/markets/screener" className="text-sm text-brand-cyan hover:underline flex items-center">
-              View All <ChevronRight size={14} />
-            </Link>
-          </CardHeader>
-          <CardContent className="p-0">
-            <table className="w-full text-sm text-left">
-              <tbody>
-                {overview.topGainers.map((asset, i) => (
-                  <tr key={i} className="border-t border-white/5 hover:bg-white/[0.02] transition-colors group cursor-pointer">
-                    <td className="px-6 py-4">
-                      <Link href={`/dashboard/markets/${asset.symbol}`} className="block">
-                        <div className="font-bold text-white group-hover:text-brand-cyan transition-colors">{asset.symbol}</div>
-                      </Link>
-                    </td>
-                    <td className="px-6 py-4 text-right font-medium text-white">
-                      ${asset.price.toFixed(2)}
-                    </td>
-                    <td className="px-6 py-4 text-right">
-                      <Badge variant="success">+{asset.change.toFixed(2)}%</Badge>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </CardContent>
-        </Card>
-
-        {/* Top Losers */}
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-4">
-            <CardTitle className="flex items-center gap-2">
-              <TrendingDown size={18} className="text-brand-danger" />
-              Top Losers
-            </CardTitle>
-            <Link href="/dashboard/markets/screener" className="text-sm text-brand-cyan hover:underline flex items-center">
-              View All <ChevronRight size={14} />
-            </Link>
-          </CardHeader>
-          <CardContent className="p-0">
-            <table className="w-full text-sm text-left">
-              <tbody>
-                {overview.topLosers.map((asset, i) => (
-                  <tr key={i} className="border-t border-white/5 hover:bg-white/[0.02] transition-colors group cursor-pointer">
-                    <td className="px-6 py-4">
-                      <Link href={`/dashboard/markets/${asset.symbol}`} className="block">
-                        <div className="font-bold text-white group-hover:text-brand-cyan transition-colors">{asset.symbol}</div>
-                      </Link>
-                    </td>
-                    <td className="px-6 py-4 text-right font-medium text-white">
-                      ${asset.price.toFixed(2)}
-                    </td>
-                    <td className="px-6 py-4 text-right">
-                      <Badge variant="destructive">{asset.change.toFixed(2)}%</Badge>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </CardContent>
-        </Card>
-
-        {/* Market Heatmap Placeholder for V1.0 */}
-        <Card className="col-span-full">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Activity size={18} className="text-brand-purple" />
-              Sector Heatmap
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="h-[300px] w-full rounded-xl bg-gradient-to-br from-brand-success/10 via-brand-bgPrimary to-brand-danger/10 border border-white/5 flex items-center justify-center">
-              <div className="text-center">
-                <p className="text-brand-textMuted font-medium mb-2">Interactive Heatmap loading...</p>
-                <p className="text-xs text-brand-textSecondary max-w-sm mx-auto">This visualization requires the full dataset connection in V2.0 to plot the S&P 500 components accurately.</p>
-              </div>
+              ))}
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     </div>
   );
