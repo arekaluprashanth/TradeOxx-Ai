@@ -7,9 +7,12 @@ import { WhyTradeOXX } from "@/components/sections/WhyTradeOXX";
 import { PricingPreview } from "@/components/sections/PricingPreview";
 import { FAQSection } from "@/components/sections/FAQSection";
 
+import { SpacebarListener } from "@/components/SpacebarListener";
+
 export default function Home() {
   return (
     <>
+      <SpacebarListener />
       <HeroSection />
       <SocialProofSection />
       <FeatureShowcase />

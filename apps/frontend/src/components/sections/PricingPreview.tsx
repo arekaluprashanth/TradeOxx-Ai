@@ -100,7 +100,7 @@ export function PricingPreview() {
               </ul>
 
               <Link
-                href="/register"
+                href="/dashboard"
                 className={`w-full py-4 rounded-xl text-center font-bold transition-all ${
                   plan.popular
                     ? 'bg-white text-brand-bgPrimary hover:bg-brand-cyan'

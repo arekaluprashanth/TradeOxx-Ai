@@ -23,9 +23,16 @@ interface AuthState {
 export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
-      user: null,
-      token: null,
-      isAuthenticated: false,
+      user: {
+        id: 'mock-user-123',
+        email: 'user@tradeoxx.ai',
+        profile: {
+          displayName: 'TradeOXX User',
+          avatarUrl: null
+        }
+      },
+      token: 'mock-token',
+      isAuthenticated: true,
       isLoading: false,
 
       login: (user, token) => set({ user, token, isAuthenticated: true }),
@@ -33,7 +40,7 @@ export const useAuthStore = create<AuthState>()(
       setLoading: (isLoading) => set({ isLoading }),
     }),
     {
-      name: 'tradeoxx-auth',
+      name: 'tradeoxx-auth-v2',
     }
   )
 );

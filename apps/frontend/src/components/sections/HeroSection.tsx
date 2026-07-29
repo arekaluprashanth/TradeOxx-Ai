@@ -50,7 +50,7 @@ export function HeroSection() {
           className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
         >
           <Link
-            href="/register"
+            href="/dashboard"
             className="group relative px-8 py-4 w-full sm:w-auto rounded-full bg-white text-brand-bgPrimary text-base font-bold overflow-hidden transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-2"
           >
             <div className="absolute inset-0 bg-gradient-to-r from-brand-cyan via-brand-blue to-brand-purple opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>

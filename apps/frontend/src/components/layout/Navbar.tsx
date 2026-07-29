@@ -61,13 +61,13 @@ export function Navbar() {
         {/* Auth Buttons */}
         <div className="hidden md:flex items-center gap-4">
           <Link
-            href="/login"
+            href="/dashboard"
             className="text-sm font-medium text-white hover:text-brand-cyan transition-colors"
           >
             Log in
           </Link>
           <Link
-            href="/register"
+            href="/dashboard"
             className="group relative px-6 py-2.5 rounded-full bg-white text-brand-bgPrimary text-sm font-bold overflow-hidden transition-all hover:scale-105 active:scale-95"
           >
             <div className="absolute inset-0 bg-gradient-to-r from-brand-cyan via-brand-blue to-brand-purple opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -107,13 +107,13 @@ export function Navbar() {
             ))}
             <div className="flex flex-col gap-4 mt-4">
               <Link
-                href="/login"
+                href="/dashboard"
                 className="text-center py-3 rounded-xl border border-white/10 text-white font-medium"
               >
                 Log in
               </Link>
               <Link
-                href="/register"
+                href="/dashboard"
                 className="text-center py-3 rounded-xl bg-gradient-to-r from-brand-blue to-brand-purple text-white font-bold"
               >
                 Get Started
